@@ -1,4 +1,4 @@
-import "./drinkpanel.css";
+import "./styles.css";
 function drinkPanel() {
   return (
     <div className = "drinkpanel">

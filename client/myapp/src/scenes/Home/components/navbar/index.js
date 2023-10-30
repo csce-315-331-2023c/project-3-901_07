@@ -1,5 +1,5 @@
-import "./navbar.css";
-import shareTeaLogo from "../assets/images/sharetealogo.png";
+import "./styles.css";
+import shareTeaLogo from "../../../../assets/images/sharetealogo.png";
 
 function navBar() {
   return (

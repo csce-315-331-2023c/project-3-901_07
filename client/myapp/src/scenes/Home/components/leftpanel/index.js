@@ -1,4 +1,4 @@
-import "./leftpanel.css";
+import "./styles.css";
 function leftPanel() {
   return (
     <div className = "leftpanel">

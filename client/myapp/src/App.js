@@ -1,5 +1,5 @@
 
-import Home from './components/home.js';
+import Home from './scenes/Home/index.js';
 
 function App() {
   return (

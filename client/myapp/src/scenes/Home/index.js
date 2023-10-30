@@ -1,7 +1,7 @@
-import "./home.css";
-import NavBar from './navBar';
-import LeftPanel from './leftPanel';
-import DrinkPanel from './drinkPanel';
+import "./styles.css";
+import NavBar from './components/navbar';
+import LeftPanel from './components/leftpanel';
+import DrinkPanel from './components/drinkpanel';
 function home() {
   return (
     <div className = "box">
