@@ -1,0 +1,26 @@
+
+.box {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+
+.box .row.content {
+    flex: 1 1 auto;
+  }
+
+.content {
+    display:flex;
+    flex-flow: row;
+    align-items: center;
+
+}
+
+span {
+    height: 95%;
+    width: 4px;
+    background-color: #D9D9D9;
+    border-radius: 99px;
+
+}
