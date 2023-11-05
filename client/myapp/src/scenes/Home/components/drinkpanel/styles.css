@@ -1,5 +1,23 @@
+@import '../../../../variables.css';
+
 .drinkpanel {
-    height: 100%;
+    height: calc(100vh - var(--navbarHeight));
     width: 100%;
-    background-color: blue;
+    overflow-y: auto; 
+    scroll-behavior: smooth;
+}
+
+.drinkpanel-category{
+    /* background-color: red; */
+    /* border: 1px solid black; */
+    padding: 20px;
+
+}
+
+.drink-cards{
+    margin: 0 auto;
+    max-width: 100%;
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:20px;
 }

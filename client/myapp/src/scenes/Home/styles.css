@@ -17,10 +17,10 @@
 
 }
 
-span {
+span.panel-divider {
     height: 95%;
     width: 4px;
-    background-color: #D9D9D9;
+    background-color: #E2E2E2;
     border-radius: 99px;
 
 }

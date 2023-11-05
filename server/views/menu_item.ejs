@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>TAs</h1>
+    <% for (var i in menu_items) {%>
+        <p>Drink Name: <%=menu_items[i].name%>, Type: <%=menu_items[i].type%> , Price: <%=menu_items[i].price%><p>
+    <% } %>
+</body>
