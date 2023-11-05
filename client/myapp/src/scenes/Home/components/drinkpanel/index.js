@@ -32,7 +32,7 @@ function DrinkPanel({ isClicked, handleLinkClick, toggleModal}) {
       <div ref={targetElementRef} id="test" className="drinkpanel-category" onClick={toggleModal}>
         <h3>Unordered List of Drinks</h3>
         <div className="drink-cards" >
-          {data && data.map(item => (
+          {data && data.menu_items.map(item => (
             <div key={item.menu_item_id}>
             <DrinkCard toggleModal={toggleModal} drinkProperties = {item}/>
             </div>
