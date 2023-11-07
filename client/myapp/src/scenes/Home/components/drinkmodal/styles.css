@@ -1,51 +1,174 @@
-body.active-modal {
-    overflow-y: hidden;
-}
 
-.btn-modal {
-    padding: 10px 20px;
-    display: block;
-    margin: 100px auto 0;
-    font-size: 18px;
-}
-
-/* .modal {
-    z-index: 200;
-}
-
-.overlay{
-    z-index: 149;
-} */
-
-.modal, .overlay {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.drink-modal-content {
     position: absolute;
-}
-
-.overlay {
-    background: rgba(0, 0, 0, 0.394);
-}
-.modal-content {
-    position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #f1f1f1;
-    padding: 14px 28px;
+    background: white;
+    padding: 14px 14px;
     border-radius: 3px;
-    max-width: 600px;
-    min-width: 300px;
+    min-width: 80vw;
+    min-height: 80vh;
+    z-index: 102;
+    display:flex;
+    flex-flow: column;
 }
 
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 7px;
+
+.modal-level-section{
+    padding: 0px 50px 0px 50px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    display:grid;
+    grid-template-columns: repeat(6,1fr);
+    gap:10px;
+    
 }
+
+
+
+.drink-modal-row-content {
+    display:flex;
+    flex-flow: row;
+    flex: 1 1 auto;
+}
+
+.modal-level-section button, .modal-level-section div{
+    aspect-ratio: 1;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-level-section button{
+    border-radius: 17px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #D9D9D9;
+    border: none;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    border:transparent solid 3px;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.modal-level-section button:hover{
+    border: 2px solid black;
+}
+
+.modal-level-section button.active{
+    background-color: #ED323A;
+    color: white;
+}
+
+.drink-modal-left-panel{
+    width: 70%;
+    padding: 20px 12px 0px 0px;
+}
+
+.drink-modal-right-panel{
+
+    flex: 1; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.drink-order-panel{
+    background-color: #EFEFEF;
+    height: 100%;
+    width: 90%;
+    border-radius: 17px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.drink-order-panel h4{
+    margin:10px 10px 10px 10px;
+}
+
+.drink-order-panel div.middle-section{
+    width: 100%;
+    flex:1;
+}
+
+.drink-order-panel span.divider{
+    width: 90%;
+    height: 3px;
+    border-radius: 25px;
+    background-color: black;
+}
+
+
+.drink-order-panel div.bottom-section{
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.drink-order-panel div.bottom-section p{
+    font-size: 20px;
+    margin:5px;
+    text-align: center;
+    font-weight: 700;
+}
+
+
+
+
+
+.drink-item-card {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    padding: 10px;
+    background-color: #E2E2E2;
+    margin: auto;
+    font-weight: 700;
+}
+
+.drink-item-card div.drink,.drink-item-card div.drink-attribute{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.drink-item-card div.drink p{
+    font-size: 15px;
+    margin:0;
+    text-align: left;
+}
+
+.drink-item-card div.drink p.name{
+    flex:1;
+}
+
+.drink-item-card div.drink p.price{
+    color: #787878;
+    width: 25%;
+}
+
+.drink-item-card div.drink-attribute p{
+    font-size: 12px;
+    margin:0;
+    color: #787878;
+    text-align: left;
+}
+
+.drink-item-card div.drink-attribute p.name{
+    flex:1;
+    padding-left: 10px;
+}
+
+.drink-item-card div.drink-attribute p.price{
+    width: 25%;
+    padding-right: 10px;
+}
+
