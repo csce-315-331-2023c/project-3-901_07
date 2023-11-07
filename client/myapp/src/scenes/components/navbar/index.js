@@ -1,7 +1,7 @@
 import "./styles.css";
 import shareTeaLogo from "../../../assets/images/sharetealogo.png";
 
-function navBar() {
+function NavBar({toggleSignInModal}) {
   return (
     <nav>
       <div id="circle">
@@ -15,7 +15,7 @@ function navBar() {
         </div>
         <div className="nav-wrapper-right-section">
           <ul>
-            <li><button className = "signin-button">Employee Sign In</button></li>
+            <li><button onClick={toggleSignInModal} className = "signin-button">Employee Sign In</button></li>
           </ul>
         </div>
       </div>
@@ -23,4 +23,4 @@ function navBar() {
   );
 }
 
-export default navBar;
+export default NavBar;

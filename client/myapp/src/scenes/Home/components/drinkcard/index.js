@@ -1,12 +1,10 @@
 // import React, { useState } from "react";
 import "./styles.css";
-import defaultDrinkImage from "../../../../../../assets/images/defaultdrinkimage.png";
+import defaultDrinkImage from "../../../../assets/images/defaultdrinkimage.png";
 
 function DrinkCard({toggleModal,drinkProperties}) {
-    console.log(drinkProperties);
-    const test = "test";
     return(
-        <div className = "drinkcard">
+        <div className = "drinkcard" onClick={toggleModal}>
             <img className="drinkcard-image" src={defaultDrinkImage} alt="Default Drink" />
             <div className = "drinkcard-name">
                 {drinkProperties.name}
