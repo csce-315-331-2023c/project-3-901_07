@@ -49,20 +49,170 @@ app.get('/user', (req, res) => {
 });
 
 
-app.get('/menu_item', (req, res) => {
+app.get('/customer', (req, res) => { //Customer Datatable
     res.set('Access-Control-Allow-Origin', '*');
-    menu_items = []
     pool
-        .query('SELECT * FROM menu_item;')
+        .query('SELECT customer_id, name FROM customer ORDER BY name;')
         .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                menu_items.push(query_res.rows[i]);
-            }
-            const data = {menu_items: menu_items};
-            console.log(menu_items);
-            res.send(data);        
+            const customers = query_res.rows;
+            console.log(customers);
+            res.json(customers);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve customers');
         });
 });
+
+
+app.get('/drink', (req, res) => { //Drink Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('SELECT drink_id, menu_item_id, order_id, sweetness, price, ice_level FROM drink ORDER BY price;')
+        .then(query_res => {
+            const drinks = query_res.rows;
+            console.log(drinks);
+            res.json(drinks);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve drinks');
+        });
+});
+
+
+
+app.get('/drink-topping', (req, res) => { //Drink Topping Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('SELECT * FROM drink_topping;')
+        .then(query_res => {
+            const drinkToppings = query_res.rows;
+            console.log(drinkToppings);
+            res.json(drinkToppings);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve drink toppings');
+        });
+});
+
+
+
+
+app.get('/employee', (req, res) => { //Employee Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query('SELECT employee_id, manager, name FROM employee ORDER BY employee_id;')
+      .then(query_res => {
+          const employees = query_res.rows;
+          console.log(employees);
+          res.json(employees);
+      })
+      .catch(error => {
+          console.error('Database query failed:', error);
+          res.status(500).send('Failed to retrieve employees');
+      });
+  });
+  
+
+  app.get('/ingredients', (req, res) => { //Ingredients Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('SELECT * FROM ingredients ORDER BY ingredients_id;')
+        .then(query_res => {
+            const ingredients = query_res.rows;
+            console.log(ingredients);
+            res.json(ingredients);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve ingredients');
+        });
+});
+
+
+app.get('/menu-ingredients-mapper', (req, res) => { //Menu Ingredients Mapper Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query('SELECT menu_ingredients_mapper_id, menu_item_id, ingredients_id FROM menu_ingredients_mapper ORDER BY menu_ingredients_mapper_id;')
+      .then(query_res => {
+          const menuIngredientsMapper = query_res.rows;
+          console.log(menuIngredientsMapper);
+          res.json(menuIngredientsMapper);
+      })
+      .catch(error => {
+          console.error('Database query failed:', error);
+          res.status(500).send('Failed to retrieve menu ingredients mapper data');
+      });
+  });
+  
+
+
+
+app.get('/menu_item', (req, res) => { //Menu Item Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('SELECT * FROM menu_item ORDER BY type;')
+        .then(query_res => {
+            const menu_items = query_res.rows;
+
+            const categorizedMenuItems = {};
+
+            menu_items.forEach(item => {
+                if (!categorizedMenuItems[item.type]) {
+                    categorizedMenuItems[item.type] = [];
+                }
+                categorizedMenuItems[item.type].push(item);
+            });
+
+            console.log(categorizedMenuItems);
+            res.json(categorizedMenuItems);        
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve menu items');
+        });
+});
+
+
+
+app.get('/orders', (req, res) => { //Orders Datatable
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('SELECT order_id, customer_id, employee_id, date, total_price, time FROM orders ORDER BY date DESC, time DESC;')
+        .then(query_res => {
+            const orders = query_res.rows;
+            console.log(orders);
+            res.json(orders);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve orders');
+        });
+});
+
+
+
+
+app.get('/topping', (req, res) => { //Topping Datatable
+  res.set('Access-Control-Allow-Origin', '*');
+  pool
+    .query('SELECT topping_id, name, price, availability FROM topping ORDER BY topping_id;')
+    .then(query_res => {
+        const toppings = query_res.rows;
+        console.log(toppings);
+        res.json(toppings);
+    })
+    .catch(error => {
+        console.error('Database query failed:', error);
+        res.status(500).send('Failed to retrieve toppings');
+    });
+});
+
+
+
+
 
 
 app.get('/testdb', (req, res) => {
