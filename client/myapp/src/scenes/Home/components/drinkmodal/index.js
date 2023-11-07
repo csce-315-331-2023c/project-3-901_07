@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-function DrinkModal({ toggleModal }) {
+function DrinkModal({ toggleModal, selectedDrink}) {
   const [sugarLevel, setSugarLevel] = useState(null);
   const [iceLevel, setIceLevel] = useState(null);
 
@@ -12,7 +12,7 @@ function DrinkModal({ toggleModal }) {
         <button className="close-modal" onClick={toggleModal}>
           CLOSE
         </button>
-        <h2>Custom Drink</h2>
+        <h2>{selectedDrink.name}</h2>
         <div className="drink-modal-row-content">
           <div className="drink-modal-left-panel">
             <ModalLevelSection
@@ -32,8 +32,8 @@ function DrinkModal({ toggleModal }) {
               <div className="middle-section">
                 <div className="drink-item-card">
                   <div className="drink">
-                    <p className="name">Drink Name</p>
-                    <p className="price">$x.xx</p>
+                    <p className="name">{selectedDrink.name}</p>
+                    <p className="price">${selectedDrink.price}</p>
                   </div>
                   {sugarLevel !== null ? (
                     <div className="drink-attribute">

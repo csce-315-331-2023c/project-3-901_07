@@ -7,6 +7,7 @@ function Home({ webServerAddress}) {
   const [isClicked, setIsClicked] = useState("test");
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
+  const [selectedDrink, setSelectedDrink] = useState(null);
 
   //Retrieve Drink Data
   useEffect(() => {
@@ -28,8 +29,8 @@ function Home({ webServerAddress}) {
   }, [webServerAddress]);
 
   //modal
-  const toggleModal = () => {
-    console.log("toggle modal");
+  const toggleModal = (drink) => {
+    setSelectedDrink(drink); // Set the selected drink here
     setModal(!modal);
   };
 
@@ -56,7 +57,7 @@ function Home({ webServerAddress}) {
         toggleModal={toggleModal}
         data={data}
       />
-      {modal && <DrinkModal toggleModal={toggleModal} />}
+      {modal && <DrinkModal toggleModal={toggleModal} selectedDrink={selectedDrink} />}
     </div>
   );
 }
@@ -107,7 +108,7 @@ function DrinkPanel({ isClicked, handleLinkClick, toggleModal, data }) {
             <h3>{category}</h3>
             <div className="drink-cards">
               {items.map((item) => (
-                <DrinkCard toggleModal={toggleModal} drinkProperties={item} key={item.name} />
+                <DrinkCard toggleModal={() => toggleModal(item)} drinkProperties={item} key={item.name} />
               ))}
             </div>
           </div>
