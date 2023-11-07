@@ -8,18 +8,23 @@ function Home({ webServerAddress}) {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
   const [selectedDrink, setSelectedDrink] = useState(null);
+  const [cart, setCart] = useState([]);
 
-  //Retrieve Drink Data
+  //Retrieve Data
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(webServerAddress + "/menu_item", {
+        const response_drink = await fetch(webServerAddress + "/menu_item", {
           mode: "cors",
         });
-        // const response = await fetch('http://localhost:5000/name', {mode:'cors'});
-        const data = await response.json();
-        // console.log({ data });
-        const formattedData = { menu_items: data };
+        const drink_data = await response_drink.json();
+
+        const response_topping = await fetch(webServerAddress + "/topping", {
+          mode: "cors",
+        });
+        const topping_data = await response_topping.json();
+
+        const formattedData = { menu_items: drink_data, toppings: topping_data};
         setData(formattedData);
       } catch {
         console.log("error");
@@ -27,6 +32,7 @@ function Home({ webServerAddress}) {
     }
     fetchData();
   }, [webServerAddress]);
+
 
   //modal
   const toggleModal = (drink) => {
@@ -57,7 +63,7 @@ function Home({ webServerAddress}) {
         toggleModal={toggleModal}
         data={data}
       />
-      {modal && <DrinkModal toggleModal={toggleModal} selectedDrink={selectedDrink} />}
+      {modal && <DrinkModal toggleModal={toggleModal} selectedDrink={selectedDrink} toppings={data.toppings}/>}
     </div>
   );
 }
@@ -94,6 +100,7 @@ function LeftPanel({ isClicked, handleLinkClick, data }) {
 
 function DrinkPanel({ isClicked, handleLinkClick, toggleModal, data }) {
   const targetElementRef = useRef(null);
+  console.log(data)
 
   return (
     <div className="drinkpanel">

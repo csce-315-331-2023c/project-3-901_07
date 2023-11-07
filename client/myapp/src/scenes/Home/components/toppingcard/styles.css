@@ -1,0 +1,21 @@
+.toppingcard{
+    background-color: #EFEFEF;
+    height: 250px;
+    text-align: center;
+    border-radius: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    justify-content: center;
+    align-items: center!important;
+}
+
+.toppingcard:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 0;
+}
+
+.toppingcard-image{
+    width: 100px;
+    height: auto;
+}

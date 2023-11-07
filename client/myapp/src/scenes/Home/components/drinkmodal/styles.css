@@ -13,6 +13,15 @@
     z-index: 102;
     display:flex;
     flex-flow: column;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal h2, h3{
+    padding-left: 2.5%;
+}
+.modal h3{
+    padding-bottom: 2%;
 }
 
 
@@ -172,3 +181,13 @@
     padding-right: 10px;
 }
 
+.toppings-container{
+    padding-left: 5%;
+    margin: 10 auto;
+    max-width: 100%;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
+    gap:20px;
+    justify-content: center;
+    align-items: center;
+}
