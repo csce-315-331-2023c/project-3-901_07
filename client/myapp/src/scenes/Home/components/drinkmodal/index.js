@@ -42,6 +42,7 @@ function DrinkModal({ toggleModal, selectedDrink, toppings, setCart}) {
               activeValue={iceLevel}
               setActiveValue={setIceLevel}
             />
+            <h3 className="topping-header">Toppings</h3>
             <ToppingsSection
               toppings={toppings}
               selectedToppings={selectedToppings}
@@ -115,7 +116,6 @@ function ToppingsSection({ toppings, selectedToppings, setSelectedToppings, tota
 
   return (
     <div className="toppings-section">
-      <h3>Toppings</h3>
       <div className="toppings-container">
         {toppings.map((topping, index) => (
           <ToppingCard topping={topping} toppingClick={() => handleToppingClick(topping)}/>

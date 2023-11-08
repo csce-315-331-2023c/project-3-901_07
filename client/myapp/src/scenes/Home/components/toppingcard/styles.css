@@ -1,21 +1,31 @@
 .toppingcard{
     background-color: #EFEFEF;
-    height: 250px;
+    aspect-ratio: 1;
     text-align: center;
     border-radius: 25px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     justify-content: center;
-    align-items: center!important;
+    align-items: center;
+    border: 2px solid transparent;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.toppingcard-text{
+    margin: 0;
 }
 
 .toppingcard:hover{
     cursor: pointer;
-    transform: scale(1.05);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 0;
+    border: 2px solid black;
+}
+
+button.toppingcard.active{
+    background-color: #ED323A;
+    color: white;
 }
 
 .toppingcard-image{
-    width: 100px;
+    width: 90px;
     height: auto;
 }
