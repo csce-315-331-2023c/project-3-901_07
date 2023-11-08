@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DrinkModal from "./components/drinkmodal";
 import DrinkCard from "./components/drinkcard";
 
-function Home({ webServerAddress}) {
+function Home({ webServerAddress }) {
   const [isClicked, setIsClicked] = useState("test");
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
@@ -24,7 +24,10 @@ function Home({ webServerAddress}) {
         });
         const topping_data = await response_topping.json();
 
-        const formattedData = { menu_items: drink_data, toppings: topping_data};
+        const formattedData = {
+          menu_items: drink_data,
+          toppings: topping_data,
+        };
         setData(formattedData);
       } catch {
         console.log("error");
@@ -32,7 +35,6 @@ function Home({ webServerAddress}) {
     }
     fetchData();
   }, [webServerAddress]);
-
 
   //modal
   const toggleModal = (drink) => {
@@ -53,9 +55,18 @@ function Home({ webServerAddress}) {
     setIsClicked(categoryPressed);
   }
 
+  console.log("cart content");
+  console.log(cart);
+
   return (
     <div className="row content">
-      <LeftPanel isClicked={isClicked} handleLinkClick={handleLinkClick} data = {data} />
+      <LeftPanel
+        isClicked={isClicked}
+        handleLinkClick={handleLinkClick}
+        data={data}
+        setCart={setCart}
+        cart={cart}
+      />
       <span className="panel-divider"></span>
       <DrinkPanel
         isClicked={isClicked}
@@ -63,12 +74,23 @@ function Home({ webServerAddress}) {
         toggleModal={toggleModal}
         data={data}
       />
-      {modal && <DrinkModal toggleModal={toggleModal} selectedDrink={selectedDrink} toppings={data.toppings}/>}
+      {modal && (
+        <DrinkModal
+          toggleModal={toggleModal}
+          selectedDrink={selectedDrink}
+          toppings={data.toppings}
+          setCart={setCart}
+        />
+      )}
     </div>
   );
 }
 
-function LeftPanel({ isClicked, handleLinkClick, data }) {
+function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
+
+  function deleteDrinkItem(indexToDelete) {
+    setCart(cart.filter((_, index) => index !== indexToDelete));
+  }
   return (
     <div className="leftpanel">
       <div className="leftpanel-category-component">
@@ -76,8 +98,11 @@ function LeftPanel({ isClicked, handleLinkClick, data }) {
           <div className="leftpanel-category header">Categories</div>
           {data &&
             Object.entries(data.menu_items).map(([category, items]) => (
-              <li key= {category} >
-                <a onClick={() => handleLinkClick(category)} href={`#${category}`}>
+              <li key={category}>
+                <a
+                  onClick={() => handleLinkClick(category)}
+                  href={`#${category}`}
+                >
                   <div
                     className={
                       isClicked === category
@@ -92,7 +117,25 @@ function LeftPanel({ isClicked, handleLinkClick, data }) {
             ))}
         </ul>
       </div>
-      <div className="leftpanel-order-component"></div>
+      <div className="leftpanel-order-component">
+        {Object.keys(cart).length !== 0 ? (
+          <div className="drink-item-card">
+            {cart.map((topping, index) => (
+              <div>
+                <div className="drink">
+                  <p className="name">{topping.drink.name}</p>
+                  <p className="price">${topping.totalPrice}</p>
+                </div>
+                <div>
+                  <div className="delete-drink-button" onClick={() => deleteDrinkItem(index)}>Delete</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </div>
       <button className="leftpanel-checkout-button">Checkout</button>
     </div>
   );
@@ -100,7 +143,7 @@ function LeftPanel({ isClicked, handleLinkClick, data }) {
 
 function DrinkPanel({ isClicked, handleLinkClick, toggleModal, data }) {
   const targetElementRef = useRef(null);
-  console.log(data)
+  console.log(data);
 
   return (
     <div className="drinkpanel">
@@ -115,13 +158,16 @@ function DrinkPanel({ isClicked, handleLinkClick, toggleModal, data }) {
             <h3>{category}</h3>
             <div className="drink-cards">
               {items.map((item) => (
-                <DrinkCard toggleModal={() => toggleModal(item)} drinkProperties={item} key={item.name} />
+                <DrinkCard
+                  toggleModal={() => toggleModal(item)}
+                  drinkProperties={item}
+                  key={item.name}
+                />
               ))}
             </div>
           </div>
         ))}
-        <div className="fill-gap">
-        </div>
+      <div className="fill-gap"></div>
     </div>
   );
 }
