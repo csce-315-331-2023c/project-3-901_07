@@ -145,7 +145,7 @@ function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
         </div>
         <span className="divider"></span>
         <div className="bottom-section">
-        <p>Total Cost: ${cart.reduce((total, item) => total + item.totalPrice, 0)}</p>
+        <p>Total Cost: ${parseFloat(cart.reduce((total, item) => total + item.totalPrice, 0).toFixed(2))}</p>
 
         </div>
       </div>

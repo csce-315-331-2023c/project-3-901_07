@@ -15,8 +15,9 @@ function DrinkModal({ toggleModal, selectedDrink, toppings, setCart}) {
       sugarLevel: sugarLevel,
       iceLevel: iceLevel,
       toppings: selectedToppings,
-      totalPrice: totalPrice,
+      totalPrice: parseFloat(totalPrice.toFixed(2))
     }
+    console.log(typeof totalPrice);
     console.log("Called addDrinktoCart");
     setCart(prevList => [...prevList, drink]);
     toggleModal();
@@ -118,7 +119,7 @@ function ToppingsSection({ toppings, selectedToppings, setSelectedToppings, tota
     <div className="toppings-section">
       <div className="toppings-container">
         {toppings.map((topping, index) => (
-          <ToppingCard topping={topping} toppingClick={() => handleToppingClick(topping)}/>
+          <ToppingCard topping={topping} toppingClick={() => handleToppingClick(topping)} key = {topping.name}/>
         ))}
       </div>
     </div>
