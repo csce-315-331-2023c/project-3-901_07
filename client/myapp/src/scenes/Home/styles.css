@@ -35,16 +35,24 @@ span.panel-divider {
 }
 
 .leftpanel-order-component {
-  margin: 0px auto 0px auto;
-  height: 40%;
+  height: 40%; /* Set a fixed height of 40% of the parent div */
+  max-height: 40%; /* Maximum height to prevent it from growing beyond 40% */
+  overflow: auto; /* Add scrollbars when content exceeds the height */
   border-radius: 17px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 80%;
   padding: 10px;
-  background-color: #EFEFEF;
+  background-color: #efefef;
   margin: auto;
   font-weight: 700;
+}
+
+.leftpanel-order-component div.middle-section {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .leftpanel-order-component div.drink {
@@ -68,11 +76,10 @@ span.panel-divider {
   width: 25%;
 }
 
-
-.delete-drink-button{
-    font-size: 12px;
-    text-decoration: underline;
-    cursor: pointer;
+.delete-drink-button {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .leftpanel-category-component {
@@ -119,6 +126,25 @@ span.panel-divider {
 .leftpanel-category.item:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+/* Order Component */
+
+.leftpanel-order-component h4{
+    margin: 10px 0px 5px 0px;
+}
+
+.leftpanel-order-component div.bottom-section {
+  width: 90%;
+  margin:0;
+  height: 30px;
+}
+
+.leftpanel-order-component div.bottom-section p {
+  font-size: 20px;
+  margin: 5px;
+  text-align: center;
+  font-weight: 700;
 }
 
 /* CSS */

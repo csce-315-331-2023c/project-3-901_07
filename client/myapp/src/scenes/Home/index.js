@@ -87,10 +87,11 @@ function Home({ webServerAddress }) {
 }
 
 function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
-
   function deleteDrinkItem(indexToDelete) {
     setCart(cart.filter((_, index) => index !== indexToDelete));
+
   }
+  
   return (
     <div className="leftpanel">
       <div className="leftpanel-category-component">
@@ -118,23 +119,35 @@ function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
         </ul>
       </div>
       <div className="leftpanel-order-component">
+        <h4>Order</h4>
+        <div className="middle-section">
         {Object.keys(cart).length !== 0 ? (
-          <div className="drink-item-card">
-            {cart.map((topping, index) => (
-              <div>
-                <div className="drink">
-                  <p className="name">{topping.drink.name}</p>
-                  <p className="price">${topping.totalPrice}</p>
-                </div>
-                <div>
-                  <div className="delete-drink-button" onClick={() => deleteDrinkItem(index)}>Delete</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div></div>
-        )}
+  cart.map((drinkItem, index) => (
+    <div key={index}>
+      <div className="drink">
+        <p className="name">{drinkItem.drink.name}</p>
+        <p className="price">${drinkItem.totalPrice}</p>
+      </div>
+      <div>
+        <div
+          className="delete-drink-button"
+          onClick={() => deleteDrinkItem(index)}
+        >
+          Delete
+        </div>
+      </div>
+    </div>
+  ))
+) : (
+  <div></div>
+)}
+
+        </div>
+        <span className="divider"></span>
+        <div className="bottom-section">
+        <p>Total Cost: ${cart.reduce((total, item) => total + item.totalPrice, 0)}</p>
+
+        </div>
       </div>
       <button className="leftpanel-checkout-button">Checkout</button>
     </div>
