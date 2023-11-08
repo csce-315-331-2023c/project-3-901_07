@@ -1,121 +1,164 @@
-@import '../../variables.css';
+@import "../../variables.css";
 
 /* Home */
 .box {
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
 }
 
-
 .box .row.content {
-    flex: 1 1 auto;
-  }
+  flex: 1 1 auto;
+}
 
 .content {
-    display:flex;
-    flex-flow: row;
-    align-items: center;
-
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
 span.panel-divider {
-    height: 95%;
-    width: 4px;
-    background-color: #E2E2E2;
-    border-radius: 99px;
-
+  height: 95%;
+  width: 4px;
+  background-color: #e2e2e2;
+  border-radius: 99px;
 }
-
 
 /* LeftPanel */
 
 .leftpanel {
-
-    width: 300px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+  width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
-
 
 .leftpanel-order-component {
-    margin: 0px auto 0px auto;
-    background-color: #EFEFEF;
-    height: 40%;
-    width: 90%;
-    border-radius: 17px;
-
+  height: 40%; /* Set a fixed height of 40% of the parent div */
+  max-height: 40%; /* Maximum height to prevent it from growing beyond 40% */
+  overflow: auto; /* Add scrollbars when content exceeds the height */
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  padding: 10px;
+  background-color: #efefef;
+  margin: auto;
+  font-weight: 700;
 }
 
-.leftpanel-category-component{
-    flex: 1 1 auto;
-    padding: 15px 0px 0px 0px;
-    width: 90%;
-
+.leftpanel-order-component div.middle-section {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
 }
 
+.leftpanel-order-component div.drink {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.leftpanel-order-component div.drink p {
+  font-size: 15px;
+  margin: 0;
+  text-align: left;
+}
+
+.leftpanel-order-component div.drink p.name {
+  flex: 1;
+}
+
+.leftpanel-order-component div.drink p.price {
+  color: #787878;
+  width: 25%;
+}
+
+.delete-drink-button {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.leftpanel-category-component {
+  flex: 1 1 auto;
+  padding: 15px 0px 0px 0px;
+  width: 90%;
+}
 
 .leftpanel-category-component ul {
-    margin:0;
-    list-style-type: none;
-    padding: 0;
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
-.leftpanel-category{
-    padding-left: 20px;
-    width: 65%;
-    margin:5px auto;
-    font-size: 16px;
-
+.leftpanel-category {
+  padding-left: 20px;
+  width: 65%;
+  margin: 5px auto;
+  font-size: 16px;
 }
 
-
-.leftpanel-category.header{
-    font-weight: 800;
-    margin-bottom: 10px;
+.leftpanel-category.header {
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 
-.leftpanel a{
+.leftpanel a {
   text-decoration: none;
   color: black;
 }
 
-.leftpanel-category.item{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 99px;
-    transition: transform 0.3s ease;
+.leftpanel-category.item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 99px;
+  transition: transform 0.3s ease;
 }
 
-.leftpanel-category.item.active{
-    background-color: black;
-    color:white;
+.leftpanel-category.item.active {
+  background-color: black;
+  color: white;
 }
 
-
-.leftpanel-category.item:hover{
-    cursor: pointer;
-    transform: scale(1.1);
+.leftpanel-category.item:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
+/* Order Component */
 
+.leftpanel-order-component h4{
+    margin: 10px 0px 5px 0px;
+}
 
+.leftpanel-order-component div.bottom-section {
+  width: 90%;
+  margin:0;
+  height: 30px;
+}
+
+.leftpanel-order-component div.bottom-section p {
+  font-size: 20px;
+  margin: 5px;
+  text-align: center;
+  font-weight: 700;
+}
 
 /* CSS */
 button.leftpanel-checkout-button {
-
   appearance: button;
   background-color: #a6242a;
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
-  font-family: din-round,sans-serif;
+  font-family: din-round, sans-serif;
   font-size: 20px;
   font-weight: 700;
   margin: 15px auto 20px auto;
@@ -124,10 +167,10 @@ button.leftpanel-checkout-button {
   overflow: visible;
   padding: 13px 0px;
   text-align: center;
- 
+
   touch-action: manipulation;
   transform: translateZ(0);
-  transition: filter .2s;
+  transition: filter 0.2s;
   user-select: none;
   -webkit-user-select: none;
   vertical-align: middle;
@@ -136,7 +179,7 @@ button.leftpanel-checkout-button {
 
 button.leftpanel-checkout-button:after {
   background-clip: padding-box;
-  background-color: #ED323A;
+  background-color: #ed323a;
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
@@ -168,31 +211,28 @@ button.leftpanel-checkout-button:active {
   background: none;
 }
 
-
 /* DrinkPanel */
 .drinkpanel {
-    height: calc(100vh - var(--navbarHeight));
-    width: 100%;
-    overflow-y: auto; 
-    scroll-behavior: smooth;
+  height: calc(100vh - var(--navbarHeight));
+  width: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-.drinkpanel-category{
-    /* background-color: red; */
-    /* border: 1px solid black; */
-    padding: 20px;
-
+.drinkpanel-category {
+  /* background-color: red; */
+  /* border: 1px solid black; */
+  padding: 20px;
 }
 
-.drink-cards{
-    margin: 0 auto;
-    max-width: 100%;
-    display:grid;
-    grid-template-columns: repeat(4,1fr);
-    gap:20px;
-    
+.drink-cards {
+  margin: 0 auto;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.fill-gap{
-    height: 20%;
+.fill-gap {
+  height: 20%;
 }

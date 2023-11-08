@@ -6,13 +6,37 @@
     transform: translate(-50%, -50%);
     line-height: 1.4;
     background: white;
-    padding: 14px 14px;
+    padding: 14px 14px 0px 25px;
     border-radius: 3px;
     min-width: 80vw;
     min-height: 80vh;
     z-index: 102;
     display:flex;
     flex-flow: column;
+}
+
+.drink-modal-content h2{
+    margin:20px 10px 10px 10px;
+}
+
+.toppings-section{
+    max-height: 50vh;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+ h3.topping-header{
+    margin: 10px 0px 5px 20px;
+}
+
+.modal h2, h3{
+    padding-left: 2.5%;
+}
+
+
+.modal h3{
+    padding-bottom: 2%;
 }
 
 
@@ -32,6 +56,7 @@
     display:flex;
     flex-flow: row;
     flex: 1 1 auto;
+    max-height: 73vh;
 }
 
 .modal-level-section button, .modal-level-section div{
@@ -66,8 +91,11 @@
 }
 
 .drink-modal-left-panel{
+    display: flex;
+    flex-direction: column;
     width: 70%;
     padding: 20px 12px 0px 0px;
+    
 }
 
 .drink-modal-right-panel{
@@ -172,3 +200,13 @@
     padding-right: 10px;
 }
 
+.toppings-container{
+    overflow: visible;
+    display:grid;
+    grid-template-columns: repeat(5,1fr);
+    column-gap: 20px;
+    row-gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}

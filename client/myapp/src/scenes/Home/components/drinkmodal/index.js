@@ -1,9 +1,27 @@
 import React, { useState } from "react";
+import ToppingCard from "../toppingcard";
 import "./styles.css";
 
-function DrinkModal({ toggleModal }) {
+
+function DrinkModal({ toggleModal, selectedDrink, toppings, setCart}) {
   const [sugarLevel, setSugarLevel] = useState(null);
   const [iceLevel, setIceLevel] = useState(null);
+  const [selectedToppings, setSelectedToppings] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(selectedDrink.price);
+
+  function addDrinkToCart(){
+    const drink = {
+      drink: selectedDrink,
+      sugarLevel: sugarLevel,
+      iceLevel: iceLevel,
+      toppings: selectedToppings,
+      totalPrice: parseFloat(totalPrice.toFixed(2))
+    }
+    console.log(typeof totalPrice);
+    console.log("Called addDrinktoCart");
+    setCart(prevList => [...prevList, drink]);
+    toggleModal();
+  }
 
   return (
     <div className="modal">
@@ -12,7 +30,7 @@ function DrinkModal({ toggleModal }) {
         <button className="close-modal" onClick={toggleModal}>
           CLOSE
         </button>
-        <h2>Custom Drink</h2>
+        <h2>{selectedDrink.name}</h2>
         <div className="drink-modal-row-content">
           <div className="drink-modal-left-panel">
             <ModalLevelSection
@@ -25,6 +43,14 @@ function DrinkModal({ toggleModal }) {
               activeValue={iceLevel}
               setActiveValue={setIceLevel}
             />
+            <h3 className="topping-header">Toppings</h3>
+            <ToppingsSection
+              toppings={toppings}
+              selectedToppings={selectedToppings}
+              setSelectedToppings={setSelectedToppings}
+              totalPrice={totalPrice}
+              setTotalPrice={setTotalPrice}
+            />
           </div>
           <div className="drink-modal-right-panel">
             <div className="drink-order-panel">
@@ -32,8 +58,8 @@ function DrinkModal({ toggleModal }) {
               <div className="middle-section">
                 <div className="drink-item-card">
                   <div className="drink">
-                    <p className="name">Drink Name</p>
-                    <p className="price">$x.xx</p>
+                    <p className="name">{selectedDrink.name}</p>
+                    <p className="price">${selectedDrink.price}</p>
                   </div>
                   {sugarLevel !== null ? (
                     <div className="drink-attribute">
@@ -47,19 +73,22 @@ function DrinkModal({ toggleModal }) {
                       <p className="price">$0.00</p>
                     </div>
                   ) : null}
-                  <div className="drink-attribute">
-                    <p className="name">sfdsf</p>
-                    <p className="price">$x.xx</p>
-                  </div>
+                    {selectedToppings.map((topping, index) => (
+                   <div className="drink-attribute"> 
+                    <p className="name">{topping.name}</p>
+                    <p className="price">${topping.price}</p>
+                    </div>
+                    ))}
+                  
                 </div>
               </div>
 
               <span className="divider"></span>
               <div className="bottom-section">
-                    <p>Total Cost: $x.xx</p>
+                    <p>Total Cost: ${totalPrice.toFixed(2)}</p>
               </div>
             </div>
-            <button className="leftpanel-checkout-button">Add to Cart</button>
+            <button className="leftpanel-checkout-button" onClick={addDrinkToCart}>Add to Cart</button >
           </div>
         </div>
       </div>
@@ -67,10 +96,42 @@ function DrinkModal({ toggleModal }) {
   );
 }
 
+function ToppingsSection({ toppings, selectedToppings, setSelectedToppings, totalPrice, setTotalPrice}) {
+  // console.log(toppings);
+  // console.log(selectedToppings);
+  function handleToppingClick(topping) {
+    // console.log(topping.name);
+    // This function toggles the selection of a topping.
+    // If the topping is already selected, it removes it from the list; otherwise, it adds it.
+    setSelectedToppings(prevSelected => {
+      console.log(prevSelected);
+      if (prevSelected.includes(topping)) {
+        setTotalPrice(totalPrice-topping.price);
+        return prevSelected.filter(t => t !== topping); // Deselect it
+      } else {
+        setTotalPrice(totalPrice+topping.price);
+        return [...prevSelected, topping]; // Select it
+      }
+    });
+  }
+
+  return (
+    <div className="toppings-section">
+      <div className="toppings-container">
+        {toppings.map((topping, index) => (
+          <ToppingCard topping={topping} toppingClick={() => handleToppingClick(topping)} key = {topping.name}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+
 function ModalLevelSection({ title, activeValue, setActiveValue }) {
   function handleLinkClick(categoryPressed) {
     // Code to execute when the link is clicked
-    console.log(categoryPressed);
+    // console.log(categoryPressed);
     setActiveValue(categoryPressed);
   }
 
