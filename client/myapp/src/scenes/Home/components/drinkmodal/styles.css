@@ -160,6 +160,7 @@
     background-color: #E2E2E2;
     margin: auto;
     font-weight: 700;
+    border-radius: 5px;
 }
 
 .drink-item-card div.drink,.drink-item-card div.drink-attribute{
@@ -209,4 +210,20 @@
     padding-left: 10px;
     padding-right: 10px;
 
+}
+
+.close-modal{
+    border-radius: 17px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #D9D9D9;
+    border: none;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    border:transparent solid 3px;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.close-modal:hover{
+    border: 2px solid black;
 }

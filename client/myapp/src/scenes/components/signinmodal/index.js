@@ -1,6 +1,6 @@
-import "./styles.css";
-import { useRef } from "react";
 import { TextField } from "@mui/material";
+import { useRef } from "react";
+import "./styles.css";
 
 function SignInModal({ toggleModal }) {
   const usernameRef = useRef("");
@@ -31,7 +31,7 @@ function SignInModal({ toggleModal }) {
         <button className="close-modal" onClick={toggleModal}>
           CLOSE
         </button>
-        <button onClick={printUsername}>Sign in</button>
+        <button className = "signin-button" onClick={printUsername}>Sign in</button>
       </div>
     </div>
   );

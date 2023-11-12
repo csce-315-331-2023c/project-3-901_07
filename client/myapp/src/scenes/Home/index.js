@@ -1,7 +1,7 @@
-import "./styles.css";
 import React, { useEffect, useRef, useState } from "react";
-import DrinkModal from "./components/drinkmodal";
 import DrinkCard from "./components/drinkcard";
+import DrinkModal from "./components/drinkmodal";
+import "./styles.css";
 
 function Home({ webServerAddress }) {
   const [isClicked, setIsClicked] = useState("test");
