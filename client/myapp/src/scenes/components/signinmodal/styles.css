@@ -1,5 +1,13 @@
 body.active-modal {
     overflow-y: hidden;
+    
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px;
 }
 
 .modal, .overlay {
@@ -15,97 +23,25 @@ body.active-modal {
 .overlay {
     background: rgba(0, 0, 0, 0.394);
     z-index: 101;
-}
 
+}
 .signinmodal-content {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    line-height: 1.6;
-    background: #ffffff;
-    padding: 20px 40px;
-    border-radius: 8px;
-    max-width: 400px;
+    line-height: 1.4;
+    background: #f1f1f1;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 600px;
     min-width: 300px;
     z-index: 102;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc;
-}
-
-
-.MuiTextField-root {
-    margin-bottom: 20px;
-    width: 100%;
 }
 
 .close-modal {
-    background-color: #ccc;
-    color: #333;
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 5px 7px;
-}
-
-button {
-    background-color: #ED323A;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 20px;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    outline: none;
-    position: relative;
-}
-
-.sign-in-btn {
-    margin-top: 20px;
-    padding: 8px 20px;
-}
-
-button:before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    opacity: 0.7;
-    transition: all 0.3s ease;
-    z-index: -1;
-}
-
-button:hover {
-    background-color: darken(#E74C3C, 10%);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 12px 24px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-}
-
-button:hover:before {
-    height: 5px;
-}
-
-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-button:active:before {
-    height: 15px;
-    opacity: 0.3;
-}
-
-
-
-
-
-.modal {
-    font-family: 'Plus Jakarta Sans', sans-serif;
 }
