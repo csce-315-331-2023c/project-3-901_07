@@ -9,11 +9,11 @@ body.active-modal {
     left: 0;
     right: 0;
     bottom: 0;
-    position: fixed;
+    position: absolute;
 }
 
 .overlay {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.394);
     z-index: 101;
 }
 
@@ -50,7 +50,7 @@ body.active-modal {
 
 button {
     background-color: #ED323A;
-    color: white;
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 20px;
     padding: 12px 30px;
@@ -101,6 +101,10 @@ button:active:before {
     height: 15px;
     opacity: 0.3;
 }
+
+
+
+
 
 .modal {
     font-family: 'Plus Jakarta Sans', sans-serif;
