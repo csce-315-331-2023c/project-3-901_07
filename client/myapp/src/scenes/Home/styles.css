@@ -35,8 +35,8 @@ span.panel-divider {
 }
 
 .leftpanel-order-component {
-  height: 40%; /* Set a fixed height of 40% of the parent div */
-  max-height: 40%; /* Maximum height to prevent it from growing beyond 40% */
+  height: 35vh; /* Set a fixed height of 40% of the parent div */
+  max-height: 35vh; /* Maximum height to prevent it from growing beyond 40% */
   overflow: auto; /* Add scrollbars when content exceeds the height */
   border-radius: 17px;
   display: flex;
@@ -44,7 +44,7 @@ span.panel-divider {
   align-items: center;
   width: 80%;
   padding: 10px;
-  background-color: #efefef;
+  background-color:#EFEFEF;
   margin: auto;
   font-weight: 700;
 }
@@ -53,6 +53,17 @@ span.panel-divider {
   width: 100%;
   flex: 1;
   overflow-y: auto;
+}
+
+.leftpanel-order-component div.drink-cart-component {
+  background-color: #E2E2E2;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.drink-cart-component-footer {
+  display: flex;
 }
 
 .leftpanel-order-component div.drink {
@@ -73,10 +84,17 @@ span.panel-divider {
 
 .leftpanel-order-component div.drink p.price {
   color: #787878;
-  width: 25%;
+  align-self: flex-end;
 }
 
 .delete-drink-button {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.edit-drink-button {
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
@@ -123,6 +141,10 @@ span.panel-divider {
   color: white;
 }
 
+.leftpanel-category.item:active{
+  background-color: black;
+  color: white;
+}
 .leftpanel-category.item:hover {
   cursor: pointer;
   transform: scale(1.1);

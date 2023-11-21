@@ -40,27 +40,72 @@
 }
 
 
-.modal-level-section{
-    padding: 0px 50px 0px 50px;
-    margin-bottom: 10px;
+
+.level-selection-section-sugar{
     max-width: 100%;
     display:grid;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(5,1fr);
     gap:10px;
+    margin-left: 10px;
+    flex:1;
     
 }
 
-
-
-.drink-modal-row-content {
-    display:flex;
-    flex-flow: row;
-    flex: 1 1 auto;
-    max-height: 73vh;
+.level-selection-section-ice{
+    margin-left: 10px;
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:10px;
+    flex:1;
 }
 
-.modal-level-section button, .modal-level-section div{
-    aspect-ratio: 1;
+.level-selection-section-sugar button > div + .ice-level-title {
+    width: inherit;
+  }
+
+
+
+.sugar-section, .ice-section{
+    padding-left: 30px;
+    display: flex;
+    margin-bottom: 5px;
+
+    border-radius: 17px;
+}
+
+.temporary-animation{
+    animation: pulse 2s forwards; 
+}
+
+@keyframes pulse {
+    0% {
+      border-color: #3498db; /* Initial border color */
+      transform: scale(1);
+    }
+    50% {
+      border-color: #1abc9c; /* Midway border color */
+      transform: scale(1.05);
+    }
+    100% {
+      border-color: #3498db; /* Back to initial border color */
+      transform: scale(1);
+    }
+  }
+
+.sugar-section div.title, .ice-section div.title{
+
+    text-align: center;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+
+}
+
+
+.level-selection-section-ice button, .level-selection-section-ice button > div{
+    
     text-align: center;
     margin: 0;
     padding: 0;
@@ -69,7 +114,51 @@
     align-items: center;
 }
 
-.modal-level-section button{
+.level-selection-section-ice button{
+    border-radius: 17px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #D9D9D9;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    border:transparent solid 3px;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.level-selection-section-ice button:hover{
+    border: 3px solid black;
+}
+
+.level-selection-section-ice button.active{
+    background-color: #ED323A;
+    color: white;
+}
+
+.ice-level-image{
+    width: 80px;
+    height: auto;
+    margin: 20px 0px 20px 10px;
+}
+
+.drink-modal-row-content {
+    display:flex;
+    flex-flow: row;
+    flex: 1 1 auto;
+    max-height: 73vh;
+}
+
+.level-selection-section-sugar button, .level-selection-section-sugar div{
+    aspect-ratio: 1;
+
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.level-selection-section-sugar button{
     border-radius: 17px;
     font-size: 18px;
     font-weight: 700;
@@ -81,11 +170,11 @@
     transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
 }
 
-.modal-level-section button:hover{
-    border: 2px solid black;
+.level-selection-section-sugar button:hover{
+    border: black solid 3px;
 }
 
-.modal-level-section button.active{
+.level-selection-section-sugar button.active{
     background-color: #ED323A;
     color: white;
 }
@@ -160,6 +249,7 @@
     background-color: #E2E2E2;
     margin: auto;
     font-weight: 700;
+    border-radius: 5px;
 }
 
 .drink-item-card div.drink,.drink-item-card div.drink-attribute{
@@ -209,4 +299,20 @@
     padding-left: 10px;
     padding-right: 10px;
 
+}
+
+.close-modal{
+    border-radius: 17px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #D9D9D9;
+    border: none;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    border:transparent solid 3px;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.close-modal:hover{
+    border: 2px solid black;
 }
