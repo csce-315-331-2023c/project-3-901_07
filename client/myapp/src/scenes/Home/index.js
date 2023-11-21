@@ -4,12 +4,13 @@ import DrinkModal from "./components/drinkmodal";
 import "./styles.css";
 
 function Home({ webServerAddress }) {
-  const [isClicked, setIsClicked] = useState("test");
+  const [currCategory, setCategory] = useState(null);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [cart, setCart] = useState([]);
 
+  //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
   useEffect(() => {
     async function fetchData() {
@@ -30,7 +31,7 @@ function Home({ webServerAddress }) {
         };
         setData(formattedData);
       } catch {
-        console.log("error");
+        //console.log("error");
       }
     }
     fetchData();
@@ -48,31 +49,23 @@ function Home({ webServerAddress }) {
     document.body.classList.remove("active-modal");
   }
 
-  //category clicked
-  function handleLinkClick(categoryPressed) {
-    // Code to execute when the link is clicked
-    // console.log(categoryPressed);
-    setIsClicked(categoryPressed);
-  }
 
-  console.log("cart content");
-  console.log(cart);
 
   return (
     <div className="row content">
       <LeftPanel
-        isClicked={isClicked}
-        handleLinkClick={handleLinkClick}
+        currCategory={currCategory}
         data={data}
         setCart={setCart}
         cart={cart}
+        toggleModal={toggleModal}
       />
       <span className="panel-divider"></span>
       <DrinkPanel
-        isClicked={isClicked}
-        handleLinkClick={handleLinkClick}
+        currCategory={currCategory}
         toggleModal={toggleModal}
         data={data}
+        setCategory={setCategory}
       />
       {modal && (
         <DrinkModal
@@ -86,12 +79,22 @@ function Home({ webServerAddress }) {
   );
 }
 
-function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
+function LeftPanel({
+  currCategory,
+  data,
+  setCart,
+  cart,
+  toggleModal
+}) {
   function deleteDrinkItem(indexToDelete) {
     setCart(cart.filter((_, index) => index !== indexToDelete));
-
   }
-  
+
+  function editDrinkItem(indexToEdit) {
+    const drink = cart.find((_, index) => index === indexToEdit);
+    toggleModal(drink.drink);
+  }
+
   return (
     <div className="leftpanel">
       <div className="leftpanel-category-component">
@@ -101,12 +104,12 @@ function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
             Object.entries(data.menu_items).map(([category, items]) => (
               <li key={category}>
                 <a
-                  onClick={() => handleLinkClick(category)}
+
                   href={`#${category}`}
                 >
                   <div
                     className={
-                      isClicked === category
+                      currCategory === category
                         ? "leftpanel-category item active"
                         : "leftpanel-category item"
                     }
@@ -121,32 +124,45 @@ function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
       <div className="leftpanel-order-component">
         <h4>Order</h4>
         <div className="middle-section">
-        {Object.keys(cart).length !== 0 ? (
-  cart.map((drinkItem, index) => (
-    <div key={index}>
-      <div className="drink">
-        <p className="name">{drinkItem.drink.name}</p>
-        <p className="price">${drinkItem.totalPrice}</p>
-      </div>
-      <div>
-        <div
-          className="delete-drink-button"
-          onClick={() => deleteDrinkItem(index)}
-        >
-          Delete
-        </div>
-      </div>
-    </div>
-  ))
-) : (
-  <div></div>
-)}
-
+          {Object.keys(cart).length !== 0 ? (
+            cart.map((drinkItem, index) => (
+              <div className="drink-cart-component" key={index}>
+                <div className="drink">
+                  <p className="name">{drinkItem.drink.name}</p>
+                  <p className="price">${drinkItem.totalPrice}</p>
+                </div>
+                <div className="drink-cart-component-footer">
+                <div
+                    className="edit-drink-button"
+                    onClick={() => editDrinkItem(index)}
+                  >
+                    Edit
+                  </div>
+                  <div style={{ flex: 1 }}>
+                  </div>
+                  <div
+                    className="delete-drink-button"
+                    onClick={() => deleteDrinkItem(index)}
+                  >
+                    Delete
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div></div>
+          )}
         </div>
         <span className="divider"></span>
         <div className="bottom-section">
-        <p>Total Cost: ${parseFloat(cart.reduce((total, item) => total + item.totalPrice, 0).toFixed(2))}</p>
-
+          <p>
+            Total Cost: $
+            {parseFloat(
+              cart
+                .reduce((total, item) => total + item.totalPrice, 0)
+                .toFixed(2)
+            )}
+          </p>
         </div>
       </div>
       <button className="leftpanel-checkout-button">Checkout</button>
@@ -154,20 +170,47 @@ function LeftPanel({ isClicked, handleLinkClick, data, setCart, cart }) {
   );
 }
 
-function DrinkPanel({ isClicked, handleLinkClick, toggleModal, data }) {
-  const targetElementRef = useRef(null);
-  console.log(data);
+function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
+  const drinkPanelRef = useRef(null);
+  useEffect(() => {
+    const options = {
+      root: drinkPanelRef.current, // Use the viewport as the root
+      rootMargin: "0px 0px -75% 0px",
+      threshold: 1,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("Current Category: ", entry.target.textContent);
+          setCategory(entry.target.textContent);
+
+        }
+      });
+    };
+
+    if (data) {
+      Object.entries(data.menu_items).forEach(([category]) => {
+        const targetElement = document.getElementById(category);
+        const h3Element = targetElement?.querySelector("h3"); // Select h3 element inside div
+        if (h3Element) {
+          const observer = new IntersectionObserver(observerCallback, options);
+          observer.observe(h3Element);
+          // Clean up by disconnecting the observer when component unmounts
+          return () => {
+            observer.unobserve(h3Element);
+            observer.disconnect();
+          };
+        }
+      });
+    }
+  }, [data, setCategory]);
 
   return (
     <div className="drinkpanel">
       {data &&
         Object.entries(data.menu_items).map(([category, items]) => (
-          <div
-            ref={targetElementRef}
-            id={category}
-            className="drinkpanel-category"
-            key={category}
-          >
+          <div id={category} className="drinkpanel-category" key={category}>
             <h3>{category}</h3>
             <div className="drink-cards">
               {items.map((item) => (
