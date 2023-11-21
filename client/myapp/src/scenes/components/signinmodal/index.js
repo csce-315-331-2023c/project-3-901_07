@@ -31,7 +31,9 @@ function SignInModal({ toggleModal }) {
         <button className="close-modal" onClick={toggleModal}>
           CLOSE
         </button>
+
         <button className = "signin-button" onClick={printUsername}>Sign in</button>
+
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const path = require('path');
 
 
 // Create express app
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 let cors = require("cors");
 app.use(cors());
@@ -29,10 +30,14 @@ process.on('SIGINT', function() {
 
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('index', data);
-});
+app.use(express.static(path.join(__dirname, '../client/myapp/build')));
+
+// Serve the index.html file (the entry point of your React app) for all GET requests
+
+// app.get('/', (req, res) => {
+//     const data = {name: 'Mario'};
+//     res.render('index', data);
+// });
 
 app.get('/user', (req, res) => {
     teammembers = []
@@ -228,7 +233,14 @@ app.get('/testdb', (req, res) => {
         });
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/myapp/build', 'index.html'));
+});
+
+// app.listen(port, () => {
+//     console.log(`Example app listening at http://localhost:${port}`);
+// });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Server listening at http://localhost:${port}`);
 });
