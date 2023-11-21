@@ -8,6 +8,7 @@ function Home({ webServerAddress }) {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
   const [selectedDrink, setSelectedDrink] = useState(null);
+  const [drinkEdited, setDrinkToEdit] = useState(null);
   const [cart, setCart] = useState([]);
 
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
@@ -37,6 +38,15 @@ function Home({ webServerAddress }) {
     fetchData();
   }, [webServerAddress]);
 
+  useEffect(() => {
+    function setDrinkEditedDefault(){
+      if (modal=== false) {
+      setDrinkToEdit(null);
+      }
+    }
+    setDrinkEditedDefault();
+  }, [modal]);
+
   //modal
   const toggleModal = (drink) => {
     setSelectedDrink(drink); // Set the selected drink here
@@ -59,6 +69,7 @@ function Home({ webServerAddress }) {
         setCart={setCart}
         cart={cart}
         toggleModal={toggleModal}
+        setDrinkToEdit={setDrinkToEdit}
       />
       <span className="panel-divider"></span>
       <DrinkPanel
@@ -72,7 +83,10 @@ function Home({ webServerAddress }) {
           toggleModal={toggleModal}
           selectedDrink={selectedDrink}
           toppings={data.toppings}
+          cart={cart}
           setCart={setCart}
+          drinkEdited={drinkEdited}
+          setDrinkToEdit={setDrinkToEdit}
         />
       )}
     </div>
@@ -84,14 +98,19 @@ function LeftPanel({
   data,
   setCart,
   cart,
-  toggleModal
+  toggleModal,
+  setDrinkToEdit
 }) {
+  
+
   function deleteDrinkItem(indexToDelete) {
     setCart(cart.filter((_, index) => index !== indexToDelete));
   }
 
   function editDrinkItem(indexToEdit) {
     const drink = cart.find((_, index) => index === indexToEdit);
+    drink["index"] = indexToEdit;
+    setDrinkToEdit(drink);
     toggleModal(drink.drink);
   }
 

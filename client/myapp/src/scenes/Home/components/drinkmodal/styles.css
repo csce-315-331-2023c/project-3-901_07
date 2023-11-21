@@ -69,7 +69,28 @@
     padding-left: 30px;
     display: flex;
     margin-bottom: 5px;
+
+    border-radius: 17px;
 }
+
+.temporary-animation{
+    animation: pulse 2s forwards; 
+}
+
+@keyframes pulse {
+    0% {
+      border-color: #3498db; /* Initial border color */
+      transform: scale(1);
+    }
+    50% {
+      border-color: #1abc9c; /* Midway border color */
+      transform: scale(1.05);
+    }
+    100% {
+      border-color: #3498db; /* Back to initial border color */
+      transform: scale(1);
+    }
+  }
 
 .sugar-section div.title, .ice-section div.title{
 

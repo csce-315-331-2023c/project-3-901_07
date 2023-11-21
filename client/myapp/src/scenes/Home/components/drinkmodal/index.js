@@ -1,17 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToppingCard from "../toppingcard";
 import noIceImage from "../../../../assets/images/noice.png";
 import lessIceImage from "../../../../assets/images/lessice.png";
 import normalIceImage from "../../../../assets/images/normalice.png";
 import "./styles.css";
 
-function DrinkModal({ toggleModal, selectedDrink, toppings, setCart }) {
+function DrinkModal({
+  toggleModal,
+  selectedDrink,
+  toppings,
+  cart,
+  setCart,
+  drinkEdited,
+  setDrinkToEdit,
+}) {
   const [sugarLevel, setSugarLevel] = useState(null);
   const [iceLevel, setIceLevel] = useState(null);
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [totalPrice, setTotalPrice] = useState(selectedDrink.price);
 
   function addDrinkToCart() {
+    if (sugarLevel === null) {
+      alert("Please select a sugar level");
+    } else if (iceLevel === null) {
+      alert("Please select an ice level");
+    } else {
+      const drink = {
+        drink: selectedDrink,
+        sugarLevel: sugarLevel,
+        iceLevel: iceLevel,
+        toppings: selectedToppings,
+        totalPrice: parseFloat(totalPrice.toFixed(2)),
+      };
+      console.log(drink);
+      setCart((prevList) => [...prevList, drink]);
+      toggleModal();
+    }
+  }
+
+  function editDrinkInCart() {
     const drink = {
       drink: selectedDrink,
       sugarLevel: sugarLevel,
@@ -19,10 +46,22 @@ function DrinkModal({ toggleModal, selectedDrink, toppings, setCart }) {
       toppings: selectedToppings,
       totalPrice: parseFloat(totalPrice.toFixed(2)),
     };
-    console.log(drink);
-    setCart((prevList) => [...prevList, drink]);
+    cart[drinkEdited.index] = drink;
+    setCart(cart);
     toggleModal();
   }
+
+  useEffect(() => {
+    function checkIfModalisEdit() {
+      if (drinkEdited !== null) {
+        setSugarLevel(drinkEdited.sugarLevel);
+        setIceLevel(drinkEdited.iceLevel);
+        setSelectedToppings(drinkEdited.toppings);
+        setTotalPrice(drinkEdited.totalPrice);
+      }
+    }
+    checkIfModalisEdit();
+  }, [] );
 
   return (
     <div className="modal">
@@ -88,12 +127,19 @@ function DrinkModal({ toggleModal, selectedDrink, toppings, setCart }) {
                 <p>Total Cost: ${totalPrice.toFixed(2)}</p>
               </div>
             </div>
-            <button
-              className="leftpanel-checkout-button"
-              onClick={addDrinkToCart}
-            >
-              Add to Cart
-            </button>
+            {console.log("DRINK EDITED: " + drinkEdited)}
+            {drinkEdited === null ? (
+              <button
+                className="leftpanel-checkout-button"
+                onClick={addDrinkToCart}
+              >
+                Add to Cart
+              </button>
+            ) : (
+              <button className="leftpanel-checkout-button" onClick={editDrinkInCart}>
+                Edit Drink
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -130,11 +176,16 @@ function ToppingsSection({
     <div className="toppings-section">
       <div className="toppings-container">
         {toppings.map((topping, index) => (
-          <ToppingCard
-            topping={topping}
-            toppingClick={() => handleToppingClick(topping)}
-            key={topping.name}
-          />
+          <div>
+            <ToppingCard
+              topping={topping}
+              toppingClick={() => handleToppingClick(topping)}
+              key={topping.name}
+              isActiveEdit={selectedToppings.some(
+                (toppings) => toppings.name === topping.name
+              )}
+            />
+          </div>
         ))}
       </div>
     </div>
