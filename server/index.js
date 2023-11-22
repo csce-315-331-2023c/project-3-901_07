@@ -420,29 +420,20 @@ app.get('/testdb', (req, res) => {
         });
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/myapp/build', 'index.html'));
-});
-
-// app.listen(port, () => {
-//     console.log(`Example app listening at http://localhost:${port}`);
-// });
-
 app.set('view engine', 'ejs');
 
 app.use(session({
-  resave: false,
-  saveUninitialized: true,
-  secret: 'SECRET' 
+    resave: false,
+    saveUninitialized: true,
+    secret: 'SECRET' 
 }));
 
 app.get('/', function(req, res) {
-  res.render('pages/auth');
+    res.render('pages/auth');
 });
 
-
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });
 
 /*  PASSPORT SETUP  */
@@ -459,11 +450,11 @@ app.get('/success', (req, res) => res.send(userProfile));
 app.get('/error', (req, res) => res.send("error logging in"));
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user);
+    cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+    cb(null, obj);
 });
 
 /*  Google AUTH  */
