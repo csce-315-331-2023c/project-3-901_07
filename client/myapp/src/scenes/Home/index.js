@@ -332,8 +332,8 @@ function LeftPanel({
   catch (error){
     console.error('Checkout Error:', error);
   }
-  setCart([])
-
+  setCart([]);
+}
 
 function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
   const drinkPanelRef = useRef(null);
