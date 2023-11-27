@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
     res.render('index', data);
 });
 
+app.use(express.static(path.join(__dirname, '../client/myapp/build')));
 // Serve the index.html file (the entry point of your React app) for all GET requests
 
 // app.get('/', (req, res) => {
