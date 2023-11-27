@@ -49,7 +49,7 @@ app.use(session({
 }));
 
 app.get('/', function(req, res) {
-  res.render('pages/auth');
+  res.render(path.join(__dirname, '../client/myapp/src/index.js'));
 });
 // app.use(express.static(path.join(__dirname, '../client/myapp/build')));
 // Serve the index.html file (the entry point of your React app) for all GET requests
