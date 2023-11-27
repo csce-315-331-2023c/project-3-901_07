@@ -433,7 +433,7 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at https://shareteawebapp.onrender.com/}`);
 });
 
 /*  PASSPORT SETUP  */
@@ -465,7 +465,7 @@ const GOOGLE_CLIENT_SECRET = 'our-google-client-secret';
 passport.use(new GoogleStrategy({
     clientID: "832055876235-3o5uqtqgj8o709loq1odq87a4mebgp1o.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "https://shareteawebapp.onrender.com/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
         userProfile=profile;
@@ -480,5 +480,5 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/error' }),
     function(req, res) {
         // Successful authentication, redirect success.
-        res.redirect('http://localhost:3001/App');
+        res.redirect('https://shareteawebapp.onrender.com/App');
 });
