@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
+import './styles.css';
 const Weather = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
@@ -11,31 +11,30 @@ const Weather = () => {
   const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
   useEffect(() => {
-    // Get user's location when the component mounts
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserLocation({ latitude, longitude });
-          setLoading(false); // Set loading to false when location is obtained
+          setLoading(false); 
         },
         (error) => {
           console.error('Error getting user location:', error);
-          setLoading(false); // Set loading to false if there's an error
+          setLoading(false); 
         }
       );
     } else {
       console.error('Geolocation is not supported by your browser');
-      setLoading(false); // Set loading to false if geolocation is not supported
+      setLoading(false); 
     }
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+  }, []); 
 
   useEffect(() => {
-    // Automatically fetch weather data when userLocation is not null
+    
     if (userLocation) {
       getWeatherData();
     }
-  }, [userLocation]); // Run the effect whenever userLocation changes
+  }, [userLocation]); 
 
   const getWeatherData = async () => {
     try {
@@ -54,7 +53,7 @@ const Weather = () => {
       ) : (
         <>
           {weather ? (
-            <div>
+            <div className='Holder'>
                 {console.log(weather)}
               <h2>Weather in {weather.name}, {weather.sys.country}</h2>
               <p>Temperature: {weather.main.temp} °F</p>

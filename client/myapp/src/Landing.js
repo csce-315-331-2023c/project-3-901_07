@@ -1,7 +1,19 @@
 import React from 'react';
-import shareTeaLogo from './assets/images/190719_Sharetea+logo_白.png';
+import { useNavigate } from 'react-router-dom';
 import './Landing.css';
+import shareTeaLogo from './assets/images/190719_Sharetea+logo_白.png';
 function Landing() {
+
+  const navigate = useNavigate();
+  const goApp = () =>{
+    navigate('/App');
+  };
+  const goWeather = () =>{
+    navigate('/Weather');
+  }
+
+  
+
   return (
     <div className="App">
         <div className='Nav-Bar'>
@@ -9,7 +21,7 @@ function Landing() {
             <div className="nav-wrapper">
                 <div className="nav-wrapper-left-section">
                 <ul>
-                    <li><button className = "signin-button">Accessibility</button></li>
+                    <li><button onClick = {goWeather}className = "signin-button">Accessibility</button></li>
                 </ul>
                 </div>
                 <div className="nav-wrapper-right-section">
@@ -26,7 +38,7 @@ function Landing() {
             <img className="logo1" src={shareTeaLogo} alt="Share Tea Logo" />
         </div>
         <div className='buttons'>
-            <button className='Startup'>Start Order</button>
+            <button onClick={goApp} className='Startup'>Start Order</button>
             <button className='Startup'>Menu Board</button>
         
         </div>
