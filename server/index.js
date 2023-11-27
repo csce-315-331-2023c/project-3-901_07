@@ -480,5 +480,5 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/error' }),
     function(req, res) {
         // Successful authentication, redirect success.
-        res.redirect('/success');
+        res.redirect('http://localhost:3001/App');
 });

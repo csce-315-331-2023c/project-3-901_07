@@ -11,7 +11,10 @@ function Landing() {
   const goWeather = () =>{
     navigate('/Weather');
   }
-
+  const redirectToGoogleOAuth = () => {
+    // Redirect to Google OAuth page
+    window.location.href = process.env.REACT_APP_WEB_SERVER_ADDRESS + "/auth/google";
+  };
   
 
   return (
@@ -21,12 +24,12 @@ function Landing() {
             <div className="nav-wrapper">
                 <div className="nav-wrapper-left-section">
                 <ul>
-                    <li><button onClick = {goWeather}className = "signin-button">Accessibility</button></li>
+                    <li><button onClick = {goWeather} className = "signin-button">Accessibility</button></li>
                 </ul>
                 </div>
                 <div className="nav-wrapper-right-section">
                 <ul>
-                    <li><button className = "signin-button">Employee Sign In</button></li>
+                    <li><button onClick = {redirectToGoogleOAuth} className = "signin-button">Employee Sign In</button></li>
                 </ul>
                 </div>
             </div>
