@@ -440,7 +440,7 @@ app.use(session({
     secret: 'SECRET' 
 }));
 
-app.get('/', function(req, res) {
+app.get('/welcome', function(req, res) {
     res.render('pages/auth');
 });
 
