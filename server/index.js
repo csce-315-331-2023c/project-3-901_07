@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 const path = require('path');
@@ -7,9 +8,13 @@ const path = require('path');
 // Create express app
 const app = express();
 const port = process.env.PORT || 3000;
+const session = require('express-session');
 
 let cors = require("cors");
 app.use(cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extendex: true}));
 
 // Create pool
 const pool = new Pool({
@@ -30,7 +35,10 @@ process.on('SIGINT', function() {
 
 app.set("view engine", "ejs");
 
-app.use(express.static(path.join(__dirname, '../client/myapp/build')));
+app.get('/', (req, res) => {
+    const data = {name: 'Mario'};
+    res.render('index', data);
+});
 
 // Serve the index.html file (the entry point of your React app) for all GET requests
 
@@ -214,9 +222,188 @@ app.get('/topping', (req, res) => { //Topping Datatable
         res.status(500).send('Failed to retrieve toppings');
     });
 });
+          
+app.get('/last_customer', (req, res) => { 
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query("SELECT * FROM customer ORDER BY customer_id DESC LIMIT 1;")
+      .then(query_res => {
+          const response = query_res.rows;
+          res.json(response);
+      })
+      .catch(error => {
+          console.error('Database query failed:', error);
+          res.status(500).send('Failed to retrieve customer query data');
+      });
+  });
+
+  app.get('/last_order', (req, res) => { 
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query("SELECT * FROM orders ORDER BY order_id DESC LIMIT 1;")
+      .then(query_res => {
+          const response = query_res.rows;
+          res.json(response);
+      })
+      .catch(error => {
+          console.error('Database query failed:', error);
+          res.status(500).send('Failed to retrieve order query data');
+      });
+  });
+
+
+  app.get('/last_drink', (req, res) => { 
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query("SELECT * FROM drink ORDER BY drink_id DESC LIMIT 1;")
+      .then(query_res => {
+          const response = query_res.rows;
+          res.json(response);
+      })
+      .catch(error => {
+          console.error('Database query failed:', error);
+          res.status(500).send('Failed to retrieve drink query data');
+      });
+  });
+
+  app.get('/get_topping_by_id/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('SELECT * FROM topping WHERE topping_id = $1', [id]);
+
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]);
+        } else {
+            res.status(404).send('Topping not found');
+        }
+    } catch (error) {
+        console.error('Database query error', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/get_menu_item_ingredients_by_id/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('SELECT * FROM menu_ingredients_mapper WHERE menu_item_id = $1', [id]);
+        console.log(result);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database query error', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/get_ingredient_by_id/:id', async (req, res) => {
+    try {
+        console.log("sanity check");
+        const { id } = req.params;
+        console.log(id);
+
+        const result = await pool.query('SELECT * FROM ingredients WHERE ingredients_id = $1', [id]);
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Database query error', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 
+app.post('/make_customer', (req, res) => {
+    const customerName = req.body.name;
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+      .query('INSERT INTO customer (name) VALUES ($1)', [customerName])
+      .then(() => {
+        res.send('Customer added successfully');
+    })
+      .catch(error => {
+        console.error('Error inserting custmer:', error);
+        res.status(500).send('Failed to add customer');
+      });
+  });
+
+app.post('/make_order', (req, res) => {
+
+    const customer_id = req.body.customer_id;
+    const employee_id = req.body.employee_id;
+    const date = req.body.date;
+    const price = req.body.price;
+    const time = req.body.time;
+
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('INSERT INTO orders (customer_id, employee_id, date, total_price, time) VALUES ($1, $2, $3, $4, $5)', [customer_id, employee_id, date, price, time])
+        .then(() => {
+        res.send('Order added successfully');
+    })
+        .catch(error => {
+        console.error('Error inserting order:', error);
+        res.status(500).send('Failed to add order');
+        });
+});
+
+app.post('/make_drink', (req, res) => {
+
+    const menu_item_id = req.body.menu_item_id;
+    const order_id = req.body.order_id;
+    const sweetness = req.body.sweetness;
+    const price = req.body.price;
+    const ice_level = req.body.ice_level;
+
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('INSERT INTO drink (menu_item_id, order_id, sweetness, price, ice_level) VALUES ($1, $2, $3, $4, $5)', [menu_item_id, order_id, sweetness, price, ice_level])
+        .then(() => {
+        res.send('Drink added successfully');
+    })
+        .catch(error => {
+        console.error('Error inserting drink:', error);
+        res.status(500).send('Failed to add drink');
+        });
+});
+
+app.post('/make_drink_topping', (req, res) => {
+
+    const drink_id = req.body.drink_id;
+    const topping_id = req.body.topping_id;
+
+    res.set('Access-Control-Allow-Origin', '*');
+    pool
+        .query('INSERT INTO drink_topping (drink_id, topping_id) VALUES ($1, $2)', [drink_id, topping_id])
+        .then(() => {
+        res.send('drink-topping added successfully');
+    })
+        .catch(error => {
+        console.error('Error inserting topping:', error);
+        res.status(500).send('Failed to add topping');
+        });
+});
+
+app.put('/set_topping_availability', async (req, res) => {
+    try {
+      const topping_id = req.body.topping_id;
+      const new_availability = req.body.new_availability
+      await pool.query('UPDATE topping SET availability = $1 WHERE topping_id = $2', [new_availability, topping_id]);
+      res.status(200).json({ message: 'Item updated successfully' });
+    } catch (error) {
+      console.error('Error updating item:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+app.put('/set_ingredient_availability', async (req, res) => {
+try {
+    const ingredient_id = req.body.ingredient_id;
+    const new_availability = req.body.new_availability
+    await pool.query('UPDATE ingredients SET availability = $1 WHERE ingredients_id = $2', [new_availability, ingredient_id]);
+    res.status(200).json({ message: 'Item updated successfully' });
+} catch (error) {
+    console.error('Error updating item:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+});
 
 
 
@@ -233,14 +420,65 @@ app.get('/testdb', (req, res) => {
         });
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/myapp/build', 'index.html'));
+app.set('view engine', 'ejs');
+
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'SECRET' 
+}));
+
+app.get('/', function(req, res) {
+    res.render('pages/auth');
 });
 
-// app.listen(port, () => {
-//     console.log(`Example app listening at http://localhost:${port}`);
-// });
-
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
+});
+
+/*  PASSPORT SETUP  */
+
+const passport = require('passport');
+var userProfile;
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.set('view engine', 'ejs');
+
+app.get('/success', (req, res) => res.send(userProfile));
+app.get('/error', (req, res) => res.send("error logging in"));
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+});
+
+/*  Google AUTH  */
+ 
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GOOGLE_CLIENT_ID = 'our-google-client-id';
+const GOOGLE_CLIENT_SECRET = 'our-google-client-secret';
+passport.use(new GoogleStrategy({
+    clientID: "832055876235-3o5uqtqgj8o709loq1odq87a4mebgp1o.apps.googleusercontent.com",
+    clientSecret: "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",
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        userProfile=profile;
+        return done(null, userProfile);
+    }
+));
+ 
+app.get('/auth/google', 
+    passport.authenticate('google', { scope : ['profile', 'email'] }));
+ 
+app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/error' }),
+    function(req, res) {
+        // Successful authentication, redirect success.
+        res.redirect('http://localhost:3001/App');
 });
