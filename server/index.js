@@ -465,7 +465,7 @@ const GOOGLE_CLIENT_SECRET = 'our-google-client-secret';
 passport.use(new GoogleStrategy({
     clientID: "832055876235-3o5uqtqgj8o709loq1odq87a4mebgp1o.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "https://test331project.onrender.com/App"
+    callbackURL: "https://test1-1t87.onrender.com/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
         userProfile=profile;
