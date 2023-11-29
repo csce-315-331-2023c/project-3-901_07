@@ -40,7 +40,7 @@ process.on('SIGINT', function() {
 //     res.render('index', data);
 // });
 
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 
 app.use(session({
   resave: false,
@@ -477,7 +477,7 @@ const GOOGLE_CLIENT_SECRET = 'our-google-client-secret';
 passport.use(new GoogleStrategy({
     clientID: "832055876235-3o5uqtqgj8o709loq1odq87a4mebgp1o.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "https://shareteawebapp.onrender.com/auth/google/callback"
+    callbackURL: "https://test1-1t87.onrender.com/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
         userProfile=profile;
@@ -492,5 +492,5 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/error' }),
     function(req, res) {
         // Successful authentication, redirect success.
-        res.redirect('https://shareteawebapp.onrender.com/App');
+        res.redirect('https://sharetea-frontend.onrender.com/App');
 });
