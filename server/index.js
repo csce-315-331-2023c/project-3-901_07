@@ -40,6 +40,16 @@ process.on('SIGINT', function() {
 //     res.render('index', data);
 // });
 
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'SECRET' 
+}));
+
+app.get('/', function(req, res) {
+  res.render(path.join(__dirname, '../client/myapp/src/index.js'));
+});
+
 // Serve the index.html file (the entry point of your React app) for all GET requests
 
 // app.get('/', (req, res) => {
