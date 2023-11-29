@@ -33,12 +33,12 @@ process.on('SIGINT', function() {
     process.exit(0);
 });
 
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('index', data);
-});
+// app.get('/', (req, res) => {
+//     const data = {name: 'Mario'};
+//     res.render('index', data);
+// });
 
 // Serve the index.html file (the entry point of your React app) for all GET requests
 
