@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import Landing from "./Landing";
+import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
 
 const router = createBrowserRouter([
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
       {
         path: "/Weather",
         element: <Weather/>
-      }
+      },
+      {
+        path: "/Menu",
+        element: <Menu/>
+      },
     ]
   },
 ]);
