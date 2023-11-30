@@ -247,14 +247,34 @@ button.leftpanel-checkout-button:active {
   padding: 20px;
 }
 
-.drink-cards {
+.drink-cards-customer {
   margin: 0 auto;
   max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.drink-cards-employee {
+  margin: 0 auto;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 20px;
 }
 
 .fill-gap {
-  height: 20%;
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.fill-gap .waveanimation-container{
+}
+
+.fill-gap .waveanimation-container img{
+  width: 20vh;
+  height: auto;
 }

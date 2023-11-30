@@ -1,4 +1,4 @@
-.toppingcard{
+.toppingcard.customer{
     background-color: #EFEFEF;
     aspect-ratio: 1;
     text-align: center;
@@ -9,6 +9,21 @@
     border: 2px solid transparent;
     font-family: "Plus Jakarta Sans", sans-serif;
     transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+}
+
+.toppingcard.employee{
+    background-color: #EFEFEF;
+    aspect-ratio: 1/0.8;
+    text-align: center;
+    border-radius: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid transparent;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
+    display: flex;
+    font-weight: 500;
 }
 
 .toppingcard-text{
