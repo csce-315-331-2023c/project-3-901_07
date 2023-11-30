@@ -9,6 +9,16 @@ function ToppingCard({ topping, toppingClick, isActiveEdit }) {
     setIsActive(!isActive);
   };
 
+  function getToppingImage() {
+    try {
+        const imagePath = require(`../../../../assets/images/toppings/${topping.name.toLowerCase()}.png`);
+        return imagePath;
+    } catch (err) {
+        return defaultToppingImage;
+    }
+
+}
+
 useEffect(() => {
   function checkIfToppingCardIsActive(){
     if(isActiveEdit){
@@ -28,7 +38,7 @@ useEffect(() => {
     >
       <img
         className="toppingcard-image"
-        src={defaultToppingImage}
+        src={getToppingImage()}
         alt="Default Topping"
       />
       <div className="topingcard-text">
