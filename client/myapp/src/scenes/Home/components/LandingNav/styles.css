@@ -1,0 +1,49 @@
+.nav-wrapper {
+    max-height: 75px;
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    box-sizing: border-box;
+  }
+  
+  .navigation-bar {
+    display: flex;
+  }
+  
+  .nav-button {
+    margin-right: 30px; /* Adjust margin as needed */
+    cursor: pointer;
+    transition: color 0.5s;
+  }
+  
+  .nav-button:hover {
+    color: #ed323a;
+  }
+  
+  .sign-in {
+    cursor: pointer;
+    background-color: white;
+    color: #ed323a;
+    padding: 8px 16px;
+    border: 2px solid #ed323a;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.5s;
+  }
+  
+  .sign-in:hover {
+    background-color: #ed323a;
+    color: white;
+  }
+  .landing-logo{
+    width: 100px;
+  }

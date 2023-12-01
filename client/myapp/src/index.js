@@ -9,7 +9,7 @@ import App from "./App";
 import Landing from "./Landing";
 import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
-
+import NavigationBar from "./scenes/Home/components/LandingNav";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/Menu",
         element: <Menu/>
+      },
+      {
+        path: "/Nav",
+        element: <NavigationBar/>
       },
     ]
   },
