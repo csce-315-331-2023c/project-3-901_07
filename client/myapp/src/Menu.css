@@ -1,5 +1,158 @@
-p{
+body {
+    background-color: #f4f4f4; /* Background color of the menu board */
+    font-family: 'Arial', sans-serif; /* Font family for the menu */
+  }
+  
+  .menu-board {
+    max-width: 1200px; /* Increase the width to allow for more horizontal spacing */
+    margin: 0 auto; /* Center the menu board */
+    display: grid; /* Use grid layout for the entire menu board */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 30px; /* Spacing between the boxes */
+    padding: 20px; /* Padding around the menu board */
+  }
+  
+  .menu-category {
+    background-color: #ffffff; /* Background color of the category boxes */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Box shadow for a subtle depth effect */
+    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 20px; /* Space between categories */
+    padding: 20px; /* Padding inside the boxes */
+    display: flex; /* Use Flexbox to create a column layout */
+    flex-direction: column; /* Stack the category title and the grid container */
+
+    overflow: auto; /* Ensure the border-radius clips the content */
+
+  }
+
+  
+  .menu-category h3 {
+    background-color: #ED323A; /* ShareTea red for category headers */
+    color: #ffffff; /* White text for contrast */
+    text-transform: uppercase;
+    font-size: 1.5em;
+    padding: 15px; /* Padding for the headers */
+    margin: 0; /* Remove default margins */
+    margin-bottom: 10px;
+  }
+
+  .menu-category-items {
+    display: flex; /* Use flexbox for the container */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+    
+  }
+  
+  .menu-item {
+    background: #f9f9f9; /* Slightly off-white background for the items */
+    padding: 10px;
+    border-radius: 4px;
+    display: flex; /* Use flexbox for each item */
+    justify-content: space-between; /* Name on the left, price on the right */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 8px; /* Space between menu items */
+  }
+
+  .item-name {
+    flex: 1; /* Allow name to grow and fill space */
+    text-align: left; /* Align the name to the left */
+  }
+  
+  .item-price {
+    white-space: nowrap; /* Keep the price in a single line */
+    text-align: right; /* Align the price to the right */
+  }
+
+  
+  .menu-item:last-child {
+    border-bottom: none; /* No separator after the last item */
+    margin-bottom: 0;
+  }
+  
+  /* Add color to the headings */
+  p {
     text-align: center;
-    color: red;
+    color: red; /* Keep the red color as specified or change as needed */
+  }
+  
+  /* Align text to the center for larger screens */
+  @media (min-width: 768px) {
+    .menu-category-items {
+      grid-template-columns: repeat(3, 1fr); /* Three items per row on larger screens */
+    }
+  }
+
+
+
+#creama {
+background-color: #e0e0e0; /* Example background color */
+border: 2px solid #d0d0d0; /* Example border */
+}
+
+#creama .menu-category-items {
+    padding-bottom: 0; /* Removes extra padding at the bottom */
+  }
+
+
+
+#creama .menu-item {
+font-weight: bold; /* Example to make text bold */
+}
+
+#fresh-milk {
+    background-color: #ffffff; /* Example background color */
+    border: 2px solid #d0d0d0; /* Example border */
+}
+#fresh-milk .menu-item {
+    font-weight: bold; /* Example to make text bold */
+    margin-bottom: 8px; 
+}
+
+
+
+#fruit-tea {
+    background-color: #fff7e6; /* Example background color for Fruit Tea box */
+    border: 1px solid #ffcc80; /* Example border for Fruit Tea box */
     
 }
+
+#fruit-tea .menu-item {
+    color: #000000; /* Example font color for items in Fruit Tea box */
+    font-weight: bold; /* Example to make text bold */
+}
+
+
+#ice-blend {
+    background-color: #4379ca; /* Example background color for Fruit Tea box */
+    border: 1px solid rgb(0, 11, 165); /* Example border for Fruit Tea box */
+}
+    
+#ice-blend .menu-item {
+    color: #000000; /* Example font color for items in Fruit Tea box */
+    font-weight: bold; /* Example to make text bold */
+}
+
+
+
+#milk-tea {
+    background-color: #43ca60; /* Example background color for Fruit Tea box */
+    border: 1px solid rgb(0, 90, 20); /* Example border for Fruit Tea box */
+}
+    
+#milk-tea .menu-item {
+    color: #000000; /* Example font color for items in Fruit Tea box */
+    font-weight: bold; /* Example to make text bold */
+}
+
+
+#mojito {
+    background-color: #d84d99; /* Example background color for Fruit Tea box */
+    border: 1px solid rgb(75, 0, 90); /* Example border for Fruit Tea box */
+}
+    
+#mojito .menu-item {
+    color: #000000; /* Example font color for items in Fruit Tea box */
+        font-weight: bold; /* Example to make text bold */
+}
+
+

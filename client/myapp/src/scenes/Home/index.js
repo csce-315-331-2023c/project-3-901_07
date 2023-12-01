@@ -11,11 +11,6 @@ function Home({ webServerAddress }) {
   const [drinkEdited, setDrinkToEdit] = useState(null);
   const [cart, setCart] = useState([]);
 
-
-
-
-
-
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
   useEffect(() => {
@@ -45,9 +40,9 @@ function Home({ webServerAddress }) {
   }, [webServerAddress]);
 
   useEffect(() => {
-    function setDrinkEditedDefault(){
-      if (modal=== false) {
-      setDrinkToEdit(null);
+    function setDrinkEditedDefault() {
+      if (modal === false) {
+        setDrinkToEdit(null);
       }
     }
     setDrinkEditedDefault();
@@ -64,8 +59,6 @@ function Home({ webServerAddress }) {
   } else {
     document.body.classList.remove("active-modal");
   }
-
-
 
   return (
     <div className="row content">
@@ -107,10 +100,8 @@ function LeftPanel({
   cart,
   toggleModal,
   setDrinkToEdit,
-  webServerAddress
+  webServerAddress,
 }) {
-  
-
   function deleteDrinkItem(indexToDelete) {
     setCart(cart.filter((_, index) => index !== indexToDelete));
   }
@@ -130,10 +121,7 @@ function LeftPanel({
           {data &&
             Object.entries(data.menu_items).map(([category, items]) => (
               <li key={category}>
-                <a
-
-                  href={`#${category}`}
-                >
+                <a href={`#${category}`}>
                   <div
                     className={
                       currCategory === category
@@ -159,14 +147,13 @@ function LeftPanel({
                   <p className="price">${drinkItem.totalPrice}</p>
                 </div>
                 <div className="drink-cart-component-footer">
-                <div
+                  <div
                     className="edit-drink-button"
                     onClick={() => editDrinkItem(index)}
                   >
                     Edit
                   </div>
-                  <div style={{ flex: 1 }}>
-                  </div>
+                  <div style={{ flex: 1 }}></div>
                   <div
                     className="delete-drink-button"
                     onClick={() => deleteDrinkItem(index)}
@@ -192,150 +179,158 @@ function LeftPanel({
           </p>
         </div>
       </div>
-      <button className="leftpanel-checkout-button" onClick={() => checkout(cart, webServerAddress, setCart)}>Checkout</button>
+      <button
+        className="leftpanel-checkout-button"
+        onClick={() => checkout(cart, webServerAddress, setCart)}
+      >
+        Checkout
+      </button>
     </div>
   );
 }
 
-  async function checkout(cart, webServerAddress, setCart){
-
-    // Make customer
-    try{
-    await fetch(webServerAddress + '/make_customer', {
-      method: 'POST',
+async function checkout(cart, webServerAddress, setCart) {
+  // Make customer
+  try {
+    await fetch(webServerAddress + "/make_customer", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: 'NULL', // Replace with actual customer name if available
+        name: "NULL", // Replace with actual customer name if available
       }),
     });
 
-  // Get last customer
-      const customerResponse = await fetch(webServerAddress + '/last_customer');
-      const customerData = await customerResponse.json();
-      const last_customer_id = customerData[0].customer_id;
+    // Get last customer
+    const customerResponse = await fetch(webServerAddress + "/last_customer");
+    const customerData = await customerResponse.json();
+    const last_customer_id = customerData[0].customer_id;
 
+    // make order
 
-      // make order
+    const totalCost = cart.reduce((total, item) => total + item.totalPrice, 0);
+    const employee_id = 0; // FIXME
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 10);
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-      const totalCost = cart.reduce((total, item) => total + item.totalPrice, 0);
-      const employee_id = 0 // FIXME
-      const now = new Date();
-      const formattedDate = now.toISOString().slice(0, 10);
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    await fetch(webServerAddress + "/make_order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customer_id: last_customer_id,
+        employee_id: 0, // FIXME get real employee id
+        date: formattedDate,
+        price: totalCost,
+        time: formattedTime,
+      }),
+    });
 
-      await fetch(webServerAddress + '/make_order', {
-        method: 'POST',
+    const orderResponse = await fetch(webServerAddress + "/last_order");
+    const orderData = await orderResponse.json();
+    const last_order_id = orderData[0].order_id;
+
+    // make drinks
+    for (const drink of cart) {
+      const menu_item_id = drink.drink.menu_item_id;
+      const sweetness = drink.sugarLevel;
+      const price = drink.totalPrice;
+      const ice_level = drink.iceLevel;
+
+      await fetch(webServerAddress + "/make_drink", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customer_id: last_customer_id,
-          employee_id: 0, // FIXME get real employee id
-          date: formattedDate,
-          price: totalCost,
-          time: formattedTime,
+          menu_item_id: menu_item_id,
+          order_id: last_order_id,
+          sweetness: sweetness,
+          price: price,
+          ice_level: ice_level,
         }),
       });
 
+      const drinkResponse = await fetch(webServerAddress + "/last_drink");
+      const drinkData = await drinkResponse.json();
+      const last_drink_id = drinkData[0].drink_id;
 
-      const orderResponse = await fetch(webServerAddress + '/last_order');
-      const orderData = await orderResponse.json();
-      const last_order_id = orderData[0].order_id;
+      // make_drink_topping mapper
+      for (const topping of drink.toppings) {
+        const topping_id = topping.topping_id;
 
-      // make drinks
-      for (const drink of cart) {
-
-        const menu_item_id = drink.drink.menu_item_id;
-        const sweetness = drink.sugarLevel;
-        const price = drink.totalPrice;
-        const ice_level = drink.iceLevel;
-
-        await fetch(webServerAddress + '/make_drink', {
-          method: 'POST',
+        await fetch(webServerAddress + "/make_drink_topping", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            menu_item_id: menu_item_id, 
-            order_id: last_order_id, 
-            sweetness: sweetness,
-            price: price, 
-            ice_level: ice_level, 
+            drink_id: last_drink_id,
+            topping_id: topping_id,
           }),
         });
-    
-    
-        const drinkResponse = await fetch(webServerAddress + '/last_drink');
-        const drinkData = await drinkResponse.json();
-        const last_drink_id = drinkData[0].drink_id;
 
-        // make_drink_topping mapper
-        for (const topping of drink.toppings){
+        // update topping availability
 
-          const topping_id = topping.topping_id;
+        const toppingResponse = await fetch(
+          webServerAddress + `/get_topping_by_id/${topping_id}`
+        );
+        const new_topping_data = await toppingResponse.json();
+        const current_topping_availability = new_topping_data.availability;
 
-          await fetch(webServerAddress + '/make_drink_topping', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              drink_id: last_drink_id, 
-              topping_id: topping_id,  
-            }),
-          });
-
-          // update topping availability
-
-          const toppingResponse = await fetch(webServerAddress+`/get_topping_by_id/${topping_id}`);
-          const new_topping_data = await toppingResponse.json();
-          const current_topping_availability = new_topping_data.availability;
-
-          await fetch(webServerAddress+'/set_topping_availability', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              topping_id: topping_id, 
-              new_availability: current_topping_availability - 1}),
-          });
-        }
-
-        // update ingredients that are in the drink
-
-        // get ingredients
-        const pairResponse = await fetch(webServerAddress+`/get_menu_item_ingredients_by_id/${menu_item_id}`);
-        const ingredients = await pairResponse.json();
-        
-        for(const row of ingredients){
-          const ingredientsResponse = await fetch(webServerAddress+`/get_ingredient_by_id/${row.ingredients_id}`);
-          const ingredient = await ingredientsResponse.json();
-          
-          await fetch(webServerAddress+'/set_ingredient_availability', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              ingredient_id: row.ingredients_id, 
-              new_availability: ingredient.availability - 1}),
-          });
-        }
+        await fetch(webServerAddress + "/set_topping_availability", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            topping_id: topping_id,
+            new_availability: current_topping_availability - 1,
+          }),
+        });
       }
-  }
-  catch (error){
-    console.error('Checkout Error:', error);
+
+      // update ingredients that are in the drink
+
+      // get ingredients
+      const pairResponse = await fetch(
+        webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
+      );
+      const ingredients = await pairResponse.json();
+
+      for (const row of ingredients) {
+        const ingredientsResponse = await fetch(
+          webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
+        );
+        const ingredient = await ingredientsResponse.json();
+
+        await fetch(webServerAddress + "/set_ingredient_availability", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ingredient_id: row.ingredients_id,
+            new_availability: ingredient.availability - 1,
+          }),
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Checkout Error:", error);
   }
   setCart([]);
 }
 
-function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
+function DrinkPanel({ currCategory, toggleModal, data, setCategory }) {
   const drinkPanelRef = useRef(null);
   useEffect(() => {
     const options = {
@@ -349,7 +344,6 @@ function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
         if (entry.isIntersecting) {
           console.log("Current Category: ", entry.target.textContent);
           setCategory(entry.target.textContent);
-
         }
       });
     };
@@ -370,7 +364,8 @@ function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
       });
     }
   }, [data, setCategory]);
-
+  // console.log("DATA: ");
+  // console.log(data);
   return (
     <div className="drinkpanel">
       {data &&
@@ -379,11 +374,13 @@ function DrinkPanel({ currCategory , toggleModal, data, setCategory}) {
             <h3>{category}</h3>
             <div className="drink-cards">
               {items.map((item) => (
-                <DrinkCard
-                  toggleModal={() => toggleModal(item)}
-                  drinkProperties={item}
-                  key={item.name}
-                />
+                <div>
+                  <DrinkCard
+                    toggleModal={() => toggleModal(item)}
+                    drinkProperties={item}
+                    key={item.name}
+                  />
+                </div>
               ))}
             </div>
           </div>
