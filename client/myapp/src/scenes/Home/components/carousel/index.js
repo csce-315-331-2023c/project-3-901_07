@@ -2,12 +2,16 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import shareTeaLogo from "../../../../assets/images/logo.png"; // Update the path accordingly
+import cookie from "../../../../assets/images/Carousel/cookie.png";
+import earl from "../../../../assets/images/Carousel/earl grey.jpg";
+import fluffy from "../../../../assets/images/Carousel/fluffy.jpg";
 import './styles.css'; // You can create this file for custom styles
 
 const images = [
-  { src: shareTeaLogo, caption: 'this is boba' },
-  { src: shareTeaLogo, caption: 'this is ice' },
+  { src: cookie},
+  { src: earl},
+  {src: fluffy},
+  
   // Add more images as needed
 ];
 
@@ -26,7 +30,7 @@ const ImageCarousel = () => {
         {images.map((image, index) => (
           <div key={index} className="carousel-item">
             <img src={image.src} alt={`slide ${index + 1}`} />
-            <div className="caption">{image.caption}</div>
+            
           </div>
         ))}
       </Slider>

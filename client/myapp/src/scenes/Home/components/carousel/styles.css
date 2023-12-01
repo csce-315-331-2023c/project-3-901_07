@@ -1,0 +1,28 @@
+.image-carousel {
+  align-items: center;
+  width: 100vw;
+  max-width: auto;
+  margin: auto;
+}
+
+.carousel-item {
+  position: relative;
+  width: 100vw; /* Set width to 100vw */
+  height: 75vh; /* Set height to 100vh if you want it to take up the full viewport height */
+}
+
+.carousel-item img {
+  width: 100%; /* Make sure the image takes up 100% of its parent container (carousel-item) */
+  height: 100%; /* If you set height: 100vh, you can also set height: 100% for the image */
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+}
