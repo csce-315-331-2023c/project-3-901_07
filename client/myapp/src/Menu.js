@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Menu.css';
 import shareTeaLogo from './assets/images/sharetealogo.png';
+import creamaImage from "./assets/images/drinks/coffee creama.png";
 function Menu() {
   const [drinkAndToppingData, setdrinkAndToppingData] = useState(false);
   const webServerAddress = process.env.REACT_APP_WEB_SERVER_ADDRESS;
@@ -48,22 +49,30 @@ function Menu() {
         </div>
       </div>
 
-      {/* The rest of your menu */}
       <div className="menu-board">
         {drinkAndToppingData &&
-        Object.entries(drinkAndToppingData.menu_items).map(([category, items]) => (
-          <div className="menu-category" id={category.replace(/\s+/g, '-').toLowerCase()} key={category}>
-            <h3>{category}</h3>
-            <div className="menu-category-items">
-              {items.map((item, index) => (
-                <div className="menu-item" key={index}>
-                  <div className="item-name">{item.name}</div>
-                  <div className="item-price">{item.price}</div>
+        Object.entries(drinkAndToppingData.menu_items).map(([category, items]) => {
+          const isCreamaCategory = category.toLowerCase() === 'creama';
+          return (
+            <div className="menu-category" id={category.replace(/\s+/g, '-').toLowerCase()} key={category}>
+              <h3>{category}</h3>
+              {/* If the category is Creama, display the image */}
+              {isCreamaCategory && (
+                <div className="creama-image-container">
+                  <img src={creamaImage} alt="Creama Beverage" className="creama-image" />
                 </div>
-              ))}
+              )}
+              <div className="menu-category-items">
+                {items.map((item, index) => (
+                  <div className="menu-item" key={index}>
+                    <div className="item-name">{item.name}</div>
+                    <div className="item-price">{item.price}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );
