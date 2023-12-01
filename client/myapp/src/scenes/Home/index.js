@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import DrinkCard from "./components/drinkcard";
 import DrinkModal from "./components/drinkmodal";
+import waveanimation from "../../assets/images/waving-wave-hello.gif";
 import "./styles.css";
 
 function Home({ webServerAddress }) {
+  const [currView, setcurrView] = useState("customer");
   const [currCategory, setCategory] = useState(null);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
@@ -77,6 +79,7 @@ function Home({ webServerAddress }) {
         toggleModal={toggleModal}
         data={data}
         setCategory={setCategory}
+        currView = {currView}
       />
       {modal && (
         <DrinkModal
@@ -87,6 +90,7 @@ function Home({ webServerAddress }) {
           setCart={setCart}
           drinkEdited={drinkEdited}
           setDrinkToEdit={setDrinkToEdit}
+          currView = {currView}
         />
       )}
     </div>
@@ -330,7 +334,7 @@ async function checkout(cart, webServerAddress, setCart) {
   setCart([]);
 }
 
-function DrinkPanel({ currCategory, toggleModal, data, setCategory }) {
+function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) {
   const drinkPanelRef = useRef(null);
   useEffect(() => {
     const options = {
@@ -366,26 +370,47 @@ function DrinkPanel({ currCategory, toggleModal, data, setCategory }) {
   }, [data, setCategory]);
   // console.log("DATA: ");
   // console.log(data);
+
+  
+  let drinkcards = "drink-cards-";
+  let viewSuffix = "";
+  switch (currView) {
+    case "customer":
+      viewSuffix = "customer";
+      break;
+    case "cashier":
+    case "manager":
+      viewSuffix = "employee";
+      break;
+  }
+  
+  drinkcards += viewSuffix;
+
   return (
     <div className="drinkpanel">
       {data &&
         Object.entries(data.menu_items).map(([category, items]) => (
           <div id={category} className="drinkpanel-category" key={category}>
             <h3>{category}</h3>
-            <div className="drink-cards">
+            <div className={drinkcards}>
               {items.map((item) => (
                 <div>
                   <DrinkCard
                     toggleModal={() => toggleModal(item)}
                     drinkProperties={item}
                     key={item.name}
+                    currView = {currView}
                   />
                 </div>
               ))}
             </div>
           </div>
         ))}
-      <div className="fill-gap"></div>
+      <div className="fill-gap">
+        <div className="waveanimation-container">
+          <img  src={waveanimation} alt="wave animation" />
+        </div>
+      </div>
     </div>
   );
 }

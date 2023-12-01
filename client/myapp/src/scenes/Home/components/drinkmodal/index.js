@@ -13,6 +13,7 @@ function DrinkModal({
   setCart,
   drinkEdited,
   setDrinkToEdit,
+  currView
 }) {
   const [sugarLevel, setSugarLevel] = useState(null);
   const [iceLevel, setIceLevel] = useState(null);
@@ -90,6 +91,7 @@ function DrinkModal({
               setSelectedToppings={setSelectedToppings}
               totalPrice={totalPrice}
               setTotalPrice={setTotalPrice}
+              currView={currView}
             />
           </div>
           <div className="drink-modal-right-panel">
@@ -153,6 +155,7 @@ function ToppingsSection({
   setSelectedToppings,
   totalPrice,
   setTotalPrice,
+  currView
 }) {
   // console.log(toppings);
   // console.log(selectedToppings);
@@ -172,9 +175,23 @@ function ToppingsSection({
     });
   }
 
+
+  let toppingscontainer = "toppings-container ";
+  let viewSuffix = "";
+  switch (currView) {
+    case "customer":
+      viewSuffix = "customer";
+      break;
+    case "cashier":
+    case "manager":
+      viewSuffix = "employee";
+      break;
+  }
+  toppingscontainer += viewSuffix;
+
   return (
     <div className="toppings-section">
-      <div className="toppings-container">
+      <div className={toppingscontainer}>
         {toppings.map((topping, index) => (
           <div>
             <ToppingCard
@@ -184,6 +201,7 @@ function ToppingsSection({
               isActiveEdit={selectedToppings.some(
                 (toppings) => toppings.name === topping.name
               )}
+              currView={currView}
             />
           </div>
         ))}

@@ -290,11 +290,22 @@
     padding-right: 10px;
 }
 
-.toppings-container{
+.toppings-container.customer{
     overflow: visible;
     display:grid;
     grid-template-columns: repeat(5,1fr);
     column-gap: 20px;
+    row-gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.toppings-container.employee{
+    overflow: visible;
+    display:grid;
+    grid-template-columns: repeat(7,1fr);
+    column-gap: 10px;
     row-gap: 10px;
     padding-left: 10px;
     padding-right: 10px;
