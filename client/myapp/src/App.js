@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className = "box">
-      <NavBar toggleSignInModal={toggleSignInModal} />
+      <NavBar webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
       <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
       {signInModal && <SignInModal toggleModal={toggleSignInModal} />}
     </div>

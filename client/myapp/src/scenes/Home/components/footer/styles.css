@@ -1,0 +1,70 @@
+/* styles.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  footer {
+    background-color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .container {
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logoImg {
+    width: 40px;
+    margin-right: 10px;
+    
+  }
+  
+  .logoText {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  
+  .social {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+  
+  .socialLink {
+    margin: 5px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .bottomBar {
+    margin-top: 20px;
+  }
+
+  /* styles.css */
+
+/* ... (previous styles) */
+
+.socialLink {
+    margin: 5px;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .socialIcon {
+    margin-right: 5px;
+  }
+  
+  
