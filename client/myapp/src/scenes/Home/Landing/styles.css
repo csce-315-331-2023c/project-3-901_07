@@ -1,0 +1,25 @@
+.Landing {
+    text-align: center;
+  }
+
+  body, html {
+    overflow-x: hidden;
+  }
+  
+  
+  .about-us {
+    padding-top: 100px;
+    max-width: 50%;
+    margin: auto;
+    text-align: center; /* Align text to the left within the "about-us" div */
+  }
+  
+  .about-us h4 {
+    font-size: 40px; /* Adjust the font size for the heading */
+  }
+  
+  .about-us p {
+    font-size: 24px; /* Adjust the font size for the paragraph */
+    line-height: 1.5; /* Set the line height for better readability */
+  }
+  

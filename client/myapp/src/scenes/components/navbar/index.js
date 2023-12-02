@@ -1,7 +1,13 @@
 import "./styles.css";
 import shareTeaLogo from "../../../assets/images/sharetealogo.png";
 
-function NavBar({toggleSignInModal}) {
+function NavBar({webServerAddress}) {
+
+  const redirectToGoogleOAuth = () => {
+    // Redirect to Google OAuth page
+    window.location.href = webServerAddress + "/auth/google";
+  };
+
   return (
     <nav>
       <div id="circle">
@@ -15,7 +21,7 @@ function NavBar({toggleSignInModal}) {
         </div>
         <div className="nav-wrapper-right-section">
           <ul>
-            <li><button onClick={toggleSignInModal} className = "signin-button">Employee Sign In</button></li>
+            <li><button onClick={redirectToGoogleOAuth} className = "signin-button">Employee Sign In</button></li>
           </ul>
         </div>
       </div>

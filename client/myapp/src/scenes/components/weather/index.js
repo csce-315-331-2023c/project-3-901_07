@@ -1,3 +1,5 @@
+import { faBolt, faCloud, faCloudShowersHeavy, faCloudSunRain, faSnowflake, faSun, faWind } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './styles.css';
@@ -9,7 +11,7 @@ const Weather = () => {
 
   const API_KEY = '5bf0dc644b6de975192bba3ead4c5b92';
   const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
-
+  const possible = ["Clouds", "Clear", "Atmosphere", "Snow", "Rain", "Drizzle", "Thuderstorm"];
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -46,6 +48,27 @@ const Weather = () => {
     }
   };
 
+  const getWeatherIcon = (condition) => {
+    switch (condition) {
+      case 'Clouds':
+        return <FontAwesomeIcon icon={faCloud} />;
+      case 'Clear':
+        return <FontAwesomeIcon icon={faSun} />;
+      case 'Atmosphere':
+        return <FontAwesomeIcon icon={faWind} />;
+      case 'Snow':
+        return <FontAwesomeIcon icon={faSnowflake} />;
+      case 'Rain':
+        return <FontAwesomeIcon icon={faCloudShowersHeavy} />;
+      case 'Drizzle':
+        return <FontAwesomeIcon icon={faCloudSunRain} />;
+      case 'Thunderstorm':
+        return <FontAwesomeIcon icon={faBolt} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       {!userLocation ? (
@@ -54,11 +77,20 @@ const Weather = () => {
         <>
           {weather ? (
             <div className='Holder'>
-                {console.log(weather)}
-              <h2>Weather in {weather.name}, {weather.sys.country}</h2>
-              <p>Temperature: {weather.main.temp} °F</p>
-              <p>Weather: {weather.weather[0].description}</p>
-              <p>Humidity: {weather.main.humidity}%</p>
+              <div className='TempHolder'>
+                <p1>{weather.name}</p1>
+                <p1>{weather.main.temp} °F</p1>
+              </div>
+              <div className='WeatherHolder'>
+                {weather.weather[0].main && (
+                  <p1>
+                    {getWeatherIcon(weather.weather[0].main)}
+                  </p1>
+                )}
+                <p1>{weather.weather[0].description}</p1>
+              </div>
+              
+              
             </div>
           ) : (
             <p>Retrieving weather info...</p>

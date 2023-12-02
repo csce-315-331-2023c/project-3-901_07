@@ -133,7 +133,6 @@ function Menu() {
       description: "A family favorite, featuring the simple goodness of fresh milk in a comforting and familiar taste."
     }
   ];
-
   const fruitTeaDrinksInfo = [
     {
       name: "Mango Green Tea",
@@ -368,6 +367,7 @@ function Menu() {
         })}
       </div>
     </>
+
   );
 }
 
