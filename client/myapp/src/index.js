@@ -9,6 +9,7 @@ import App from "./App";
 import Landing from "./Landing";
 import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
+import Trends from"./scenes/Trends";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/Menu",
         element: <Menu/>
+      },
+      {
+        path: "/Trends", 
+        element: <Trends/>
       },
     ]
   },
