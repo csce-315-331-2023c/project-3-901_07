@@ -7,19 +7,27 @@ const NavigationBar = () => {
     const navigate = useNavigate();
 
   const handleButtonClick = (index) =>{
+    console.log(index);
     switch(index){
         case 0:
-            navigate('');
+            navigate('/');
+            break;
         case 1:
             navigate('/App');
+            break;
         case 2:
             navigate('/App');
+            break;
         case 3:
-            navigate('/Menu');
+            navigate('/');
+            break;
+        default:
+            navigate('/');
+            break;
     }
   }
 
-  const buttons = ['Home', 'New', 'Locations', 'Menu'];
+  const buttons = ['Home', 'Order', 'Locations', 'Menu'];
 
   return (
     <div className="nav-wrapper">

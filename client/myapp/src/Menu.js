@@ -280,7 +280,7 @@ function Menu() {
                 {items.map((item, index) => (
                   <div className="menu-item" key={index}>
                     <div className="item-name">{item.name}</div>
-                    <div className="item-price">{item.price}</div>
+                    <div className="item-price">${item.price}</div>
                   </div>
                 ))}
                 {isCreamaCategory && (
