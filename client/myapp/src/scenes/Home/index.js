@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DrinkCard from "./components/drinkcard";
 import DrinkModal from "./components/drinkmodal";
 import waveanimation from "../../assets/images/waving-wave-hello.gif";
+
 import dollaricon from "../../assets/images/dollaricon.png";
 import carticon from "../../assets/images/cart.png";
 import "./styles.css";
@@ -47,6 +48,7 @@ function Home({ webServerAddress }) {
 
   useEffect(() => {
     function setDrinkEditedDefault() {
+
       if (drinkModal === false) {
         setDrinkToEdit(null);
       }
@@ -59,6 +61,7 @@ function Home({ webServerAddress }) {
     setSelectedDrink(drink); // Set the selected drink here
     setDrinkModal(!drinkModal);
   };
+
 
   //checkoutModal
   const toggleCheckoutModal = () => {
@@ -99,6 +102,7 @@ function Home({ webServerAddress }) {
           setCart={setCart}
           drinkEdited={drinkEdited}
           setDrinkToEdit={setDrinkToEdit}
+
           currView={currView}
         />
       )}
@@ -444,6 +448,7 @@ function LeftPanel({
   );
 }
 
+
 // async function checkout(cart, webServerAddress, setCart) {
 //   // Make customer
 //   try {
@@ -627,6 +632,7 @@ function DrinkPanel({
   }, [data, setCategory]);
   // console.log("DATA: ");
   // console.log(data);
+
 
   let drinkcards = "drink-cards-";
   let viewSuffix = "";

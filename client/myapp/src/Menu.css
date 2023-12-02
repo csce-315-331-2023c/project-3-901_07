@@ -1,0 +1,405 @@
+
+.menu-board {
+    max-width: 1200px; /* Increase the width to allow for more horizontal spacing */
+    margin: 0 auto; /* Center the menu board */
+    display: grid; /* Use grid layout for the entire menu board */
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); /* Responsive columns */
+    gap: 30px; /* Spacing between the boxes */
+    padding: 40px; /* Padding around the menu board */
+}
+  
+.menu-category {
+    background-color: #ffffff; /* Background color of the category boxes */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Box shadow for a subtle depth effect */
+    border-radius: 30px; /* Rounded corners */
+    margin-bottom: 0px; /* Space between categories */
+    padding: 15px; /* Padding inside the boxes */
+    display: flex; /* Use Flexbox to create a column layout */
+    flex-direction: column; /* Stack the category title and the grid container */
+    overflow: auto; /* Ensure the border-radius clips the content */
+}
+
+  
+.menu-category h3 {
+    background-color: #ED323A; /* ShareTea red for category headers */
+    color: #ffffff; /* White text for contrast */
+    text-transform: uppercase;
+    font-size: 1.5em;
+    padding: 15px; /* Padding for the headers */
+    margin: 0; /* Remove default margins */
+    margin-bottom: 10px;
+    border-radius: 30px; /* Rounded corners */
+}
+
+.menu-category-items {
+    display: flex; /* Use flexbox for the container */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+}
+  
+.menu-item {
+    background: #f9f9f9; /* Slightly off-white background for the items */
+    padding: 10px;
+    border-radius: 20px;
+    display: flex; /* Use flexbox for each item */
+    justify-content: space-between; /* Name on the left, price on the right */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 8px; /* Space between menu items */
+}
+
+.item-name {
+    flex: 1; /* Allow name to grow and fill space */
+    text-align: left; /* Align the name to the left */
+}
+
+.item-price {
+    white-space: nowrap; /* Keep the price in a single line */
+    text-align: right; /* Align the price to the right */
+}
+
+  
+.menu-item:last-child {
+    border-bottom: none; /* No separator after the last item */
+    margin-bottom: 0;
+}
+
+
+
+/* Align text to the center for larger screens */
+@media (min-width: 600px) {
+    .menu-category-items {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+
+
+
+
+
+/* creama */
+#creama {
+    background-color: #FFFDD0;
+    border: 3px solid #e9e486;
+}
+
+#creama .menu-item {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+/* fresh milk */
+#fresh-milk {
+    background-color: #ffffff;
+    border: 3px solid #d0d0d0;
+}
+
+#fresh-milk .menu-item {
+    font-weight: bold;
+    margin-bottom: 8px; 
+}
+
+
+/* fruit tea */
+#fruit-tea {
+    background-color: #e58d8d;
+    border: 3px solid #b44444;
+}
+
+#fruit-tea .menu-item {
+    color: #000000;
+    font-weight: bold;
+}
+
+/* ice blend */
+#ice-blend {
+    background-color: #ABD1F3;
+    border: 3px solid rgb(52, 124, 184);
+}
+    
+#ice-blend .menu-item {
+    color: #000000;
+    font-weight: bold;
+}
+
+/* milk tea */
+#milk-tea {
+    background-color: #fdfff5;
+    border: 3px solid rgb(146, 146, 146);
+}
+    
+#milk-tea .menu-item {
+    color: #000000;
+    font-weight: bold;
+}
+
+
+/* mojito */
+#mojito {
+    background-color: #98ff98;
+    border: 3px solid rgb(0, 158, 34);
+}
+    
+#mojito .menu-item {
+    color: #000000;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+/* Pictures and descriptions */
+
+
+.creama-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+  
+.creama-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.creama-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+  
+.creama-drink-info {
+    text-align: center;
+}
+
+.creama-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+  
+.creama-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+.fresh-milk-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+
+.fresh-milk-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fresh-milk-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+
+.fresh-milk-drink-info {
+    text-align: center;
+}
+
+.fresh-milk-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.fresh-milk-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+.fruit-tea-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+
+.fruit-tea-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fruit-tea-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+
+.fruit-tea-drink-info {
+    text-align: center;
+}
+
+.fruit-tea-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.fruit-tea-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+.ice-blend-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+
+.ice-blend-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ice-blend-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+
+.ice-blend-drink-info {
+    text-align: center;
+}
+
+.ice-blend-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.ice-blend-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+.milk-tea-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+
+.milk-tea-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.milk-tea-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+
+.milk-tea-drink-info {
+    text-align: center;
+}
+
+.milk-tea-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.milk-tea-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+.mojito-drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates 5 columns; adjust the number of columns based on the number of drinks */
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: center; /* Center the grid items horizontally */
+    align-items: center; /* Align the grid items vertically */
+}
+
+.mojito-drink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mojito-image {
+    width: 100%; /* This will make the image responsive within the container */
+    height: auto;
+    margin-bottom: 8px; /* Space between the image and the info */
+}
+
+.mojito-drink-info {
+    text-align: center;
+}
+
+.mojito-drink-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.mojito-drink-description {
+    font-size: 1em;
+    margin: 0;
+}
