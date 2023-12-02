@@ -33,7 +33,7 @@ function DrinkModal({
         toppings: selectedToppings,
         totalPrice: parseFloat(totalPrice.toFixed(2)),
       };
-      console.log(drink);
+      // console.log(drink);
       setCart((prevList) => [...prevList, drink]);
       toggleModal();
     }
@@ -66,7 +66,7 @@ function DrinkModal({
 
   return (
     <div className="modal">
-      <div onClick={toggleModal} className="overlay"></div>
+      <div onClick={toggleModal} className="drink-modal-overlay"></div>
       <div className="drink-modal-content">
         <button className="close-modal" onClick={toggleModal}>
           CLOSE
