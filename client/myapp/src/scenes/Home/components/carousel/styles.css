@@ -8,7 +8,7 @@
 .carousel-item {
   position: relative;
   width: 100vw; /* Set width to 100vw */
-  height: 75vh; /* Set height to 100vh if you want it to take up the full viewport height */
+  height: 68vh; /* Set height to 100vh if you want it to take up the full viewport height */
 }
 
 .carousel-item img {
