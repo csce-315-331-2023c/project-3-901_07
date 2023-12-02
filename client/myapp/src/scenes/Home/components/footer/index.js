@@ -12,23 +12,33 @@ const Footer = () => {
         <div className="logo2">
           <img src={logo}  className="logoImg" />
         </div>
-        <div className="social">
-            <a href="#" className="socialLink">
-            <FontAwesomeIcon icon={faPhone} className="socialIcon" />
-            </a>
-            <a href="#" className="socialLink">
-            <FontAwesomeIcon icon={faEnvelope} className="socialIcon" />
-            </a>
-            <a href="#" className="socialLink">
-            <FontAwesomeIcon icon={faFacebook} className="socialIcon" />
-            </a>
-            <a href="#" className="socialLink">
-            <FontAwesomeIcon icon={faTwitter} className="socialIcon" />
-            </a>
-            <a href="#" className="socialLink">
-            <FontAwesomeIcon icon={faInstagram} className="socialIcon" />
-            </a>
-        </div>
+        <div className="socialContainer">
+            <div className="socialLink">
+                <div className="iconWrapper">
+                <FontAwesomeIcon icon={faPhone} className="socialIcon" />
+                </div>
+            </div>
+            <div className="socialLink">
+                <div className="iconWrapper">
+                <FontAwesomeIcon icon={faEnvelope} className="socialIcon" />
+                </div>
+            </div>
+            <div className="socialLink">
+                <div className="iconWrapper">
+                <FontAwesomeIcon icon={faFacebook} className="socialIcon" />
+                </div>
+            </div>
+            <div className="socialLink">
+                <div className="iconWrapper">
+                <FontAwesomeIcon icon={faTwitter} className="socialIcon" />
+                </div>
+            </div>
+            <div className="socialLink">
+                <div className="iconWrapper">
+                <FontAwesomeIcon icon={faInstagram} className="socialIcon" />
+                </div>
+            </div>
+            </div>
       </div>
       <div className="bottomBar">
         <p>&copy; 2023 ShareTea. All Rights Reserved.</p>

@@ -7,7 +7,8 @@ body {
   
   footer {
     background-color: white;
-    padding: 20px 0;
+    padding-top: 100px;
+
     text-align: center;
   }
   
@@ -24,7 +25,7 @@ body {
   }
   
   .logoImg {
-    width: 40px;
+    width: 100px;
     margin-right: 10px;
     
   }
@@ -44,27 +45,51 @@ body {
   .socialLink {
     margin: 5px;
     text-decoration: none;
-    color: #333;
+    color: black;
   }
   
   .bottomBar {
     margin-top: 20px;
   }
 
-  /* styles.css */
-
-/* ... (previous styles) */
-
-.socialLink {
-    margin: 5px;
-    text-decoration: none;
-    color: #333;
+  .socialContainer {
+    padding-top: 20px;
     display: flex;
-    align-items: center;
+    justify-content: center;
   }
   
-  .socialIcon {
-    margin-right: 5px;
+  .socialLink {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
   }
+  .iconWrapper {
+    width: 40px; /* Adjust the size of the circular wrapper */
+    height: 40px; /* Adjust the size of the circular wrapper */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black; /* Border color */
+    border-radius: 50%;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  
+  .socialIcon {
+    font-size: 24px;
+    color: black; /* Default icon color */
+  }
+  
+  .iconWrapper:hover {
+    transition: 0.5s;
+    border-color: #ed323a;
+    background-color: #ed323a; /* Change to the desired border color on hover */
+  }
+  
+  .iconWrapper:hover .socialIcon {
+    color: white; /* Change to the desired icon color on hover */
+  }
+  
+
   
   
