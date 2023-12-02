@@ -34,6 +34,10 @@ const router = createBrowserRouter([
         path: "/Menu",
         element: <Menu/>
       },
+      {
+        path:"/Trends",
+        element: <Trends/>
+      },
     ]
   },
 ]);
