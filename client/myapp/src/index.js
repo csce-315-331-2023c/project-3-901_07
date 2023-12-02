@@ -8,6 +8,7 @@ import {
 import App from "./App";
 import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
+import Trends from"./scenes/Trends";
 import ImageCarousel from "./scenes/Home/components/carousel";
 import NavigationBar from "./scenes/Home/components/LandingNav";
 import Landing from "./scenes/Home/Landing";
@@ -34,13 +35,9 @@ const router = createBrowserRouter([
         element: <Menu/>
       },
       {
-        path: "/Nav",
-        element: <NavigationBar/>
+        path:"/Trends",
+        element: <Trends/>
       },
-      {
-        path: "/Car",
-        element: <ImageCarousel/>
-      }
     ]
   },
 ]);
