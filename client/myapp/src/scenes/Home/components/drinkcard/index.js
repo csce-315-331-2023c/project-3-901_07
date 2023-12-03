@@ -35,7 +35,7 @@ function DrinkCard({ toggleModal, drinkProperties, currView }) {
   drinkcardname += viewSuffix;
   drinkcardprice += viewSuffix;
   
-  console.log(drinkProperties)
+
 
   return (
     <div className={drinkcard} onClick={toggleModal}>

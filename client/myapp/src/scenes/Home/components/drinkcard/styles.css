@@ -6,7 +6,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .drinkcard.employee{
@@ -27,8 +27,9 @@
 }
 
 .drinkcard-image{
-    width: 100px;
-    height: auto;
+
+    width: auto;
+    height: 25vh;
     align-self:center;
 
 }

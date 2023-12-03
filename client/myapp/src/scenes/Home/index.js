@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import DrinkCard from "./components/drinkcard";
 import DrinkModal from "./components/drinkmodal";
 import waveanimation from "../../assets/images/waving-wave-hello.gif";
+
+import dollaricon from "../../assets/images/dollaricon.png";
+import carticon from "../../assets/images/cart.png";
 import "./styles.css";
+import { TextField } from "@mui/material";
 
 function Home({ webServerAddress }) {
   const [currView, setcurrView] = useState("customer");
   const [currCategory, setCategory] = useState(null);
-  const [modal, setModal] = useState(false);
+  const [drinkModal, setDrinkModal] = useState(false);
+  const [checkoutModal, setCheckoutModal] = useState(false);
   const [data, setData] = useState(null); // Initialize data state as null
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [drinkEdited, setDrinkToEdit] = useState(null);
@@ -43,24 +48,30 @@ function Home({ webServerAddress }) {
 
   useEffect(() => {
     function setDrinkEditedDefault() {
-      if (modal === false) {
+
+      if (drinkModal === false) {
         setDrinkToEdit(null);
       }
     }
     setDrinkEditedDefault();
-  }, [modal]);
+  }, [drinkModal]);
 
-  //modal
-  const toggleModal = (drink) => {
+  //drinkModal
+  const toggleDrinkModal = (drink) => {
     setSelectedDrink(drink); // Set the selected drink here
-    setModal(!modal);
+    setDrinkModal(!drinkModal);
   };
 
-  if (modal) {
-    document.body.classList.add("active-modal");
-  } else {
-    document.body.classList.remove("active-modal");
-  }
+
+  //checkoutModal
+  const toggleCheckoutModal = () => {
+    setCheckoutModal(!checkoutModal);
+  };
+  // if (modal) {
+  //   document.body.classList.add("active-modal");
+  // } else {
+  //   document.body.classList.remove("active-modal");
+  // }
 
   return (
     <div className="row content">
@@ -69,30 +80,259 @@ function Home({ webServerAddress }) {
         data={data}
         setCart={setCart}
         cart={cart}
-        toggleModal={toggleModal}
+        toggleDrinkModal={toggleDrinkModal}
+        toggleCheckoutModal={toggleCheckoutModal}
         setDrinkToEdit={setDrinkToEdit}
         webServerAddress={webServerAddress}
       />
       <span className="panel-divider"></span>
       <DrinkPanel
         currCategory={currCategory}
-        toggleModal={toggleModal}
+        toggleModal={toggleDrinkModal}
         data={data}
         setCategory={setCategory}
-        currView = {currView}
+        currView={currView}
       />
-      {modal && (
+      {drinkModal && (
         <DrinkModal
-          toggleModal={toggleModal}
+          toggleModal={toggleDrinkModal}
           selectedDrink={selectedDrink}
           toppings={data.toppings}
           cart={cart}
           setCart={setCart}
           drinkEdited={drinkEdited}
           setDrinkToEdit={setDrinkToEdit}
-          currView = {currView}
+
+          currView={currView}
         />
       )}
+      {checkoutModal && (
+        <CheckoutModal
+          toggleCheckoutModal={toggleCheckoutModal}
+          cart={cart}
+          setDrinkToEdit={setDrinkToEdit}
+          toggleDrinkModal={toggleDrinkModal}
+          setCart={setCart}
+        />
+      )}
+    </div>
+  );
+}
+
+function CheckoutModal({
+  toggleCheckoutModal,
+  setCart,
+  setDrinkToEdit,
+  toggleDrinkModal,
+  cart,
+}) {
+  const [isActive, setIsActive] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(null); // ["cash", "card"
+  const firstNameRef = useRef("");
+  const lastNameRef = useRef("");
+  const emailRef = useRef("");
+  const [confirmOrderPressed, setConfirmOrderPressed] = useState(0);
+
+  function deleteDrinkItem(indexToDelete) {
+    setCart(cart.filter((_, index) => index !== indexToDelete));
+  }
+
+  function editDrinkItem(indexToEdit) {
+    const drink = cart.find((_, index) => index === indexToEdit);
+    drink["index"] = indexToEdit;
+    setDrinkToEdit(drink);
+    toggleDrinkModal(drink.drink);
+  }
+
+  // const printUsername = () => {
+  //   console.log(firstNameRef.current.value);
+  //   console.log(lastNameRef.current.value);
+  // };
+
+  // printUsername();
+
+  const togglePayCashButton = () => {
+    if (paymentMethod === "cash") {
+      setPaymentMethod(null);
+    } else {
+      setPaymentMethod("cash");
+    }
+    setIsActive(!isActive);
+  };
+
+  function placeOrder() {
+    setConfirmOrderPressed(confirmOrderPressed + 1);
+    if (cart.length === 0) {
+      toggleCheckoutModal();
+      return;
+    }
+    if (paymentMethod === null) {
+      alert("Please select a payment method");
+      return;
+    } else if (
+      firstNameRef.current.value === "" ||
+      lastNameRef.current.value === "" ||
+      emailRef.current.value === "" ||
+      !isValidEmail(emailRef.current.value)
+    ) {
+      return;
+    }
+    alert("Order placed successfully");
+    setCart([]);
+    setConfirmOrderPressed(0);
+    toggleCheckoutModal();
+  }
+
+  function isValidEmail(email) {
+    const emailRegex =
+      /^[\w-.]+@(gmail\.com|yahoo\.com|hotmail\.com|example\.com)$/i;
+    return emailRegex.test(email);
+  }
+
+  return (
+    <div className="modal">
+      <div
+        className="checkout-modal-overlay"
+        onClick={toggleCheckoutModal}
+      ></div>
+      <div className="checkout-modal-content">
+        <button className="close-modal" onClick={toggleCheckoutModal}>
+          CLOSE
+        </button>
+        <h2>Checkout</h2>
+        <div className="checkout-modal-row-content">
+          <div className="checkout-modal-left-panel">
+            <div className="checkout-modal-info-card">
+              <h3>Your Info</h3>
+              <div className="textfield-section">
+                <TextField
+                  error={
+                    (firstNameRef.current.value === "" &&
+                      confirmOrderPressed) 
+                  }
+                  id="outlined-basic"
+                  label="First Name"
+                  variant="outlined"
+                  helperText={
+                    (firstNameRef.current.value === "" &&
+                      confirmOrderPressed) 
+                      ? "Please enter your first name"
+                      : ""
+                  }
+                  inputRef={firstNameRef}
+                />
+
+                {/* <TextField
+                  error
+                  id="outlined-error-helper-text"
+                  label="Error"
+                  defaultValue="Hello World"
+                  helperText="Incorrect entry."
+                /> */}
+
+                <TextField
+                  error={
+                    (lastNameRef.current.value === "" && confirmOrderPressed) 
+                  }
+                  id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
+                  helperText={
+                    (lastNameRef.current.value === "" && confirmOrderPressed) 
+                      ? "Please enter your last name"
+                      : ""
+                  }
+                  inputRef={lastNameRef}
+                />
+                <TextField
+                  error={
+                    (!isValidEmail(emailRef.current.value) &&
+                      confirmOrderPressed) ||
+                    (emailRef.current.value === "" && confirmOrderPressed)
+                  }
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
+                  helperText={
+                    (!isValidEmail(emailRef.current.value) &&
+                      confirmOrderPressed) ||
+                    (emailRef.current.value === "" && confirmOrderPressed)
+                      ? "Please enter a valid email"
+                      : ""
+                  }
+                  inputRef={emailRef}
+                />
+              </div>
+            </div>
+
+            <div className="checkout-modal-payment-method-card">
+              <h3>Payment Method</h3>
+              <div className="payment-options-section">
+                <div
+                  className={`paycash-button ${isActive ? "active" : ""}`}
+                  onClick={togglePayCashButton}
+                >
+                  <div>
+                    <img src={dollaricon} alt="dollaricon" />
+                  </div>
+                  Pay with Cash
+                </div>
+              </div>
+
+              <div className="tip-options-section"></div>
+            </div>
+          </div>
+          <div className="checkout-modal-right-panel">
+            <div className="checkout-order-panel">
+              <h4>Cart</h4>
+              <div className="middle-section">
+                {Object.keys(cart).length !== 0 ? (
+                  cart.map((drinkItem, index) => (
+                    <div className="checkout-cart-component" key={index}>
+                      <div className="drink">
+                        <p className="name">{drinkItem.drink.name}</p>
+                        <p className="price">${drinkItem.totalPrice}</p>
+                      </div>
+                      <div className="drink-cart-component-footer">
+                        <div
+                          className="edit-drink-button"
+                          onClick={() => editDrinkItem(index)}
+                        >
+                          Edit
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                        <div
+                          className="delete-drink-button"
+                          onClick={() => deleteDrinkItem(index)}
+                        >
+                          Delete
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div></div>
+                )}
+              </div>
+              <span className="divider"></span>
+              <div className="bottom-section">
+                <p>
+                  {" "}
+                  Total Cost: $
+                  {parseFloat(
+                    cart
+                      .reduce((total, item) => total + item.totalPrice, 0)
+                      .toFixed(2)
+                  )}
+                </p>
+              </div>
+            </div>
+            <button className="leftpanel-checkout-button" onClick={placeOrder}>
+              Confirm Order
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -102,7 +342,8 @@ function LeftPanel({
   data,
   setCart,
   cart,
-  toggleModal,
+  toggleDrinkModal,
+  toggleCheckoutModal,
   setDrinkToEdit,
   webServerAddress,
 }) {
@@ -114,8 +355,12 @@ function LeftPanel({
     const drink = cart.find((_, index) => index === indexToEdit);
     drink["index"] = indexToEdit;
     setDrinkToEdit(drink);
-    toggleModal(drink.drink);
+    toggleDrinkModal(drink.drink);
   }
+
+
+  
+
 
   return (
     <div className="leftpanel">
@@ -141,8 +386,18 @@ function LeftPanel({
         </ul>
       </div>
       <div className="leftpanel-order-component">
-        <h4>Order</h4>
+        <h4>Cart</h4>
         <div className="middle-section">
+          {cart.length === 0 ? (
+            <div className="cartempty-div">
+              <div>
+                <img src={carticon} alt="carticon" />
+              </div>
+              <div>Your cart is empty</div>
+            </div>
+          ) : (
+            <div></div>
+          )}
           {Object.keys(cart).length !== 0 ? (
             cart.map((drinkItem, index) => (
               <div className="drink-cart-component" key={index}>
@@ -185,7 +440,7 @@ function LeftPanel({
       </div>
       <button
         className="leftpanel-checkout-button"
-        onClick={() => checkout(cart, webServerAddress, setCart)}
+        onClick={cart.length !== 0 ? toggleCheckoutModal : null}
       >
         Checkout
       </button>
@@ -193,148 +448,155 @@ function LeftPanel({
   );
 }
 
-async function checkout(cart, webServerAddress, setCart) {
-  // Make customer
-  try {
-    await fetch(webServerAddress + "/make_customer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: "NULL", // Replace with actual customer name if available
-      }),
-    });
 
-    // Get last customer
-    const customerResponse = await fetch(webServerAddress + "/last_customer");
-    const customerData = await customerResponse.json();
-    const last_customer_id = customerData[0].customer_id;
+// async function checkout(cart, webServerAddress, setCart) {
+//   // Make customer
+//   try {
+//     await fetch(webServerAddress + "/make_customer", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         name: "NULL", // Replace with actual customer name if available
+//       }),
+//     });
 
-    // make order
+//     // Get last customer
+//     const customerResponse = await fetch(webServerAddress + "/last_customer");
+//     const customerData = await customerResponse.json();
+//     const last_customer_id = customerData[0].customer_id;
 
-    const totalCost = cart.reduce((total, item) => total + item.totalPrice, 0);
-    const employee_id = 0; // FIXME
-    const now = new Date();
-    const formattedDate = now.toISOString().slice(0, 10);
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+//     // make order
 
-    await fetch(webServerAddress + "/make_order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        customer_id: last_customer_id,
-        employee_id: 0, // FIXME get real employee id
-        date: formattedDate,
-        price: totalCost,
-        time: formattedTime,
-      }),
-    });
+//     const totalCost = cart.reduce((total, item) => total + item.totalPrice, 0);
+//     const employee_id = 0; // FIXME
+//     const now = new Date();
+//     const formattedDate = now.toISOString().slice(0, 10);
+//     const hours = now.getHours();
+//     const minutes = now.getMinutes();
+//     const seconds = now.getSeconds();
+//     const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+//       .toString()
+//       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-    const orderResponse = await fetch(webServerAddress + "/last_order");
-    const orderData = await orderResponse.json();
-    const last_order_id = orderData[0].order_id;
+//     await fetch(webServerAddress + "/make_order", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         customer_id: last_customer_id,
+//         employee_id: 0, // FIXME get real employee id
+//         date: formattedDate,
+//         price: totalCost,
+//         time: formattedTime,
+//       }),
+//     });
 
-    // make drinks
-    for (const drink of cart) {
-      const menu_item_id = drink.drink.menu_item_id;
-      const sweetness = drink.sugarLevel;
-      const price = drink.totalPrice;
-      const ice_level = drink.iceLevel;
+//     const orderResponse = await fetch(webServerAddress + "/last_order");
+//     const orderData = await orderResponse.json();
+//     const last_order_id = orderData[0].order_id;
 
-      await fetch(webServerAddress + "/make_drink", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          menu_item_id: menu_item_id,
-          order_id: last_order_id,
-          sweetness: sweetness,
-          price: price,
-          ice_level: ice_level,
-        }),
-      });
+//     // make drinks
+//     for (const drink of cart) {
+//       const menu_item_id = drink.drink.menu_item_id;
+//       const sweetness = drink.sugarLevel;
+//       const price = drink.totalPrice;
+//       const ice_level = drink.iceLevel;
 
-      const drinkResponse = await fetch(webServerAddress + "/last_drink");
-      const drinkData = await drinkResponse.json();
-      const last_drink_id = drinkData[0].drink_id;
+//       await fetch(webServerAddress + "/make_drink", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           menu_item_id: menu_item_id,
+//           order_id: last_order_id,
+//           sweetness: sweetness,
+//           price: price,
+//           ice_level: ice_level,
+//         }),
+//       });
 
-      // make_drink_topping mapper
-      for (const topping of drink.toppings) {
-        const topping_id = topping.topping_id;
+//       const drinkResponse = await fetch(webServerAddress + "/last_drink");
+//       const drinkData = await drinkResponse.json();
+//       const last_drink_id = drinkData[0].drink_id;
 
-        await fetch(webServerAddress + "/make_drink_topping", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            drink_id: last_drink_id,
-            topping_id: topping_id,
-          }),
-        });
+//       // make_drink_topping mapper
+//       for (const topping of drink.toppings) {
+//         const topping_id = topping.topping_id;
 
-        // update topping availability
+//         await fetch(webServerAddress + "/make_drink_topping", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             drink_id: last_drink_id,
+//             topping_id: topping_id,
+//           }),
+//         });
 
-        const toppingResponse = await fetch(
-          webServerAddress + `/get_topping_by_id/${topping_id}`
-        );
-        const new_topping_data = await toppingResponse.json();
-        const current_topping_availability = new_topping_data.availability;
+//         // update topping availability
 
-        await fetch(webServerAddress + "/set_topping_availability", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            topping_id: topping_id,
-            new_availability: current_topping_availability - 1,
-          }),
-        });
-      }
+//         const toppingResponse = await fetch(
+//           webServerAddress + `/get_topping_by_id/${topping_id}`
+//         );
+//         const new_topping_data = await toppingResponse.json();
+//         const current_topping_availability = new_topping_data.availability;
 
-      // update ingredients that are in the drink
+//         await fetch(webServerAddress + "/set_topping_availability", {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             topping_id: topping_id,
+//             new_availability: current_topping_availability - 1,
+//           }),
+//         });
+//       }
 
-      // get ingredients
-      const pairResponse = await fetch(
-        webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
-      );
-      const ingredients = await pairResponse.json();
+//       // update ingredients that are in the drink
 
-      for (const row of ingredients) {
-        const ingredientsResponse = await fetch(
-          webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
-        );
-        const ingredient = await ingredientsResponse.json();
+//       // get ingredients
+//       const pairResponse = await fetch(
+//         webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
+//       );
+//       const ingredients = await pairResponse.json();
 
-        await fetch(webServerAddress + "/set_ingredient_availability", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ingredient_id: row.ingredients_id,
-            new_availability: ingredient.availability - 1,
-          }),
-        });
-      }
-    }
-  } catch (error) {
-    console.error("Checkout Error:", error);
-  }
-  setCart([]);
-}
+//       for (const row of ingredients) {
+//         const ingredientsResponse = await fetch(
+//           webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
+//         );
+//         const ingredient = await ingredientsResponse.json();
 
-function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) {
+//         await fetch(webServerAddress + "/set_ingredient_availability", {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             ingredient_id: row.ingredients_id,
+//             new_availability: ingredient.availability - 1,
+//           }),
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Checkout Error:", error);
+//   }
+//   setCart([]);
+// }
+
+function DrinkPanel({
+  currCategory,
+  toggleModal,
+  data,
+  setCategory,
+  currView,
+}) {
   const drinkPanelRef = useRef(null);
   useEffect(() => {
     const options = {
@@ -371,7 +633,7 @@ function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) 
   // console.log("DATA: ");
   // console.log(data);
 
-  
+
   let drinkcards = "drink-cards-";
   let viewSuffix = "";
   switch (currView) {
@@ -383,7 +645,7 @@ function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) 
       viewSuffix = "employee";
       break;
   }
-  
+
   drinkcards += viewSuffix;
 
   return (
@@ -399,7 +661,7 @@ function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) 
                     toggleModal={() => toggleModal(item)}
                     drinkProperties={item}
                     key={item.name}
-                    currView = {currView}
+                    currView={currView}
                   />
                 </div>
               ))}
@@ -408,7 +670,7 @@ function DrinkPanel({ currCategory, toggleModal, data, setCategory, currView }) 
         ))}
       <div className="fill-gap">
         <div className="waveanimation-container">
-          <img  src={waveanimation} alt="wave animation" />
+          <img src={waveanimation} alt="wave animation" />
         </div>
       </div>
     </div>
