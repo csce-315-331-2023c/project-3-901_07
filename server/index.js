@@ -116,7 +116,7 @@ app.get('/drink-topping', (req, res) => { //Drink Topping Datatable
 app.get('/employee', (req, res) => { //Employee Datatable
     res.set('Access-Control-Allow-Origin', '*');
     pool
-      .query('SELECT employee_id, manager, name, auth FROM employee ORDER BY employee_id;')
+      .query('SELECT employee_id, manager, name, auth_token FROM employee ORDER BY employee_id;')
       .then(query_res => {
           const employees = query_res.rows;
           console.log(employees);

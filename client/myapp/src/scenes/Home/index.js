@@ -19,7 +19,9 @@ function Home({ webServerAddress }) {
   const [cart, setCart] = useState([]);
   const [userName, setUserName] = useState(null);
   const [userID, setUserID] = useState(null);
-  // const [userMail, setup]
+  const [employeeData, setEmployeeData] = useState(null);
+
+
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
   useEffect(() => {
@@ -49,15 +51,43 @@ function Home({ webServerAddress }) {
         const fetchedUserName = data['displayName'];
         setUserName(fetchedUserName);
         setUserID(data['id']);
+
+        const responseEmployee = await fetch(webServerAddress + "/employee", {
+          mode: "cors",
+        });
+        const employeeJson = await responseEmployee.json();
+        setEmployeeData(employeeJson);
+        
       } catch {
         //console.log("error");
       }
     }
     fetchData();
-  }, [webServerAddress]);
 
-  console.log(userID);
-  console.log(userName);
+    if (employeeData){
+      const employeeArray = Object.values(employeeData);
+  
+      for (const employee of employeeArray) {
+        if (employee.auth_token === userID) {
+          const isManager = employee.manager;
+          if (isManager === true){
+            setcurrView("manager");
+          }
+          else {
+            setcurrView("employee");
+          }
+          break; 
+        }
+        else {
+          setcurrView("customer");
+        }
+      }
+    }
+  }, [webServerAddress, employeeData]);
+
+  
+  
+  // console.log(userName);
 
   useEffect(() => {
     function setDrinkEditedDefault() {
