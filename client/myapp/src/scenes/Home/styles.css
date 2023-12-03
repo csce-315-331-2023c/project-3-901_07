@@ -372,6 +372,7 @@ button.leftpanel-checkout-button:active {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.30 );
   margin-bottom: 15px;
   padding: 0px 20px 20px 20px;
+  border-radius: 5px;
 }
 
 .checkout-modal-payment-method-card > .divider{
@@ -379,6 +380,7 @@ button.leftpanel-checkout-button:active {
   height: 5px;
   background-color: black;
   border-radius: 100px;
+  
 }
 
 

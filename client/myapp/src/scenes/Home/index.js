@@ -9,7 +9,7 @@ import "./styles.css";
 import { TextField } from "@mui/material";
 
 function Home({ webServerAddress }) {
-  const [currView, setcurrView] = useState("customer");
+  const [currView, setcurrView] = useState("manager");
   const [currCategory, setCategory] = useState(null);
   const [drinkModal, setDrinkModal] = useState(false);
   const [checkoutModal, setCheckoutModal] = useState(false);
@@ -113,6 +113,7 @@ function Home({ webServerAddress }) {
           setDrinkToEdit={setDrinkToEdit}
           toggleDrinkModal={toggleDrinkModal}
           setCart={setCart}
+          currView={currView}
         />
       )}
     </div>
@@ -125,6 +126,7 @@ function CheckoutModal({
   setDrinkToEdit,
   toggleDrinkModal,
   cart,
+  currView 
 }) {
   const [isActive, setIsActive] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null); // ["cash", "card"
@@ -185,8 +187,17 @@ function CheckoutModal({
 
   function isValidEmail(email) {
     const emailRegex =
-      /^[\w-.]+@(gmail\.com|yahoo\.com|hotmail\.com|example\.com)$/i;
+      /^[\w-.]+@(gmail\.com|yahoo\.com|hotmail\.com|example\.com|tamu\.edu|outlook\.com)$/i;
     return emailRegex.test(email);
+  }
+
+  function checkView() {
+    if (currView === "cashier" || currView === "manager"){
+      return "Customer Info";
+    }
+    else{
+      return "Your Info";
+    }
   }
 
   return (
@@ -203,7 +214,7 @@ function CheckoutModal({
         <div className="checkout-modal-row-content">
           <div className="checkout-modal-left-panel">
             <div className="checkout-modal-info-card">
-              <h3>Your Info</h3>
+              <h3>{checkView()}</h3>
               <div className="textfield-section">
                 <TextField
                   error={
@@ -216,7 +227,7 @@ function CheckoutModal({
                   helperText={
                     (firstNameRef.current.value === "" &&
                       confirmOrderPressed) 
-                      ? "Please enter your first name"
+                      ? "Please enter first name"
                       : ""
                   }
                   inputRef={firstNameRef}
@@ -239,7 +250,7 @@ function CheckoutModal({
                   variant="outlined"
                   helperText={
                     (lastNameRef.current.value === "" && confirmOrderPressed) 
-                      ? "Please enter your last name"
+                      ? "Please enter last name"
                       : ""
                   }
                   inputRef={lastNameRef}

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Home from './scenes/Home/index.js';
 import NavBar from './scenes/components/navbar';
 import SignInModal from "./scenes/components/signinmodal";
+import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 function App() {
   const [signInModal, setSignInModal] = useState(false);
@@ -21,7 +22,8 @@ function App() {
 
   return (
     <div className = "box">
-      <NavBar webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
+
+      <LandingNav />
       <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
       {signInModal && <SignInModal toggleModal={toggleSignInModal} />}
     </div>
