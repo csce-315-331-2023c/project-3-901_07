@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Menu.css';
 import shareTeaLogo from './assets/images/sharetealogo.png';
+import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 
 //creama
@@ -251,17 +252,7 @@ function Menu() {
   return (
     <>
       {/* Top bar with logo and decorative element */}
-      <div id="circle">
-      <img className="logo" src={shareTeaLogo} alt="Share Tea Logo" />
-      </div>
-      <div className="nav-wrapper">
-        <div className="nav-wrapper-left-section">
-          {/* You can put additional elements here if needed */}
-        </div>
-        <div className="nav-wrapper-right-section">
-          {/* You can put additional elements here if needed */}
-        </div>
-      </div>
+      <LandingNav />
 
       <div className="menu-board">
         {drinkAndToppingData &&

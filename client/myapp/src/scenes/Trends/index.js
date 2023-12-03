@@ -7,6 +7,7 @@ import RestockReport from './components/RestockReport'
 import SalesReport from './components/SalesReport'
 import WhatSalesTogether from './components/WhatSalesTogether'
 import shareTeaLogo from "../../assets/images/sharetealogo.png";
+import LandingNav from "../Home/components/LandingNav/index.js";
 
 import {
   Chart as ChartJS,
@@ -37,20 +38,7 @@ const Trends = () => {
 
   return (
     <div className="trends-container">
-        <div className='Nav-Bar'>
-                <nav>
-            <div className="nav-wrapper">
-                <div className="nav-wrapper-left-section">
-                
-                </div>
-                <div className="nav-wrapper-right-section">
-                <ul>
-                    <li><button  className = "signin-button">Sign Out</button></li>
-                </ul>
-                </div>
-            </div>
-            </nav>
-        </div>
+      <LandingNav />
       <div className = "trends-main-content">
             <LeftPanel currReport={currReport} setContentPanel={handleSetContentPanel} />
             <span className="trends-panel-divider"></span>

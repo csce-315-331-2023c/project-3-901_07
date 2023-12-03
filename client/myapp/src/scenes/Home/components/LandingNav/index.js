@@ -48,10 +48,10 @@ const NavigationBar = () => {
             navigate('/App');
             break;
         case 2:
-            navigate('/App');
+            navigate('/Trends');
             break;
         case 3:
-            navigate('/');
+            navigate('/Menu');
             break;
         default:
             navigate('/');
@@ -59,7 +59,7 @@ const NavigationBar = () => {
     }
   }
 
-    const buttons = ['Home', 'Order', 'Locations', 'Menu'];
+    const buttons = ['Home', 'Order', 'Trends', 'MenuBoard'];
 
     return (
     <div className="nav-wrapper">
