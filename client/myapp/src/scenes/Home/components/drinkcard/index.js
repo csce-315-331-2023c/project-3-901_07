@@ -1,4 +1,5 @@
 import "./styles.css";
+import React, { useState } from "react";
 import defaultDrinkImage from "../../../../assets/images/drinks/defaultdrinkimage.png";
 
 function DrinkCard({ toggleModal, drinkProperties, currView }) {

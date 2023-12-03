@@ -420,6 +420,39 @@ app.get('/testdb', (req, res) => {
         });
 });
 
+app.get('/sales_report', (req, res) => {
+    const startDate = req.query.start_date; // Get the start date from the query parameters
+    const endDate = req.query.end_date; // Get the end date from the query parameters
+
+    console.log(startDate);
+
+    pool
+        .query(`
+            WITH DrinksInRange AS (
+                SELECT d.menu_item_id
+                FROM orders o
+                JOIN drink d ON o.order_id = d.order_id
+                WHERE o.date BETWEEN $1 AND $2
+            )
+
+            SELECT mi.name, mi.type, COUNT(dri.menu_item_id) as order_count
+            FROM DrinksInRange dri
+            JOIN menu_item mi ON dri.menu_item_id = mi.menu_item_id
+            GROUP BY mi.name, mi.type
+            ORDER BY order_count DESC;
+        `, [startDate, endDate])
+        .then(query_res => {
+            const sales_report = query_res.rows;
+            console.log(sales_report);
+            res.json(sales_report);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve sales report');
+        });
+
+});
+
 app.set('view engine', 'ejs');
 
 app.use(session({

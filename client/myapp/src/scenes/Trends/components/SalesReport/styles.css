@@ -1,0 +1,111 @@
+.sales-chart {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.sales-chart canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  margin-left: 7%;
+  margin-right: 7%;
+  margin-top: 40px;
+}
+
+.controls-row > * {
+  margin: 0 10px;
+}
+
+.date-pickers {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 300px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.date-pickers div {
+  margin-right: 20px;
+  margin-bottom: 7px;
+}
+
+.generate-report-button {
+  width: 321px;
+}
+
+.sales-chart {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.signin-button {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  font-size: 20px;
+  border: none;
+  font-weight: 300;
+  text-decoration: none;
+  border-radius: 20px;
+}
+
+.signin-button:hover {
+  background-color: #111;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls-row > * {
+    margin: 10px 0;
+  }
+}
+
+.chart-legend {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+}
+
+.chart-legend::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 13px;
+  background-color: white;
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 4px;
+}

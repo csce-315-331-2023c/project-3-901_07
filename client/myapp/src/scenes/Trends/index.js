@@ -6,20 +6,36 @@ import ExcessReport from './components/ExcessReport'
 import RestockReport from './components/RestockReport'
 import SalesReport from './components/SalesReport'
 import WhatSalesTogether from './components/WhatSalesTogether'
+import shareTeaLogo from "../../assets/images/sharetealogo.png";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Trends = () => {
   
-    const [currReport, setReport] = useState(null);
+  const [currReport, setReport] = useState(null);
   
- // This function will be called when a category is clicked
- const handleSetContentPanel = (category) => {
-    setReport(category); // Update the current report state
-    // Here you would set the content of the content panel based on the category
-    // For example, you could load different components based on what's clicked
-    // This is where you can add logic to render different reports
+  const handleSetContentPanel = (category) => {
+    setReport(category); 
   };
 
-    return (
+  return (
     <div className="trends-container">
         <div className='Nav-Bar'>
                 <nav>

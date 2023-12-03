@@ -1,4 +1,5 @@
 import "./styles.css";
+import React, { useState } from "react";
 import shareTeaLogo from "../../../assets/images/sharetealogo.png";
 
 function NavBar({webServerAddress}) {
