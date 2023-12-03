@@ -116,7 +116,7 @@ app.get('/drink-topping', (req, res) => { //Drink Topping Datatable
 app.get('/employee', (req, res) => { //Employee Datatable
     res.set('Access-Control-Allow-Origin', '*');
     pool
-      .query('SELECT employee_id, manager, name FROM employee ORDER BY employee_id;')
+      .query('SELECT employee_id, manager, name, auth FROM employee ORDER BY employee_id;')
       .then(query_res => {
           const employees = query_res.rows;
           console.log(employees);
@@ -473,6 +473,7 @@ app.listen(port, () => {
 
 const passport = require('passport');
 var userProfile;
+var userToken;
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -480,6 +481,7 @@ app.use(passport.session());
 app.set('view engine', 'ejs');
 
 app.get('/success', (req, res) => res.send(userProfile));
+app.get('/token', (req, res) => res.send(userToken));
 app.get('/error', (req, res) => res.send("error logging in"));
 
 passport.serializeUser(function(user, cb) {
@@ -502,7 +504,8 @@ passport.use(new GoogleStrategy({
     },
     function(accessToken, refreshToken, profile, done) {
         userProfile=profile;
-        return done(null, userProfile);
+        userToken=accessToken;
+        return done(null, userProfile, userToken);
     }
 ));
  
@@ -514,4 +517,56 @@ app.get('/auth/google/callback',
     function(req, res) {
         // Successful authentication, redirect success.
         res.redirect(process.env.FRONT_END_WEB_ADDRESS + '/App');
+});
+
+
+//// SIGN OUT ////
+
+// Added code for token revocation
+const revokeToken = (userCredential) => {
+    const https = require('https');
+
+    const postData = "token=" + userToken;
+    console.log('Received token:', userToken);
+    const postOptions = {
+        host: 'oauth2.googleapis.com',
+        port: '443',
+        path: '/revoke',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+        }
+    };
+
+    const postReq = https.request(postOptions, function (res) {
+        res.setEncoding('utf8');
+        res.on('data', d => {
+            console.log('Response: ' + d);
+        });
+    });
+
+    postReq.on('error', error => {
+        console.log(error);
+    });
+
+    postReq.write(postData);
+    postReq.end();
+};
+
+
+app.get('/logout', (req, res) => {
+    // Assuming you have stored user credentials in the session
+    // Check if userToken exists
+    if (userToken) {
+        // Call revokeToken to revoke the access token
+        revokeToken(userToken);
+        // Clear the user's session
+        req.session.destroy();
+    }
+    userProfile = {};
+    userToken = {};
+    
+    // Respond as needed
+    res.redirect(process.env.FRONT_END_WEB_ADDRESS);
 });

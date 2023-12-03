@@ -17,7 +17,9 @@ function Home({ webServerAddress }) {
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [drinkEdited, setDrinkToEdit] = useState(null);
   const [cart, setCart] = useState([]);
-
+  const [userName, setUserName] = useState(null);
+  const [userID, setUserID] = useState(null);
+  // const [userMail, setup]
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
   useEffect(() => {
@@ -39,12 +41,23 @@ function Home({ webServerAddress }) {
           toppings: topping_data,
         };
         setData(formattedData);
+
+        const response = await fetch(webServerAddress + "/success", {
+          mode: "cors",
+        });
+        const data = await response.json();
+        const fetchedUserName = data['displayName'];
+        setUserName(fetchedUserName);
+        setUserID(data['id']);
       } catch {
         //console.log("error");
       }
     }
     fetchData();
   }, [webServerAddress]);
+
+  console.log(userID);
+  console.log(userName);
 
   useEffect(() => {
     function setDrinkEditedDefault() {
