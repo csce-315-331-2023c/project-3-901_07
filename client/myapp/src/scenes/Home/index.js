@@ -9,7 +9,7 @@ import "./styles.css";
 import { TextField } from "@mui/material";
 
 function Home({ webServerAddress }) {
-  const [currView, setcurrView] = useState("manager");
+  const [currView, setcurrView] = useState("customer");
   const [currCategory, setCategory] = useState(null);
   const [drinkModal, setDrinkModal] = useState(false);
   const [checkoutModal, setCheckoutModal] = useState(false);
