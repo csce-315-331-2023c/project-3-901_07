@@ -18,8 +18,11 @@
     font-size: 40px; /* Adjust the font size for the heading */
   }
   
-  .about-us p {
+  .about-us #t {
     font-size: 24px; /* Adjust the font size for the paragraph */
     line-height: 1.5; /* Set the line height for better readability */
+  }
+  #google_translate_element{
+    padding-top: 200px;
   }
   
