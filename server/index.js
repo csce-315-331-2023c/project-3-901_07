@@ -436,8 +436,6 @@ app.post("/update_customer/:email", (req, res) => {
         res.status(500).send("Failed to update customer");
       });
   });
-  
-
 
 
 app.post("/make_order", (req, res) => {
@@ -533,6 +531,21 @@ app.put("/set_ingredient_availability", async (req, res) => {
   }
 });
 
+
+app.delete("/delete_menu_item/:id", async (req, res) => {
+    const menu_item_id = req.params.id;
+
+    try {
+        await pool.query("DELETE FROM menu_item WHERE menu_item_id = $1", [
+            menu_item_id,
+        ]);
+        res.status(200).json({ message: "Menu item deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting menu item:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 app.get("/testdb", (req, res) => {
   pool
     .query("SELECT NOW() as current_time")
@@ -581,6 +594,19 @@ app.get("/sales_report", (req, res) => {
       console.error("Database query failed:", error);
       res.status(500).send("Failed to retrieve sales report");
     });
+});
+
+app.put("/set_drink_price", async (req, res) => {
+    try{
+        const drink_id = req.body.drink_id;
+        const new_price = req.body.new_price;
+        await pool.query("UPDATE menu_item SET price = $1 WHERE menu_item_id = $2", [new_price, drink_id]);
+        res.status(200).json({message: "Item updated successfully"});
+    }
+    catch(error){
+        console.error("Error updating item:", error);
+        res.status(500).json({error: "Internal server error"});
+    }
 });
 
 app.set("view engine", "ejs");
