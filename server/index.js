@@ -728,7 +728,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/error" }),
   function (req, res) {
     // Successful authentication, redirect success.
-    res.redirect(process.env.FRONT_END_WEB_ADDRESS + "/App");
+    res.redirect(process.env.FRONT_END_WEB_ADDRESS);
   }
 );
 
