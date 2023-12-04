@@ -41,6 +41,10 @@ process.on("SIGINT", function () {
 
 app.use(
   session({
+    cookie:{
+      secure: true,
+      maxAge:60000
+    },
     resave: false,
     saveUninitialized: true,
     secret: "SECRET",
