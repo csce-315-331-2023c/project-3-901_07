@@ -546,6 +546,37 @@ app.delete("/delete_menu_item/:id", async (req, res) => {
     }
 });
 
+app.delete("/delete_topping/:id", async (req, res) => {
+    const topping_id = req.params.id;
+
+    try {
+        await pool.query("DELETE FROM topping WHERE topping_id = $1", [
+            topping_id,
+        ]);
+        res.status(200).json({ message: "Topping deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting topping:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
+app.delete("/delete_ingredient/:id", async (req, res) => {
+    const ingredient_id = req.params.id;
+
+    try {
+        await pool.query("DELETE FROM ingredients WHERE ingredients_id = $1", [
+            ingredient_id,
+        ]);
+        res.status(200).json({ message: "Menu item deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting menu item:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
+
 app.get("/testdb", (req, res) => {
   pool
     .query("SELECT NOW() as current_time")
@@ -601,6 +632,19 @@ app.put("/set_drink_price", async (req, res) => {
         const drink_id = req.body.drink_id;
         const new_price = req.body.new_price;
         await pool.query("UPDATE menu_item SET price = $1 WHERE menu_item_id = $2", [new_price, drink_id]);
+        res.status(200).json({message: "Item updated successfully"});
+    }
+    catch(error){
+        console.error("Error updating item:", error);
+        res.status(500).json({error: "Internal server error"});
+    }
+});
+
+app.put("/set_topping_price", async (req, res) => {
+    try{
+        const topping_id = req.body.topping_id;
+        const new_price = req.body.new_price;
+        await pool.query("UPDATE topping SET price = $1 WHERE topping_id = $2", [new_price, topping_id]);
         res.status(200).json({message: "Item updated successfully"});
     }
     catch(error){

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
-import { doesSectionFormatHaveLeadingZeros } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 // import DrinkTable from "../DrinkTable";
 
 function Drinks() {
@@ -14,13 +13,8 @@ function Drinks() {
 
 
     useEffect(() => {
-        console.log(drinks); // This will log the updated state after it changes
-    }, [drinks]);
-    
-
-    useEffect(() => {
         fetchDrinksData();
-    }, [process.env.REACT_APP_WEB_SERVER_ADDRESS]); // Dependency array
+    }, [process.env.REACT_APP_WEB_SERVER_ADDRESS]); 
 
 
     const handleViewDetails = (drink) => {
@@ -155,7 +149,7 @@ function Drinks() {
 }
 
 
-function DrinkTable({ drinks, handleViewDetails, handelEditStock }) {
+function DrinkTable({ drinks, handleViewDetails }) {
 
     return (
         <table className="drink-table">
