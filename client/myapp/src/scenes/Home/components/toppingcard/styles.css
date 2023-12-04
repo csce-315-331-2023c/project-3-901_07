@@ -1,5 +1,5 @@
 .toppingcard.customer{
-    background-color: #EFEFEF;
+    background-color: var(--secondaryCardButtonColor);
     aspect-ratio: 1;
     text-align: center;
     border-radius: 25px;
@@ -12,7 +12,7 @@
 }
 
 .toppingcard.employee{
-    background-color: #EFEFEF;
+    background-color: var(--secondaryCardButtonColor);
     aspect-ratio: 1/0.8;
     text-align: center;
     border-radius: 25px;
@@ -36,7 +36,7 @@
 }
 
 .toppingcard.active{
-    background-color: #ED323A;
+    background-color: var(--buttonPrimaryHoverColor);
     color: white;
 }
 
