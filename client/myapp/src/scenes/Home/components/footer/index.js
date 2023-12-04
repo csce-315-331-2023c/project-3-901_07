@@ -6,48 +6,58 @@ import logo from "../../../../assets/images/logo.png";
 import './styles.css';
 
 const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="container">
-      
-        <div className="logo2">
-        
-          <img src={logo}  className="logoImg" />
+    return (
+      <footer className="footer">
+        <div className="container">
+          <div className="logo2">
+            <img src={logo} className="logoImg" alt="Logo" />
+          </div>
+          <div className="socialContainer">
+            <div className="socialLink">
+              <a href="tel:512-838-6752">
+                <div className="iconWrapper">
+                  <FontAwesomeIcon icon={faPhone} className="socialIcon" />
+                </div>
+              </a>
+            </div>
+            <div className="socialLink">
+              <a href="mailto:info@shareteahouston.com">
+                <div className="iconWrapper">
+                  <FontAwesomeIcon icon={faEnvelope} className="socialIcon" />
+                </div>
+              </a>
+            </div>
+            <div className="socialLink">
+              <a href="https://www.facebook.com/shareteahouston">
+                <div className="iconWrapper">
+                  <FontAwesomeIcon icon={faFacebook} className="socialIcon" />
+                </div>
+              </a>
+            </div>
+            <div className="socialLink">
+              <a href="https://twitter.com/shareteahouston">
+                <div className="iconWrapper">
+                  <FontAwesomeIcon icon={faTwitter} className="socialIcon" />
+                </div>
+              </a>
+            </div>
+            <div className="socialLink">
+              <a href="https://instagram.com/shareteahouston/">
+                <div className="iconWrapper">
+                  <FontAwesomeIcon icon={faInstagram} className="socialIcon" />
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="socialContainer">
-            
-            <div className="socialLink">
-                <div className="iconWrapper">
-                <FontAwesomeIcon icon={faPhone} className="socialIcon" />
-                </div>
-            </div>
-            <div className="socialLink">
-                <div className="iconWrapper">
-                <FontAwesomeIcon icon={faEnvelope} className="socialIcon" />
-                </div>
-            </div>
-            <div className="socialLink">
-                <div className="iconWrapper">
-                <FontAwesomeIcon icon={faFacebook} className="socialIcon" />
-                </div>
-            </div>
-            <div className="socialLink">
-                <div className="iconWrapper">
-                <FontAwesomeIcon icon={faTwitter} className="socialIcon" />
-                </div>
-            </div>
-            <div className="socialLink">
-                <div className="iconWrapper">
-                <FontAwesomeIcon icon={faInstagram} className="socialIcon" />
-                </div>
-            </div>
-            </div>
-      </div>
-      <div className="bottomBar">
-        <p>&copy; 2023 ShareTea. All Rights Reserved.</p>
-      </div>
-    </footer>
-  );
-};
-
+        <div className="bottomBar">
+          <p>&copy; 2023 ShareTea. All Rights Reserved.</p>
+        </div>
+      </footer>
+    );
+  };
+  
 export default Footer;
+  
+
+
