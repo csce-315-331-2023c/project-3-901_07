@@ -8,8 +8,7 @@ import carticon from "../../assets/images/cart.png";
 import "./styles.css";
 import { TextField } from "@mui/material";
 
-function Home({ webServerAddress }) {
-  const [currView, setcurrView] = useState("customer");
+function Home({ webServerAddress, currView, setCurrView }) {
   const [currCategory, setCategory] = useState(null);
   const [drinkModal, setDrinkModal] = useState(false);
   const [checkoutModal, setCheckoutModal] = useState(false);
@@ -73,27 +72,30 @@ function Home({ webServerAddress }) {
     fetchData();
   }, [webServerAddress]);
 
-  useEffect(() => {
-    function setView() {
-      if (employeeData) {
-        const employeeArray = Object.values(employeeData);
-        for (const employee of employeeArray) {
-          if (employee.auth_token === userID) {
-            const isManager = employee.manager;
-            if (isManager === true) {
-              setcurrView("manager");
-            } else {
-              setcurrView("cashier");
-            }
-            break;
-          } else {
-            setcurrView("customer");
-          }
-        }
-      }
-    }
-    setView();
-  }, [employeeData]);
+  // useEffect(() => {
+  //   function setView() {
+  //     if (employeeData) {
+  //       const employeeArray = Object.values(employeeData);
+  //       for (const employee of employeeArray) {
+  //         if (employee.auth_token === userID) {
+  //           const isManager = employee.manager;
+  //           if (isManager === true) {
+  //             setCurrView("manager");
+  //           } else {
+  //             console.log("view is cashier")
+  //             setCurrView("cashier");
+  //           }
+  //           break;
+  //         } else {
+  //           console.log("view is customer")
+  //           setCurrView("customer");
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setView();
+  // }, [employeeData]);
+  console.log("currView: " + currView);
 
   // FIXME: Adjust make_customer from server -> make sure this function work
   // useEffect(() => {

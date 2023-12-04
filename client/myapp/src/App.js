@@ -7,7 +7,7 @@ import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 function App() {
   const [signInModal, setSignInModal] = useState(false);
-
+  const [currView, setCurrView] = useState(null);
   //modal
   const toggleSignInModal = () => {
     console.log("toggle modal");
@@ -23,8 +23,8 @@ function App() {
   return (
     <div className = "box">
 
-      <LandingNav />
-      <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
+      <LandingNav currView={currView} setCurrView={setCurrView} />
+      <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS} currView={currView} setCurrView={setCurrView}/>
       {signInModal && <SignInModal toggleModal={toggleSignInModal} />}
     </div>
   );

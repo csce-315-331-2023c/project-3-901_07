@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 import ImageCarousel from '../components/carousel';
 import Footer from '../components/footer';
-import NavigationBar from '../components/LandingNav';
+import LandingNav from '../components/LandingNav';
 import "./styles.css";
 
 function Landing() {
-
+  const [currView, setCurrView] = useState("customer");
   
   const redirectToGoogleOAuth = () => {
     // Redirect to Google OAuth page
@@ -15,7 +15,7 @@ function Landing() {
 
   return (
     <div className="Landing">
-       <NavigationBar/>
+       <LandingNav currView={currView} setCurrView={setCurrView} />
        <ImageCarousel/>
        <div className='about-us'>
             <h4>About Us</h4>
