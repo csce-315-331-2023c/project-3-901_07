@@ -65,7 +65,7 @@ app.get('/user', (req, res) => {
 app.get('/customer', (req, res) => { //Customer Datatable
     res.set('Access-Control-Allow-Origin', '*');
     pool
-        .query('SELECT customer_id, name, auth_token FROM customer ORDER BY name;')
+        .query('SELECT customer_id, name, auth_token, email FROM customer ORDER BY name;')
         .then(query_res => {
             const customers = query_res.rows;
             console.log(customers);

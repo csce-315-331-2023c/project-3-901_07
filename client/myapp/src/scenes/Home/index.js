@@ -21,7 +21,7 @@ function Home({ webServerAddress }) {
   const [userID, setUserID] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [employeeData, setEmployeeData] = useState(null);
-  const [customeData, setCustomerData] = useState(null);
+  const [customerData, setCustomerData] = useState(null);
 
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
@@ -96,6 +96,41 @@ function Home({ webServerAddress }) {
     }
     setView();
   }, [employeeData]);
+
+  // FIXME: Adjust make_customer from server -> make sure this function work
+  // useEffect(() => {
+  //   async function setView() {
+  //     const isUserExist = false;
+  //     if (customerData){
+  //       const customerArray = Object.values(customerData);
+  //       for (const customer of customerArray) {
+  //         if (customer.email === userEmail) {
+  //           isUserExist = true;
+  //           break; 
+  //         }
+  //       }
+  //       if (isUserExist == false){
+  //         try {
+  //           await fetch(webServerAddress + "/make_customer", {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({
+  //               name: userName, // Replace with actual customer name if available
+  //               auth_token: userID,
+  //               email: userEmail,
+  //             }),
+  //           });
+           
+  //         } catch (error) {
+  //           console.error("Checkout Error:", error);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setView();
+  // }, [customerData]);
   
   useEffect(() => {
     function setDrinkEditedDefault() {
