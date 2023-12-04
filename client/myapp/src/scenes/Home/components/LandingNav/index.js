@@ -93,7 +93,7 @@ const NavigationBar = ({currView, setCurrView}) => {
           setCurrView("customer");
         }
         else{
-          if (isEmployee["manager"]){
+          if (isEmployee[0]["manager"]){
             console.log("is a manager");
             setCurrView("manager");
           }
@@ -143,6 +143,9 @@ const NavigationBar = ({currView, setCurrView}) => {
       case 3:
         navigate("/Trends");
         break;
+      case 4:
+        navigate("/Management");
+        break;
       default:
         navigate("/");
         break;
@@ -151,7 +154,7 @@ const NavigationBar = ({currView, setCurrView}) => {
   var buttons = ["Home", "Order"];
 
   if (currView === "manager"){
-  buttons = ["Home", "Order", "MenuBoard", "Trends"];
+  buttons = ["Home", "Order", "MenuBoard", "Trends", "Management"];
   }
   else if (currView === "cashier"){
   buttons = ["Home", "Order", "MenuBoard"];

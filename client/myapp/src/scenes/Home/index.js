@@ -358,7 +358,7 @@ function CheckoutModal({
         },
         body: JSON.stringify({
           customer_id: last_customer_id,
-          employee_id: 0, // FIXME get real employee id
+          employee_id: 5, // FIXME get real employee id
           date: formattedDate,
           price: totalCost,
           time: formattedTime,
@@ -483,7 +483,7 @@ function CheckoutModal({
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
-                  defaultValue={customerInfo[0]}
+                  defaultValue={currView === "customer" ? customerInfo[0] : ""}
                   helperText={
                     firstNameRef.current.value === "" && confirmOrderPressed
                       ? "Please enter first name"
@@ -507,7 +507,7 @@ function CheckoutModal({
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
-                  defaultValue={customerInfo[1]}
+                  defaultValue={currView === "customer" ? customerInfo[1] : ""}
                   helperText={
                     lastNameRef.current.value === "" && confirmOrderPressed
                       ? "Please enter last name"
@@ -524,7 +524,7 @@ function CheckoutModal({
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
-                  defaultValue={customerInfo[2]}
+                  defaultValue={currView === "customer" ? customerInfo[2] : ""}
                   helperText={
                     (!isValidEmail(emailRef.current.value) &&
                       confirmOrderPressed) ||
