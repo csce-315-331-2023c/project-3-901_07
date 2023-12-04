@@ -4,3 +4,12 @@
     overflow-y: auto;
     scroll-behavior: smooth;
   }
+
+.report-caption {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.excess-controls-row{
+  margin-bottom: 0px!important;
+}

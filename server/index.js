@@ -463,6 +463,110 @@ app.get('/sales_report', (req, res) => {
 
 });
 
+app.get('/excess_report', (req, res) => {
+    const startDate = req.query.start_date; 
+    pool
+        .query(`
+            WITH IngredientUsage AS (
+                WITH FilteredOrders AS (
+                    SELECT order_id
+                    FROM orders
+                    WHERE (date) > ($1)
+                )
+                , IngredientUsage AS (
+                    SELECT mim.ingredients_id
+                    FROM FilteredOrders fo
+                    JOIN drink d ON fo.order_id = d.order_id
+                    JOIN menu_ingredients_mapper mim ON d.menu_item_id = mim.menu_item_id
+                )
+                SELECT i.ingredients_id as IngredientID, i.name AS IngredientName, COALESCE(COUNT(iu.ingredients_id), 0) AS TimesUsed
+                FROM ingredients i
+                LEFT JOIN IngredientUsage iu ON i.ingredients_id = iu.ingredients_id
+                GROUP BY i.ingredients_id, i.name
+                ORDER BY TimesUsed DESC, IngredientName
+            )
+            SELECT
+                IngredientID,
+                IngredientName,
+                TimesUsed
+            FROM IngredientUsage iu
+            JOIN ingredients i ON iu.IngredientID = i.ingredients_id
+            WHERE (1.0 * iu.TimesUsed) / (iu.TimesUsed + i.availability) < 0.1
+            ORDER BY iu.TimesUsed DESC;
+        `, [startDate])
+        .then(query_res => {
+            const excess_report = query_res.rows;
+            console.log(excess_report);
+            res.json(excess_report);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve excess report');
+        });
+});
+
+app.get('/restock_report_ingredients', (req, res) => {
+    pool
+        .query(`
+            SELECT * from ingredients where availability < 30 order by availability asc;
+        `)
+        .then(query_res => {
+            const restock_report = query_res.rows;
+            console.log(restock_report);
+            res.json(restock_report);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve restock report');
+        });
+});
+
+
+app.get('/sales_together_report', (req, res) => {
+    const startDate = req.query.start_date; // Get the start date from the query parameters
+    const endDate = req.query.end_date; // Get the end date from the query parameters
+
+    console.log(startDate);
+
+    pool
+        .query(`
+            WITH PairedDrinks AS (
+            SELECT
+                d1.order_id,
+                d1.menu_item_id AS menu_item_id1,
+                d2.menu_item_id AS menu_item_id2
+            FROM drink d1
+            JOIN drink d2 ON d1.order_id = d2.order_id AND d1.menu_item_id < d2.menu_item_id
+            JOIN orders o ON d1.order_id = o.order_id
+            WHERE o.date BETWEEN $1 AND $2
+            )
+
+            SELECT
+                p.menu_item_id1,
+                mi1.name AS menu_item_name1,
+                p.menu_item_id2,
+                mi2.name AS menu_item_name2,
+                COUNT(*) AS frequency
+            FROM PairedDrinks p
+            JOIN menu_item mi1 ON p.menu_item_id1 = mi1.menu_item_id
+            JOIN menu_item mi2 ON p.menu_item_id2 = mi2.menu_item_id
+            GROUP BY p.menu_item_id1, mi1.name, p.menu_item_id2, mi2.name
+            ORDER BY frequency DESC
+            LIMIT 30;
+        `, [startDate, endDate])
+        .then(query_res => {
+            const sales_report = query_res.rows;
+            console.log(sales_report);
+            res.json(sales_report);
+        })
+        .catch(error => {
+            console.error('Database query failed:', error);
+            res.status(500).send('Failed to retrieve sales report');
+        });
+
+});
+
+
 app.set('view engine', 'ejs');
 
 app.use(session({

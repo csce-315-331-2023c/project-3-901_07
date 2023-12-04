@@ -66,7 +66,7 @@ function SalesReport() {
                 setChartData({
                     labels: labels,
                     datasets: [
-                        
+
                         {
                             label: '', 
                             data: counts,
@@ -85,6 +85,7 @@ function SalesReport() {
 
     return (
         <div className="sales-report">
+            <p className="report-caption">Enter a date to display the sales by menu item.</p>
             <div className="controls-row">
                 <div className="date-pickers">
                     <MaterialUIPicker
@@ -103,7 +104,7 @@ function SalesReport() {
             </div>
             <div className="sales-chart">
                 <Legend categories={categories} /> {}
-                <BarChart chartData={chartData} />
+                <BarChart chartData={chartData} yaxis={"Drinks Sold"}/>
             </div>
         </div>
     );
