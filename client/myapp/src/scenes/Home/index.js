@@ -49,6 +49,8 @@ function Home({ webServerAddress }) {
           mode: "cors",
         });
         const data = await response.json();
+        console.log("DATA");
+        console.log(data);
         setUserName(data["displayName"]);
         setUserID(data["id"]);
         setUserEmail(data["emails"][0]["value"]);
