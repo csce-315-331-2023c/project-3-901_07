@@ -146,7 +146,7 @@ const NavigationBar = ({ currView, setCurrView }) => {
         navigate("/Menu");
         break;
       case 3:
-        navigate("/Test");
+        navigate("/Trends");
         break;
       case 4:
         navigate("/Management");
