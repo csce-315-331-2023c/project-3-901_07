@@ -3,7 +3,7 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
-const NavigationBar = () => {
+const NavigationBar = ({ setCurrView }) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
 
@@ -17,55 +17,25 @@ const NavigationBar = () => {
           }
         );
         const data = await response.json();
-        const fetchedUserName = data["displayName"];
-
-        // Check if user account is registered in table
-        const customerExistResponse = await fetch(
-          process.env.REACT_APP_WEB_SERVER_ADDRESS +
-            "/check-customer-exist/" +
-            data["emails"][0]["value"],
-          {
-            mode: "cors",
-          }
-        );
-        const customerExistData = await customerExistResponse.json();
-        console.log(customerExistData);
-
-        if (customerExistData["exists"] === false) {
-          console.log("customer account does not exist");
-          // Create new customer account
-          const postResponse = await fetch(
-            process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_customer",
+        if (data.length !== undefined) {
+          const fetchedUserName = data["displayName"];
+          // Check if user account is registered in table
+          const customerExistResponse = await fetch(
+            process.env.REACT_APP_WEB_SERVER_ADDRESS +
+              "/check-customer-exist/" +
+              data["emails"][0]["value"],
             {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name: data["displayName"],
-                auth_token: data["id"],
-                email: data["emails"][0]["value"],
-              }),
+              mode: "cors",
             }
           );
-          const postMessage = await postResponse.json();
-          console.log(postMessage);
-          const responseData = await response.text(); // Get the response as text
-          console.log(responseData);
-        }
-        if (customerExistData["exists"] === true) {
-          const customerJSONResponse = await fetch(
-            process.env.REACT_APP_WEB_SERVER_ADDRESS +
-              "/get-customer-by-email/" +
-              data["emails"][0]["value"]
-          );
-          const customerData = await customerJSONResponse.json();
-          //if the custoemr email exist, howeever they haven't created an account with oauth, update customer data.
-          if (customerData["auth_token"] === null) {
-            const updateResponse = await fetch(
-              process.env.REACT_APP_WEB_SERVER_ADDRESS +
-                "/update_customer/" +
-                data["emails"][0]["value"],
+          const customerExistData = await customerExistResponse.json();
+          console.log(customerExistData);
+
+          if (customerExistData["exists"] === false) {
+            console.log("customer account does not exist");
+            // Create new customer account
+            const postResponse = await fetch(
+              process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_customer",
               {
                 method: "POST",
                 headers: {
@@ -74,15 +44,48 @@ const NavigationBar = () => {
                 body: JSON.stringify({
                   name: data["displayName"],
                   auth_token: data["id"],
+                  email: data["emails"][0]["value"],
                 }),
               }
             );
-            const updateMessage = await updateResponse.json();
+            const postMessage = await postResponse.json();
+            console.log(postMessage);
+            const responseData = await response.text(); // Get the response as text
+            console.log(responseData);
           }
-        }
+          if (customerExistData["exists"] === true) {
+            const customerJSONResponse = await fetch(
+              process.env.REACT_APP_WEB_SERVER_ADDRESS +
+                "/get-customer-by-email/" +
+                data["emails"][0]["value"]
+            );
+            const customerData = await customerJSONResponse.json();
+            //if the custoemr email exist, howeever they haven't created an account with oauth, update customer data.
+            if (customerData["auth_token"] === null) {
+              const updateResponse = await fetch(
+                process.env.REACT_APP_WEB_SERVER_ADDRESS +
+                  "/update_customer/" +
+                  data["emails"][0]["value"],
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: data["displayName"],
+                    auth_token: data["id"],
+                  }),
+                }
+              );
+              const updateMessage = await updateResponse.json();
+            }
+          }
 
-        setUserName(fetchedUserName);
-        setuserID(data["id"]);
+          //check if user is an employee or not
+
+          setUserName(fetchedUserName);
+          setuserID(data["id"]);
+        }
       } catch (error) {
         // Handle error
         console.error("Error fetching user data:", error);
