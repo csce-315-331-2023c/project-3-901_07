@@ -704,7 +704,7 @@ passport.use(
     {
       clientID: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "https://three31-07-backend.onrender.com/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       userProfile = profile;

@@ -11,8 +11,7 @@ function DrinkPanel({ isClicked, handleLinkClick, toggleModal}) {
     useEffect(() => {
       async function fetchData() {
         try {
-          const response = await fetch('https://shareteawebapp.onrender.com/menu_item', {mode:'cors'});
-          // const response = await fetch('http://localhost:5000/name', {mode:'cors'});
+          const response = await fetch('https://three31-07-backend.onrender.com/menu_item', {mode:'cors'});
           const data = await response.json();
           console.log({ data })
           setData(data);
