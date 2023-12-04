@@ -32,7 +32,7 @@ process.on("SIGINT", function () {
   process.exit(0);
 });
 
-// app.set("view engine", "ejs");
+app.set("view engine", "ejs");
 
 // app.get('/', (req, res) => {
 //     const data = {name: 'Mario'};
