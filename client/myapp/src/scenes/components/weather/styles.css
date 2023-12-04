@@ -1,6 +1,21 @@
-.Holder{
-    padding-top: 150px;
-    align-items: center;
-    text-align: center;
-    
+.Holder {
+    display: flex;
+    font-size: 10px;
+}
+
+.TempHolder,
+.WeatherHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.WeatherHolder {
+    padding-left: 20px;
+    text-align: right;
+}
+
+.TempHolder p1,
+.WeatherHolder p1 {
+    margin-bottom: 3px;
+    width: 100%; /* Ensures the paragraphs take the full width */
 }

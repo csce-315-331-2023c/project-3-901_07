@@ -6,8 +6,12 @@ import {
   createBrowserRouter, RouterProvider
 } from "react-router-dom";
 import App from "./App";
-import Landing from "./Landing";
+import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
+import Landing from "./scenes/Home/Landing";
+import Management from "./scenes/Management";
+import AB from "./scenes/Home/Landing/a";
+import Trends from "./scenes/Trends";
 
 const router = createBrowserRouter([
   {
@@ -24,13 +28,27 @@ const router = createBrowserRouter([
       {
         path: "/Weather",
         element: <Weather/>
+      },
+      {
+        path: "/Menu",
+        element: <Menu/>
+      },
+      {
+        path:"/Trends",
+        element: <Trends/>
+      },
+      {
+        path:"/Management",
+        element: <Management/>
+      },
+      {
+        path:"/Test",
+        element: <AB/>
       }
     ]
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
 );

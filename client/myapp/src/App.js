@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import Home from './scenes/Home/index.js';
 import NavBar from './scenes/components/navbar';
 import SignInModal from "./scenes/components/signinmodal";
+import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 function App() {
   const [signInModal, setSignInModal] = useState(false);
-
+  const [currView, setCurrView] = useState("customer");
   //modal
   const toggleSignInModal = () => {
     console.log("toggle modal");
@@ -21,8 +22,9 @@ function App() {
 
   return (
     <div className = "box">
-      <NavBar toggleSignInModal={toggleSignInModal} />
-      <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS}/>
+
+      <LandingNav currView={currView} setCurrView={setCurrView} />
+      <Home webServerAddress={process.env.REACT_APP_WEB_SERVER_ADDRESS} currView={currView} setCurrView={setCurrView}/>
       {signInModal && <SignInModal toggleModal={toggleSignInModal} />}
     </div>
   );

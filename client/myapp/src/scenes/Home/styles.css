@@ -53,6 +53,7 @@ span.panel-divider {
   width: 100%;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .leftpanel-order-component div.drink-cart-component {
@@ -233,6 +234,29 @@ button.leftpanel-checkout-button:active {
   background: none;
 }
 
+.cartempty-div{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #787878;
+  /* animation: shake 0.5s ease-in-out;
+  animation-iteration-count: 1; */
+}
+
+.cartempty-div > div > img{
+  width: 80px;
+  filter: invert(71%) sepia(0%) saturate(3734%) hue-rotate(315deg) brightness(66%) contrast(81%);
+}
+
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
 /* DrinkPanel */
 .drinkpanel {
   height: calc(100vh - var(--navbarHeight));
@@ -247,14 +271,257 @@ button.leftpanel-checkout-button:active {
   padding: 20px;
 }
 
-.drink-cards {
+.drink-cards-customer {
   margin: 0 auto;
   max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.drink-cards-employee {
+  margin: 0 auto;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 20px;
 }
 
 .fill-gap {
-  height: 20%;
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.fill-gap .waveanimation-container{
+}
+
+.fill-gap .waveanimation-container img{
+  width: 20vh;
+  height: auto;
+}
+
+
+/* checkoutModal */
+
+
+.checkout-modal-overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.394);
+  z-index: 107;
+}
+
+
+.checkout-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: white;
+  padding: 14px 14px 0px 25px;
+  border-radius: 3px;
+  min-width: 80vw;
+  min-height: 80vh;
+  z-index: 108;
+  display:flex;
+  flex-flow: column;
+}
+
+.checkout-modal-row-content {
+  display:flex;
+  flex-flow: row;
+  flex: 1 1 auto;
+  max-height: 73vh;
+}
+
+.checkout-modal-row-content h3{
+  padding: 0px;
+}
+
+.checkout-modal-info-card{
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.30 );
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-modal-info-card > .textfield-section{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+
+.checkout-modal-left-panel{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  
+}
+
+.checkout-modal-left-panel > div{
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.30 );
+  margin-bottom: 15px;
+  padding: 0px 20px 20px 20px;
+  border-radius: 5px;
+}
+
+.checkout-modal-payment-method-card > .divider{
+  width: 100%;
+  height: 5px;
+  background-color: black;
+  border-radius: 100px;
+  
+}
+
+
+.paycash-button{
+  background-color: #D9D9D9;
+  width: 150px;
+  height: 150px;
+  display:flex;
+  text-align: center;
+  flex-direction: column;
+  border-radius: 25px;
+  font-weight: 700;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  transition-property: color, border;
+  transition-duration: 0.3s;
+  border:transparent solid 3px;
+  cursor: pointer;
+
+}
+
+
+.paycash-button:hover, .hvr-rectangle-in:focus, .hvr-rectangle-in:active {
+  border: black solid 3px;
+  
+}
+
+
+.paycash-button.active > div > img{
+  -webkit-filter: invert(100%);
+}
+
+.paycash-button.active {
+    transition-property: color, border;
+  transition-duration: 0.3s;
+  background-color: #76B947;
+  color:white;
+}
+
+
+
+
+
+.paycash-button > div > img{
+  width: 100px;
+  height: auto;
+  -webkit-transition-property: color, -webkit-filter;
+  transition-property: -webkit-filter;
+  transition-property: filter;
+  transition-duration: 0.3s;
+
+  
+}
+
+.payment-options-section, .tip-options-section{
+  padding:0px 0px 10px 0px;
+}
+
+
+.checkout-modal-right-panel{
+
+  flex: 1; 
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  
+}
+
+.checkout-modal-right-panel div.middle-section {
+  flex: 1;
+  overflow-y: auto;
+  padding:10px;
+  width: 90%;
+  font-weight: 700;
+  
+}
+
+.checkout-modal-right-panel div.checkout-cart-component {
+  background-color: #E2E2E2;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.checkout-modal-right-panel div.drink {
+  display: flex;
+  justify-content: flex-end;
+
+  
+}
+
+.checkout-modal-right-panel div.drink p {
+  font-size: 15px;
+  margin: 0;
+  text-align: left;
+}
+
+.checkout-modal-right-panel div.drink p.name {
+  flex: 1;
+}
+
+.checkout-modal-right-panel div.drink p.price {
+  color: #787878;
+  align-self: flex-end;
+}
+
+
+.checkout-order-panel{
+  background-color: #EFEFEF;
+  height: 63vh;
+  width: 90%;
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.checkout-order-panel h4{
+  margin:20px 0px 10px 0px;
+}
+
+.checkout-order-panel div.bottom-section {
+  width: 90%;
+  margin:0;
+  height: 30px;
+}
+
+.checkout-order-panel div.bottom-section p {
+  font-size: 20px;
+  margin: 5px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.checkout-order-panel span.divider{
+  width: 90%;
+  height: 3px;
+  border-radius: 25px;
+  background-color: black;
+  margin: 10px 0px 10px 0px;
 }

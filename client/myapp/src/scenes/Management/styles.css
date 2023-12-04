@@ -1,0 +1,174 @@
+.management-content-panel h1{
+    font-size:xx-large;
+}
+
+.drink-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+    table-layout: fixed;
+}
+
+.drink-table td, .drink-table th {
+    padding: 8px;
+}
+
+.drink-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.drink-table tr:hover {
+    background-color: #ddd;
+}
+
+.drink-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #f2f2f2;
+    color: Black;
+}
+
+.drink-table .drink-name {
+    text-align: left; 
+    width: auto;
+}
+
+.drink-table .drink-actions {
+    text-align: right;
+    white-space: nowrap; 
+    padding-right: 16px;
+}
+
+
+button.management-button {
+    /* Remove width and margin-left styles */
+    appearance: button;
+    background-color: #a6242a;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 15px 8px; /* Add right margin to separate the buttons */
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px; /* Adjust padding to increase the button size */
+    text-align: center;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    /* Set min-width if needed */
+    min-width: 200px; /* Example minimum width */
+}
+  
+  button.management-button:after {
+    background-clip: padding-box;
+    background-color: #ed323a;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+  }
+  
+  button.management-button:main,
+  button.management-button:focus {
+    user-select: auto;
+  }
+  
+  button.management-button:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+  }
+  
+  button.management-button:disabled {
+    cursor: auto;
+  }
+  
+  button.management-button:active {
+    border-width: 4px 0 0;
+    background: none;
+  }
+
+  .management-container h2{
+    margin-bottom: 10px;
+  }
+
+  .management-overlay {
+    position: absolute;;
+    top: 10px;
+    left: 10px;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    
+}
+
+.management-overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    height: 400px;
+    overflow-y: auto;
+    position: relative; 
+}
+
+.management-overlay-content > * {
+
+    margin-bottom: 30px;
+}
+
+
+.management-overlay-top {
+    display: flex;
+    justify-content: space-between; /* This will separate the header and the button */
+    align-items: center;
+    width: 100%;
+}
+
+.management-overlay-close-button{
+    margin-left:auto!important;
+}
+
+.management-title{
+    margin-top: 0px;
+    margin-left: 15px;
+    font-size: 30px;
+}
+
+.price-edit-container h3{
+    padding: 0px;
+    margin-left: 15px;
+}
+
+.management-card-button{
+    width: 100%!important;
+    margin-left: 0px!important;
+}
+
+.management-textfield >* {
+    width: 100%;
+}
+.management-textfield {
+    margin-bottom: 0px;
+}
+
