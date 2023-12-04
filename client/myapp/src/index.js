@@ -8,11 +8,9 @@ import {
 import App from "./App";
 import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
-import Trends from"./scenes/Trends";
-import ImageCarousel from "./scenes/Home/components/carousel";
-import NavigationBar from "./scenes/Home/components/LandingNav";
 import Landing from "./scenes/Home/Landing";
-
+import AB from "./scenes/Home/Landing/a";
+import Trends from "./scenes/Trends";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +36,10 @@ const router = createBrowserRouter([
         path:"/Trends",
         element: <Trends/>
       },
+      {
+        path:"/Test",
+        element: <AB/>
+      }
     ]
   },
 ]);
