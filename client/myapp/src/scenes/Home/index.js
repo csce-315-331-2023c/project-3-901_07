@@ -49,6 +49,8 @@ function Home({ webServerAddress }) {
           mode: "cors",
         });
         const data = await response.json();
+        console.log("DATA");
+        console.log(data);
         setUserName(data["displayName"]);
         setUserID(data["id"]);
         setUserEmail(data["emails"][0]["value"]);
@@ -337,7 +339,7 @@ function CheckoutModal({
         (total, item) => total + item.totalPrice,
         0
       );
-      const employee_id = 0; // FIXME
+      const employee_id = 5; // FIXME
       const now = new Date();
       const formattedDate = now.toISOString().slice(0, 10);
       const hours = now.getHours();

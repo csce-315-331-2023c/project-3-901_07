@@ -3,22 +3,21 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
-const NavigationBar = () => {
+const NavigationBar = ({setCurrView}) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/success",
-          {
-            mode: "cors",
-          }
-        );
+        const response = await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/success", {
+          mode: "cors",
+        });
         const data = await response.json();
+        console.log("DSOFKSDFKOSD");
+        console.log(data);
         const fetchedUserName = data["displayName"];
-
+        
         // Check if user account is registered in table
         const customerExistResponse = await fetch(
           process.env.REACT_APP_WEB_SERVER_ADDRESS +
@@ -28,6 +27,7 @@ const NavigationBar = () => {
             mode: "cors",
           }
         );
+        console.log("1");
         const customerExistData = await customerExistResponse.json();
         console.log(customerExistData);
 
@@ -48,6 +48,7 @@ const NavigationBar = () => {
               }),
             }
           );
+          console.log("2");
           const postMessage = await postResponse.json();
           console.log(postMessage);
           const responseData = await response.text(); // Get the response as text
@@ -81,16 +82,20 @@ const NavigationBar = () => {
           }
         }
 
+        //check if user is an employee or not
+
+
+
         setUserName(fetchedUserName);
         setuserID(data["id"]);
       } catch (error) {
         // Handle error
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data");
       }
     }
 
     fetchData();
-  }, [process.env.REACT_APP_WEB_SERVER_ADDRESS]);
+  }, []);
 
   const handleSignOut = async () => {
     window.location.href = process.env.REACT_APP_WEB_SERVER_ADDRESS + "/logout";
