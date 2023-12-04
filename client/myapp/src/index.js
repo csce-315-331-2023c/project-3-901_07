@@ -5,7 +5,6 @@ import "./index.css";
 
 import App from "./App";
 import Menu from "./Menu";
-import Weather from "./scenes/components/weather";
 import LandingNav from "./scenes/Home/components/LandingNav"; // Import your NavBar component
 import Landing from "./scenes/Home/Landing";
 import AB from "./scenes/Home/Landing/a";
@@ -21,7 +20,6 @@ const AppWithNavBar = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/App" element={<App currView={currView} setCurrView={setCurrView}/>} />
-        <Route path="/Weather" element={<Weather />} />
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Trends" element={<Trends />} />
         <Route path="/Management" element={<Management />} />
