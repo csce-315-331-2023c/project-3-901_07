@@ -7,6 +7,7 @@
     "starter"
   ],
   "main": "src/index.js",
+  "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@fortawesome/fontawesome-free": "^6.5.1",
