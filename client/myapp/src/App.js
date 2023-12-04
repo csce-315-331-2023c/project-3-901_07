@@ -7,7 +7,7 @@ import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 function App() {
   const [signInModal, setSignInModal] = useState(false);
-  const [currView, setCurrView] = useState(null);
+  const [currView, setCurrView] = useState("customer");
   //modal
   const toggleSignInModal = () => {
     console.log("toggle modal");
