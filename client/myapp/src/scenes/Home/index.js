@@ -19,8 +19,9 @@ function Home({ webServerAddress }) {
   const [cart, setCart] = useState([]);
   const [userName, setUserName] = useState(null);
   const [userID, setUserID] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
   const [employeeData, setEmployeeData] = useState(null);
-
+  const [customeData, setCustomerData] = useState(null);
 
   //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
   //Retrieve Data
@@ -48,9 +49,9 @@ function Home({ webServerAddress }) {
           mode: "cors",
         });
         const data = await response.json();
-        const fetchedUserName = data['displayName'];
-        setUserName(fetchedUserName);
+        setUserName(data['displayName']);
         setUserID(data['id']);
+        setUserEmail(data['emails'][0]['value']);
 
         const responseEmployee = await fetch(webServerAddress + "/employee", {
           mode: "cors",
@@ -58,12 +59,19 @@ function Home({ webServerAddress }) {
         const employeeJson = await responseEmployee.json();
         setEmployeeData(employeeJson);
         
+        const responseCustomer = await fetch(webServerAddress + "/customer", {
+          mode: "cors",
+        });
+        const customerJson = await responseCustomer.json();
+        setCustomerData(customerJson);
+
       } catch {
         //console.log("error");
       }
     }
     fetchData();
   }, [webServerAddress]);
+
 
   useEffect(() => {
     function setView() {

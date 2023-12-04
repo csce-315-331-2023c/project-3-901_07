@@ -498,8 +498,8 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const GOOGLE_CLIENT_ID = 'our-google-client-id';
 const GOOGLE_CLIENT_SECRET = 'our-google-client-secret';
 passport.use(new GoogleStrategy({
-    clientID: "832055876235-3o5uqtqgj8o709loq1odq87a4mebgp1o.apps.googleusercontent.com",
-    clientSecret: "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",
+    clientID: process.env.OAUTH_CLIENT_ID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
