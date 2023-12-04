@@ -18,6 +18,9 @@
   
   .navigation-bar {
     display: flex;
+    position: absolute;
+    left: 50%; /* Move the div 50% from the left edge of the parent */
+    transform: translateX(-50%); /* Adjust by -50% of its own width */
   }
   
   .nav-button {

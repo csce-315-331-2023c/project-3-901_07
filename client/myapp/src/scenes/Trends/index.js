@@ -30,14 +30,14 @@ ChartJS.register(
 const Trends = () => {
   
   const [currReport, setReport] = useState("Sales Report");
-  
+  const [currView, setCurrView] = useState("customer");
   const handleSetContentPanel = (category) => {
     setReport(category); 
   };
 
   return (
     <div className="trends-container">
-      <LandingNav />
+      <LandingNav currView={currView} setCurrView={setCurrView} />
       <div className = "trends-main-content">
             <LeftPanel currReport={currReport} setContentPanel={handleSetContentPanel} />
             <span className="trends-panel-divider"></span>

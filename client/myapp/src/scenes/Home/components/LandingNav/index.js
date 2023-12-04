@@ -3,7 +3,7 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
-const NavigationBar = ({setCurrView}) => {
+const NavigationBar = ({currView, setCurrView}) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
 
@@ -83,7 +83,26 @@ const NavigationBar = ({setCurrView}) => {
         }
 
         //check if user is an employee or not
-
+        const checkEmployeeResponse = await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/employee/" + data["emails"][0]["value"], {
+          mode: "cors",
+        });
+        const isEmployee = await checkEmployeeResponse.json();
+        if (isEmployee === null){
+          //not an employee
+          console.log("not an employee");
+          setCurrView("customer");
+        }
+        else{
+          if (isEmployee["manager"]){
+            console.log("is a manager");
+            setCurrView("manager");
+          }
+          else{
+            console.log("is a cashier");
+            setCurrView("cashier");
+          }
+          
+        }
 
 
         setUserName(fetchedUserName);
@@ -119,18 +138,24 @@ const NavigationBar = ({setCurrView}) => {
         navigate("/App");
         break;
       case 2:
-        navigate("/Trends");
+        navigate("/Menu");
         break;
       case 3:
-        navigate("/Menu");
+        navigate("/Trends");
         break;
       default:
         navigate("/");
         break;
     }
   };
+  var buttons = ["Home", "Order"];
 
-  const buttons = ["Home", "Order", "Trends", "MenuBoard"];
+  if (currView === "manager"){
+  buttons = ["Home", "Order", "MenuBoard", "Trends"];
+  }
+  else if (currView === "cashier"){
+  buttons = ["Home", "Order", "MenuBoard"];
+  }
 
   return (
     <div className="nav-wrapper">
