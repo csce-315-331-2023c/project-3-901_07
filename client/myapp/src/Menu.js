@@ -50,6 +50,7 @@ import strawberryMojito from "./assets/images/drinks/strawberry mojito.png";
 
 
 function Menu() {
+  const [currView, setCurrView] = useState("customer");
   const [drinkAndToppingData, setdrinkAndToppingData] = useState(false);
   const webServerAddress = process.env.REACT_APP_WEB_SERVER_ADDRESS;
   useEffect(() => {
@@ -252,7 +253,7 @@ function Menu() {
   return (
     <>
       {/* Top bar with logo and decorative element */}
-      <LandingNav />
+      <LandingNav currView={currView} setCurrView={setCurrView} />
 
       <div className="menu-board">
         {drinkAndToppingData &&

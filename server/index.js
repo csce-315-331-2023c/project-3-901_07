@@ -140,6 +140,29 @@ app.get("/employee", (req, res) => {
     });
 });
 
+app.get("/employee/:email", (req, res) => {
+    const { email } = req.params;
+    res.set("Access-Control-Allow-Origin", "*");
+    pool
+      .query(
+        "SELECT * FROM employee WHERE email = $1",
+        [email]
+      )
+      .then((query_res) => {
+        const employeeData = query_res.rows;
+        if (employeeData.length > 0) {
+          res.json(employeeData); // Return employee data if found
+        } else {
+          res.json(null); // Return null if email doesn't exist
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching employee data:", error);
+        res.status(500).send("Failed to retrieve employee data");
+      });
+  });
+
+  
 app.get("/ingredients", (req, res) => {
   //Ingredients Datatable
   res.set("Access-Control-Allow-Origin", "*");

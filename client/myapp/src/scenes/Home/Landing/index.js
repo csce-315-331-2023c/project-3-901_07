@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from "react";
 import ImageCarousel from '../components/carousel';
 import Footer from '../components/footer';
-import NavigationBar from '../components/LandingNav';
-import './styles.css';
+import LandingNav from '../components/LandingNav';
+import "./styles.css";
 
 function Landing() {
+  const [currView, setCurrView] = useState("customer");
+
   
     
 
