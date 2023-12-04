@@ -6,7 +6,6 @@ import ExcessReport from './components/ExcessReport'
 import RestockReport from './components/RestockReport'
 import SalesReport from './components/SalesReport'
 import WhatSalesTogether from './components/WhatSalesTogether'
-import shareTeaLogo from "../../assets/images/sharetealogo.png";
 import LandingNav from "../Home/components/LandingNav/index.js";
 
 import {
@@ -30,7 +29,7 @@ ChartJS.register(
 
 const Trends = () => {
   
-  const [currReport, setReport] = useState(null);
+  const [currReport, setReport] = useState("Sales Report");
   
   const handleSetContentPanel = (category) => {
     setReport(category); 
@@ -48,9 +47,6 @@ const Trends = () => {
   );
 };
 
-function setContentPanel({category}){
-    
-}
 
 function LeftPanel({ currReport, setContentPanel }) {
     const categories = ["Sales Report", "Excess Report", "Restock Report", "What Sales Together"];

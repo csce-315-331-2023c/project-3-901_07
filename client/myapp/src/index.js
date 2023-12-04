@@ -12,6 +12,7 @@ import Trends from"./scenes/Trends";
 import ImageCarousel from "./scenes/Home/components/carousel";
 import NavigationBar from "./scenes/Home/components/LandingNav";
 import Landing from "./scenes/Home/Landing";
+import Management from "./scenes/Management";
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path:"/Trends",
         element: <Trends/>
+      },
+      {
+        path:"/Management",
+        element: <Management/>
       },
     ]
   },
