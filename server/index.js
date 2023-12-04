@@ -47,9 +47,18 @@ app.use(
   })
 );
 
-app.get("/", function (req, res) {
-  res.render(path.join(__dirname, "../client/myapp/src/index.js"));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/myapp/build")));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../client/myapp/build/index.html'));
 });
+
+// app.get("/", function (req, res) {
+//   res.render(path.join(__dirname, "../client/myapp/src/index.js"));
+// });
 
 // Serve the index.html file (the entry point of your React app) for all GET requests
 
@@ -704,7 +713,7 @@ passport.use(
     {
       clientID: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      callbackURL: "https://three31-07-backend.onrender.com/auth/google/callback",
+      callbackURL: "/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       userProfile = profile;
