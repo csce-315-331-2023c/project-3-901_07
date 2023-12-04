@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import './Menu.css';
-import shareTeaLogo from './assets/images/sharetealogo.png';
-import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
 
 //creama
@@ -50,7 +48,6 @@ import strawberryMojito from "./assets/images/drinks/strawberry mojito.png";
 
 
 function Menu() {
-  const [currView, setCurrView] = useState("customer");
   const [drinkAndToppingData, setdrinkAndToppingData] = useState(false);
   const webServerAddress = process.env.REACT_APP_WEB_SERVER_ADDRESS;
   useEffect(() => {
@@ -253,7 +250,6 @@ function Menu() {
   return (
     <>
       {/* Top bar with logo and decorative element */}
-      <LandingNav currView={currView} setCurrView={setCurrView} />
 
       <div className="menu-board">
         {drinkAndToppingData &&

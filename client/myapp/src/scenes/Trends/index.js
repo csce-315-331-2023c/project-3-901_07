@@ -6,7 +6,6 @@ import ExcessReport from './components/ExcessReport'
 import RestockReport from './components/RestockReport'
 import SalesReport from './components/SalesReport'
 import WhatSalesTogether from './components/WhatSalesTogether'
-import LandingNav from "../Home/components/LandingNav/index.js";
 
 import {
   Chart as ChartJS,
@@ -30,14 +29,12 @@ ChartJS.register(
 const Trends = () => {
   
   const [currReport, setReport] = useState("Sales Report");
-  const [currView, setCurrView] = useState("customer");
   const handleSetContentPanel = (category) => {
     setReport(category); 
   };
 
   return (
     <div className="trends-container">
-      <LandingNav currView={currView} setCurrView={setCurrView} />
       <div className = "trends-main-content">
             <LeftPanel currReport={currReport} setContentPanel={handleSetContentPanel} />
             <span className="trends-panel-divider"></span>

@@ -1,10 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import './index.css';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./index.css";
 
-import {
-  createBrowserRouter, RouterProvider
-} from "react-router-dom";
+import LandingNav from "./scenes/Home/components/LandingNav"; // Import your NavBar component
 import App from "./App";
 import Menu from "./Menu";
 import Weather from "./scenes/components/weather";
@@ -13,42 +12,28 @@ import Management from "./scenes/Management";
 import AB from "./scenes/Home/Landing/a";
 import Trends from "./scenes/Trends";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    children:[
-      {
-        path: "",
-        element: <Landing/>,
-      },
-      {
-        path: "/App",
-        element: <App/>
-      },
-      {
-        path: "/Weather",
-        element: <Weather/>
-      },
-      {
-        path: "/Menu",
-        element: <Menu/>
-      },
-      {
-        path:"/Trends",
-        element: <Trends/>
-      },
-      {
-        path:"/Management",
-        element: <Management/>
-      },
-      {
-        path:"/Test",
-        element: <AB/>
-      }
-    ]
-  },
-]);
+const AppWithNavBar = () => {
+  const[currView, setCurrView] = useState("customer");
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-    <RouterProvider router={router} />
+  return (
+    <div>
+      <LandingNav currView={currView} setCurrView={setCurrView}/> {/* Common NavBar component */}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/App" element={<App currView={currView} setCurrView={setCurrView}/>} />
+        <Route path="/Weather" element={<Weather />} />
+        <Route path="/Menu" element={<Menu />} />
+        <Route path="/Trends" element={<Trends />} />
+        <Route path="/Management" element={<Management />} />
+        <Route path="/Test" element={<AB />} />
+      </Routes>
+    </div>
+  );
+};
+
+ReactDOM.render(
+  <Router>
+    <AppWithNavBar />
+  </Router>,
+  document.getElementById("root")
 );

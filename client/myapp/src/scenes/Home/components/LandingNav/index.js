@@ -3,21 +3,24 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
-const NavigationBar = ({currView, setCurrView}) => {
+const NavigationBar = ({ currView, setCurrView }) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/success", {
-          mode: "cors",
-        });
+        const response = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/success",
+          {
+            mode: "cors",
+          }
+        );
         const data = await response.json();
-        console.log("DSOFKSDFKOSD");
-        console.log(data);
         const fetchedUserName = data["displayName"];
-        
+        setUserName(fetchedUserName);
+        setuserID(data["id"]);
+
         // Check if user account is registered in table
         const customerExistResponse = await fetch(
           process.env.REACT_APP_WEB_SERVER_ADDRESS +
@@ -27,7 +30,6 @@ const NavigationBar = ({currView, setCurrView}) => {
             mode: "cors",
           }
         );
-        console.log("1");
         const customerExistData = await customerExistResponse.json();
         console.log(customerExistData);
 
@@ -48,13 +50,8 @@ const NavigationBar = ({currView, setCurrView}) => {
               }),
             }
           );
-          console.log("2");
           const postMessage = await postResponse.json();
-          console.log(postMessage);
-          const responseData = await response.text(); // Get the response as text
-          console.log(responseData);
-        }
-        if (customerExistData["exists"] === true) {
+        } else if (customerExistData["exists"] === true) {
           const customerJSONResponse = await fetch(
             process.env.REACT_APP_WEB_SERVER_ADDRESS +
               "/get-customer-by-email/" +
@@ -83,30 +80,28 @@ const NavigationBar = ({currView, setCurrView}) => {
         }
 
         //check if user is an employee or not
-        const checkEmployeeResponse = await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/employee/" + data["emails"][0]["value"], {
-          mode: "cors",
-        });
+        const checkEmployeeResponse = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS +
+            "/employee/" +
+            data["emails"][0]["value"],
+          {
+            mode: "cors",
+          }
+        );
         const isEmployee = await checkEmployeeResponse.json();
-        if (isEmployee === null){
+        if (isEmployee === null) {
           //not an employee
           console.log("not an employee");
           setCurrView("customer");
-        }
-        else{
-          if (isEmployee[0]["manager"]){
+        } else {
+          if (isEmployee[0]["manager"]) {
             console.log("is a manager");
             setCurrView("manager");
-          }
-          else{
+          } else {
             console.log("is a cashier");
             setCurrView("cashier");
           }
-          
         }
-
-
-        setUserName(fetchedUserName);
-        setuserID(data["id"]);
       } catch (error) {
         // Handle error
         console.error("Error fetching user data");
@@ -153,11 +148,10 @@ const NavigationBar = ({currView, setCurrView}) => {
   };
   var buttons = ["Home", "Order"];
 
-  if (currView === "manager"){
-  buttons = ["Home", "Order", "MenuBoard", "Trends", "Management"];
-  }
-  else if (currView === "cashier"){
-  buttons = ["Home", "Order", "MenuBoard"];
+  if (currView === "manager") {
+    buttons = ["Home", "Order", "MenuBoard", "Trends", "Management"];
+  } else if (currView === "cashier") {
+    buttons = ["Home", "Order", "MenuBoard"];
   }
 
   return (

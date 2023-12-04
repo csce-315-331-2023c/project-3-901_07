@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import "./styles.css"; // Import the separate CSS for this page
-import LandingNav from "../Home/components/LandingNav/index.js";
 import Drinks from "./components/Drinks/index.js";
 import ToppingsAndIngredients from "./components/ToppingsAndIngredients/index.js";
 const Trends = () => {
   const [currReport, setReport] = useState("Drinks");
-  const [currView, setCurrView] = useState("customer");
   const handleSetContentPanel = (category) => {
     setReport(category);
   };
 
   return (
     <div>
-      <LandingNav currView={currView} setCurrView={setCurrView} />
       <div className="trends-container">
         <div className="trends-main-content">
           <LeftPanel

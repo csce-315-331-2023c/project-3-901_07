@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import ImageCarousel from '../components/carousel';
 import Footer from '../components/footer';
-import LandingNav from '../components/LandingNav';
 import "./styles.css";
 
 function Landing() {
-  const [currView, setCurrView] = useState("customer");
 
   
     
@@ -16,7 +14,6 @@ function Landing() {
 
   return (
     <div className="Landing">
-      <LandingNav currView={currView} setCurrView={setCurrView} />
       <ImageCarousel />
       <div className="about-us">
         <h4>About Us</h4>
