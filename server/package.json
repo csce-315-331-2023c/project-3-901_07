@@ -16,5 +16,6 @@
     "passport-google-oauth": "^2.0.0",
     "pg": "^8.11.3",
     "react-i18next": "^13.5.0"
-  }
+  },
+  "license": "MIT"
 }
