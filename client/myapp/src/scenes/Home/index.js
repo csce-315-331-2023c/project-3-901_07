@@ -63,32 +63,32 @@ function Home({ webServerAddress }) {
       }
     }
     fetchData();
+  }, [webServerAddress]);
 
-    if (employeeData){
-      const employeeArray = Object.values(employeeData);
-  
-      for (const employee of employeeArray) {
-        if (employee.auth_token === userID) {
-          const isManager = employee.manager;
-          if (isManager === true){
-            setcurrView("manager");
+  useEffect(() => {
+    function setView() {
+      if (employeeData){
+        const employeeArray = Object.values(employeeData);
+        for (const employee of employeeArray) {
+          if (employee.auth_token === userID) {
+            const isManager = employee.manager;
+            if (isManager === true){
+              setcurrView("manager");
+            }
+            else {
+              setcurrView("cashier");
+            }
+            break; 
           }
           else {
-            setcurrView("employee");
+            setcurrView("customer");
           }
-          break; 
-        }
-        else {
-          setcurrView("customer");
         }
       }
     }
-  }, [webServerAddress, employeeData]);
-
+    setView();
+  }, [employeeData]);
   
-  
-  // console.log(userName);
-
   useEffect(() => {
     function setDrinkEditedDefault() {
 
