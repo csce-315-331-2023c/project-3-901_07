@@ -410,6 +410,24 @@ app.post("/add_new_customer", (req, res) => {
     });
 });
 
+app.post("/add_new_menu_item", (req, res) => {
+  const { name, type, price } = req.body;
+  res.set("Access-Control-Allow-Origin", "*");
+  pool
+    .query(
+      "INSERT INTO menu_item (name, type, price) VALUES ($1, $2, $3)",
+      [name, type, price]
+    )
+    .then(() => {
+      res.send("New menu item added successfully");
+    })
+    .catch((error) => {
+      console.error("Error inserting menu item:", error);
+      res.status(500).send("Failed to add new menu item");
+    });
+  });
+ 
+
 app.get("/get-customer-by-email/:email", (req, res) => {
   const { email } = req.params;
   pool

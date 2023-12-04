@@ -1,3 +1,32 @@
 :root {
     --navbarHeight: 75px;
+    --cardButtonColor: #D9D9D9;
+    --payCashButtonActive: #76B947;
+    --secondaryColor: #E2E2E2;
+
+/* Card Colors */
+    --primaryCardButtonColor: #D9D9D9;
+    --secondaryCardButtonColor: #E2E2E2;
+
+
+/*Left panel category button colors*/
+    --leftPanelActiveButtonColor: black;
+    --leftPanelButtonClickColor: black;   
+
+
+/*General Button Colors*/
+    --buttonPrimaryColor: #a6242a;
+    --buttonPrimaryHoverColor: #ed323a;
+
+
+/*Checkout Panel Colors*/
+   --detailsPanelColor: #EFEFEF;
+   --detailsPanelDividerColor: black;
+   --detailsPanelDrinkCardColor: #E2E2E2;
+
+
+/*Landing Page Colors*/
+ --footerBGColor: "";
+ --pageBGColor: white;
+
 }

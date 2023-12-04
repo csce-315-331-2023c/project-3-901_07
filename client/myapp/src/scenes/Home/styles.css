@@ -20,7 +20,7 @@
 span.panel-divider {
   height: 95%;
   width: 4px;
-  background-color: #e2e2e2;
+  background-color: var(--secondaryColor);
   border-radius: 99px;
 }
 
@@ -44,7 +44,7 @@ span.panel-divider {
   align-items: center;
   width: 80%;
   padding: 10px;
-  background-color:#EFEFEF;
+  background-color:var(--detailsPanelColor);
   margin: auto;
   font-weight: 700;
 }
@@ -57,7 +57,7 @@ span.panel-divider {
 }
 
 .leftpanel-order-component div.drink-cart-component {
-  background-color: #E2E2E2;
+  background-color: var(--detailsPanelDrinkCardColor);
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -138,12 +138,12 @@ span.panel-divider {
 }
 
 .leftpanel-category.item.active {
-  background-color: black;
+  background-color: var(--leftPanelActiveButtonColor);
   color: white;
 }
 
 .leftpanel-category.item:active{
-  background-color: black;
+  background-color: var(--leftPanelButtonClickColor);
   color: white;
 }
 .leftpanel-category.item:hover {
@@ -173,7 +173,7 @@ span.panel-divider {
 /* CSS */
 button.leftpanel-checkout-button {
   appearance: button;
-  background-color: #a6242a;
+  background-color: var(--buttonPrimaryColor);
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
@@ -202,7 +202,7 @@ button.leftpanel-checkout-button {
 
 button.leftpanel-checkout-button:after {
   background-clip: padding-box;
-  background-color: #ed323a;
+  background-color: var(--buttonPrimaryHoverColor);
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
@@ -385,7 +385,7 @@ button.leftpanel-checkout-button:active {
 
 
 .paycash-button{
-  background-color: #D9D9D9;
+  background-color: var(--cardButtonColor);
   width: 150px;
   height: 150px;
   display:flex;
@@ -416,7 +416,7 @@ button.leftpanel-checkout-button:active {
 .paycash-button.active {
     transition-property: color, border;
   transition-duration: 0.3s;
-  background-color: #76B947;
+  background-color: var(payCashButtonActive);
   color:white;
 }
 
@@ -461,7 +461,7 @@ button.leftpanel-checkout-button:active {
 }
 
 .checkout-modal-right-panel div.checkout-cart-component {
-  background-color: #E2E2E2;
+  background-color: var(--detailsPanelDrinkCardColor);
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -491,7 +491,7 @@ button.leftpanel-checkout-button:active {
 
 
 .checkout-order-panel{
-  background-color: #EFEFEF;
+  background-color: var(--detailsPanelColor);
   height: 63vh;
   width: 90%;
   border-radius: 17px;

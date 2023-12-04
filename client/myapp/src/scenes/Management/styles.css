@@ -36,8 +36,12 @@
 
 .drink-table .drink-actions {
     text-align: right;
-    white-space: nowrap; 
-    padding-right: 16px;
+
+}
+
+.drink-actions{
+    display: flex;
+    justify-content: flex-end;
 }
 
 
