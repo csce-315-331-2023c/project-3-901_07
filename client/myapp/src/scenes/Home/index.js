@@ -49,22 +49,21 @@ function Home({ webServerAddress }) {
           mode: "cors",
         });
         const data = await response.json();
-        setUserName(data['displayName']);
-        setUserID(data['id']);
-        setUserEmail(data['emails'][0]['value']);
+        setUserName(data["displayName"]);
+        setUserID(data["id"]);
+        setUserEmail(data["emails"][0]["value"]);
 
         const responseEmployee = await fetch(webServerAddress + "/employee", {
           mode: "cors",
         });
         const employeeJson = await responseEmployee.json();
         setEmployeeData(employeeJson);
-        
+
         const responseCustomer = await fetch(webServerAddress + "/customer", {
           mode: "cors",
         });
         const customerJson = await responseCustomer.json();
         setCustomerData(customerJson);
-
       } catch {
         //console.log("error");
       }
@@ -72,23 +71,20 @@ function Home({ webServerAddress }) {
     fetchData();
   }, [webServerAddress]);
 
-
   useEffect(() => {
     function setView() {
-      if (employeeData){
+      if (employeeData) {
         const employeeArray = Object.values(employeeData);
         for (const employee of employeeArray) {
           if (employee.auth_token === userID) {
             const isManager = employee.manager;
-            if (isManager === true){
+            if (isManager === true) {
               setcurrView("manager");
-            }
-            else {
+            } else {
               setcurrView("cashier");
             }
-            break; 
-          }
-          else {
+            break;
+          } else {
             setcurrView("customer");
           }
         }
@@ -106,7 +102,7 @@ function Home({ webServerAddress }) {
   //       for (const customer of customerArray) {
   //         if (customer.email === userEmail) {
   //           isUserExist = true;
-  //           break; 
+  //           break;
   //         }
   //       }
   //       if (isUserExist == false){
@@ -122,7 +118,7 @@ function Home({ webServerAddress }) {
   //               email: userEmail,
   //             }),
   //           });
-           
+
   //         } catch (error) {
   //           console.error("Checkout Error:", error);
   //         }
@@ -131,10 +127,9 @@ function Home({ webServerAddress }) {
   //   }
   //   setView();
   // }, [customerData]);
-  
+
   useEffect(() => {
     function setDrinkEditedDefault() {
-
       if (drinkModal === false) {
         setDrinkToEdit(null);
       }
@@ -148,7 +143,6 @@ function Home({ webServerAddress }) {
     setDrinkModal(!drinkModal);
   };
 
-
   //checkoutModal
   const toggleCheckoutModal = () => {
     setCheckoutModal(!checkoutModal);
@@ -158,6 +152,10 @@ function Home({ webServerAddress }) {
   // } else {
   //   document.body.classList.remove("active-modal");
   // }
+  var customerInfo = ["", "", ""];
+  if (userName !== undefined && userName !== null) {
+    customerInfo = [userName.split(" ")[0], userName.split(" ")[1], userEmail];
+  }
 
   return (
     <div className="row content">
@@ -188,7 +186,6 @@ function Home({ webServerAddress }) {
           setCart={setCart}
           drinkEdited={drinkEdited}
           setDrinkToEdit={setDrinkToEdit}
-
           currView={currView}
         />
       )}
@@ -200,6 +197,8 @@ function Home({ webServerAddress }) {
           toggleDrinkModal={toggleDrinkModal}
           setCart={setCart}
           currView={currView}
+          customerInfo={customerInfo}
+          webServerAddress={webServerAddress}
         />
       )}
     </div>
@@ -212,7 +211,9 @@ function CheckoutModal({
   setDrinkToEdit,
   toggleDrinkModal,
   cart,
-  currView 
+  currView,
+  customerInfo,
+  webServerAddress
 }) {
   const [isActive, setIsActive] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null); // ["cash", "card"
@@ -238,7 +239,8 @@ function CheckoutModal({
   // };
 
   // printUsername();
-
+  console.log("Customer : ");
+  console.log(customerInfo);
   const togglePayCashButton = () => {
     if (paymentMethod === "cash") {
       setPaymentMethod(null);
@@ -265,6 +267,7 @@ function CheckoutModal({
     ) {
       return;
     }
+    checkout();
     alert("Order placed successfully");
     setCart([]);
     setConfirmOrderPressed(0);
@@ -278,11 +281,178 @@ function CheckoutModal({
   }
 
   function checkView() {
-    if (currView === "cashier" || currView === "manager"){
+    if (currView === "cashier" || currView === "manager") {
       return "Customer Info";
-    }
-    else{
+    } else {
       return "Your Info";
+    }
+  }
+
+  async function checkout() {
+    // Make customer
+    try {
+
+      if(customerInfo[2] === ""){
+        customerInfo = [firstNameRef.current.value, lastNameRef.current.value, emailRef.current.value];
+      }
+      const fullName = customerInfo[0] + " " + customerInfo[1];
+      // Check if user account is registered in table
+      const customerExistResponse = await fetch(
+        process.env.REACT_APP_WEB_SERVER_ADDRESS +
+          "/check-customer-exist/" +
+          customerInfo[2],
+        {
+          mode: "cors",
+        }
+      );
+      const customerExistData = await customerExistResponse.json();
+      console.log(customerExistData);
+
+      if (customerExistData["exists"] === false) {
+        // Create new customer account
+        const postResponse = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_customer",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: fullName,
+              auth_token: null,
+              email: customerInfo[2],
+            }),
+          }
+        );
+        const postMessage = await postResponse.json();
+      }
+      //get the customer id from the database
+      const customerJSONResponse = await fetch(webServerAddress + "/get-customer-by-email/" + customerInfo[2])
+      const customerData = await customerJSONResponse.json();
+      const last_customer_id = customerData[0].customer_id;
+
+      // make order
+
+      const totalCost = cart.reduce(
+        (total, item) => total + item.totalPrice,
+        0
+      );
+      const employee_id = 0; // FIXME
+      const now = new Date();
+      const formattedDate = now.toISOString().slice(0, 10);
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+      await fetch(webServerAddress + "/make_order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: last_customer_id,
+          employee_id: 0, // FIXME get real employee id
+          date: formattedDate,
+          price: totalCost,
+          time: formattedTime,
+        }),
+      });
+
+      const orderResponse = await fetch(webServerAddress + "/last_order");
+      const orderData = await orderResponse.json();
+      const last_order_id = orderData[0].order_id;
+
+      // make drinks
+      for (const drink of cart) {
+        const menu_item_id = drink.drink.menu_item_id;
+        const sweetness = drink.sugarLevel;
+        const price = drink.totalPrice;
+        const ice_level = drink.iceLevel;
+
+        await fetch(webServerAddress + "/make_drink", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            menu_item_id: menu_item_id,
+            order_id: last_order_id,
+            sweetness: sweetness,
+            price: price,
+            ice_level: ice_level,
+          }),
+        });
+
+        const drinkResponse = await fetch(webServerAddress + "/last_drink");
+        const drinkData = await drinkResponse.json();
+        const last_drink_id = drinkData[0].drink_id;
+
+        // make_drink_topping mapper
+        for (const topping of drink.toppings) {
+          const topping_id = topping.topping_id;
+
+          await fetch(webServerAddress + "/make_drink_topping", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              drink_id: last_drink_id,
+              topping_id: topping_id,
+            }),
+          });
+
+          // update topping availability
+
+          const toppingResponse = await fetch(
+            webServerAddress + `/get_topping_by_id/${topping_id}`
+          );
+          const new_topping_data = await toppingResponse.json();
+          const current_topping_availability = new_topping_data.availability;
+
+          await fetch(webServerAddress + "/set_topping_availability", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              topping_id: topping_id,
+              new_availability: current_topping_availability - 1,
+            }),
+          });
+        }
+
+        // update ingredients that are in the drink
+
+        // get ingredients
+        const pairResponse = await fetch(
+          webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
+        );
+        const ingredients = await pairResponse.json();
+
+        for (const row of ingredients) {
+          const ingredientsResponse = await fetch(
+            webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
+          );
+          const ingredient = await ingredientsResponse.json();
+
+          await fetch(webServerAddress + "/set_ingredient_availability", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ingredient_id: row.ingredients_id,
+              new_availability: ingredient.availability - 1,
+            }),
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Checkout Error:", error);
     }
   }
 
@@ -304,15 +474,14 @@ function CheckoutModal({
               <div className="textfield-section">
                 <TextField
                   error={
-                    (firstNameRef.current.value === "" &&
-                      confirmOrderPressed) 
+                    firstNameRef.current.value === "" && confirmOrderPressed
                   }
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
+                  defaultValue={customerInfo[0]}
                   helperText={
-                    (firstNameRef.current.value === "" &&
-                      confirmOrderPressed) 
+                    firstNameRef.current.value === "" && confirmOrderPressed
                       ? "Please enter first name"
                       : ""
                   }
@@ -329,13 +498,14 @@ function CheckoutModal({
 
                 <TextField
                   error={
-                    (lastNameRef.current.value === "" && confirmOrderPressed) 
+                    lastNameRef.current.value === "" && confirmOrderPressed
                   }
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
+                  defaultValue={customerInfo[1]}
                   helperText={
-                    (lastNameRef.current.value === "" && confirmOrderPressed) 
+                    lastNameRef.current.value === "" && confirmOrderPressed
                       ? "Please enter last name"
                       : ""
                   }
@@ -350,6 +520,7 @@ function CheckoutModal({
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
+                  defaultValue={customerInfo[2]}
                   helperText={
                     (!isValidEmail(emailRef.current.value) &&
                       confirmOrderPressed) ||
@@ -455,10 +626,6 @@ function LeftPanel({
     toggleDrinkModal(drink.drink);
   }
 
-
-  
-
-
   return (
     <div className="leftpanel">
       <div className="leftpanel-category-component">
@@ -545,148 +712,6 @@ function LeftPanel({
   );
 }
 
-
-// async function checkout(cart, webServerAddress, setCart) {
-//   // Make customer
-//   try {
-//     await fetch(webServerAddress + "/make_customer", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         name: "NULL", // Replace with actual customer name if available
-//       }),
-//     });
-
-//     // Get last customer
-//     const customerResponse = await fetch(webServerAddress + "/last_customer");
-//     const customerData = await customerResponse.json();
-//     const last_customer_id = customerData[0].customer_id;
-
-//     // make order
-
-//     const totalCost = cart.reduce((total, item) => total + item.totalPrice, 0);
-//     const employee_id = 0; // FIXME
-//     const now = new Date();
-//     const formattedDate = now.toISOString().slice(0, 10);
-//     const hours = now.getHours();
-//     const minutes = now.getMinutes();
-//     const seconds = now.getSeconds();
-//     const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-//       .toString()
-//       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-
-//     await fetch(webServerAddress + "/make_order", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         customer_id: last_customer_id,
-//         employee_id: 0, // FIXME get real employee id
-//         date: formattedDate,
-//         price: totalCost,
-//         time: formattedTime,
-//       }),
-//     });
-
-//     const orderResponse = await fetch(webServerAddress + "/last_order");
-//     const orderData = await orderResponse.json();
-//     const last_order_id = orderData[0].order_id;
-
-//     // make drinks
-//     for (const drink of cart) {
-//       const menu_item_id = drink.drink.menu_item_id;
-//       const sweetness = drink.sugarLevel;
-//       const price = drink.totalPrice;
-//       const ice_level = drink.iceLevel;
-
-//       await fetch(webServerAddress + "/make_drink", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           menu_item_id: menu_item_id,
-//           order_id: last_order_id,
-//           sweetness: sweetness,
-//           price: price,
-//           ice_level: ice_level,
-//         }),
-//       });
-
-//       const drinkResponse = await fetch(webServerAddress + "/last_drink");
-//       const drinkData = await drinkResponse.json();
-//       const last_drink_id = drinkData[0].drink_id;
-
-//       // make_drink_topping mapper
-//       for (const topping of drink.toppings) {
-//         const topping_id = topping.topping_id;
-
-//         await fetch(webServerAddress + "/make_drink_topping", {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify({
-//             drink_id: last_drink_id,
-//             topping_id: topping_id,
-//           }),
-//         });
-
-//         // update topping availability
-
-//         const toppingResponse = await fetch(
-//           webServerAddress + `/get_topping_by_id/${topping_id}`
-//         );
-//         const new_topping_data = await toppingResponse.json();
-//         const current_topping_availability = new_topping_data.availability;
-
-//         await fetch(webServerAddress + "/set_topping_availability", {
-//           method: "PUT",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify({
-//             topping_id: topping_id,
-//             new_availability: current_topping_availability - 1,
-//           }),
-//         });
-//       }
-
-//       // update ingredients that are in the drink
-
-//       // get ingredients
-//       const pairResponse = await fetch(
-//         webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
-//       );
-//       const ingredients = await pairResponse.json();
-
-//       for (const row of ingredients) {
-//         const ingredientsResponse = await fetch(
-//           webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
-//         );
-//         const ingredient = await ingredientsResponse.json();
-
-//         await fetch(webServerAddress + "/set_ingredient_availability", {
-//           method: "PUT",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify({
-//             ingredient_id: row.ingredients_id,
-//             new_availability: ingredient.availability - 1,
-//           }),
-//         });
-//       }
-//     }
-//   } catch (error) {
-//     console.error("Checkout Error:", error);
-//   }
-//   setCart([]);
-// }
-
 function DrinkPanel({
   currCategory,
   toggleModal,
@@ -729,7 +754,6 @@ function DrinkPanel({
   }, [data, setCategory]);
   // console.log("DATA: ");
   // console.log(data);
-
 
   let drinkcards = "drink-cards-";
   let viewSuffix = "";
