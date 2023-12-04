@@ -1,0 +1,37 @@
+.translate-wrapper {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+  }
+  
+  .A {
+    padding-top: 200px;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  #google_translate_element {
+    margin-top: 10px;
+  }
+  
+  /* Remove the border */
+  .translate-wrapper {
+    border: none;
+  }
+  
+  /* Make it look like a clean background */
+  body {
+    background-color: #f8f8f8;
+  }
+  
+  /* Adjust spacing */
+  .translate-wrapper {
+    padding: 10px;
+  }
+  

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-const Weather = () => {
+const Weather = ({onClick}) => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
@@ -70,7 +70,7 @@ const Weather = () => {
   };
 
   return (
-    <div>
+    <div onClick={onClick}>
       {!userLocation ? (
         <p>Getting your location...</p>
       ) : (
