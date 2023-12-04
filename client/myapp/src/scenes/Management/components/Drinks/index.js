@@ -185,7 +185,7 @@ function Drinks() {
             <div className="management-overlay">
                 <div className="management-overlay-content">
                     <div classname="management-overlay-top">
-                        <button onClick={() => setShowOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
+                        <button onClick={() => setAddDrinkOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
                         <h2 className="management-title">New Drink</h2>
                     </div>
                     <div className="price-edit-container">                    
