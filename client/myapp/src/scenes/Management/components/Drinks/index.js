@@ -12,6 +12,12 @@ function Drinks() {
     const [newPrice, setNewPrice] = useState('');
 
 
+    const [addDrinkOverlay, setAddDrinkOverlay] = useState(false);
+    const [drinkName, setDrinkName] = useState('');
+    const [drinkPrice, setDrinkPrice] = useState('');
+    const [drinkType, setDrinkType] = useState('');
+
+
     useEffect(() => {
         fetchDrinksData();
     }, [process.env.REACT_APP_WEB_SERVER_ADDRESS]); 
@@ -51,6 +57,8 @@ function Drinks() {
             setChangePriceOverlay(false);    
             fetchDrinksData(); // Re-fetch drinks data after successful update    
         } else {
+            console.log(priceValue);
+            console.log("test");
             console.error('Invalid price entered');
         }
            
@@ -63,13 +71,41 @@ function Drinks() {
             .then(response => response.json())
             .then(data => {
                 console.log(data.message); // Output: Menu item deleted successfully
+                setConfirmDeleteOverlay(false);
+                fetchDrinksData();
             })
             .catch(error => {
                 console.error('Error deleting menu item:', error);
             });
-            setConfirmDeleteOverlay(false);
-            fetchDrinksData();
+
     };
+
+    const createDrink = async () => {
+        // Validate that newPrice is a positive number
+        console.log(drinkPrice)
+        const priceValue = parseFloat(drinkPrice);
+        if (!isNaN(priceValue) && priceValue > 0) {
+            await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_menu_item", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: drinkName,
+                  price: priceValue,
+                  type: drinkType || "Milk Tea"
+                }),
+            }).then(data =>{
+                setAddDrinkOverlay(false);   
+                setDrinkName("");
+                setDrinkPrice("");
+                setDrinkType(""); 
+                fetchDrinksData(); 
+            }); 
+        } else {
+            console.error('Invalid price entered' + priceValue);
+        }
+    }
 
     return (
         <div className = "management-container">
@@ -85,10 +121,11 @@ function Drinks() {
             <DrinkTable drinks={drinks ? drinks["Milk Tea"] : []} handleViewDetails={handleViewDetails}/>
             <h2>Mojito</h2>
             <DrinkTable drinks={drinks ? drinks.Mojito : []} handleViewDetails={handleViewDetails}/>
+            <button onClick={() => setAddDrinkOverlay(true)} className="management-button">Add New Drink</button>
             {showOverlay && (
             <div className="management-overlay">
                 <div className="management-overlay-content">
-                    <div classname="management-overlay-top">
+                    <div classame="management-overlay-top">
                         <button onClick={() => setShowOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
                         <h2 className="management-title">{selectedDrinkDetails.name}</h2>
                     </div>
@@ -142,6 +179,47 @@ function Drinks() {
                         <button onClick={deleteDrink} className="management-button management-card-button">Delete</button>
                     </div>
                 </div>
+            )}
+
+            {addDrinkOverlay && (
+            <div className="management-overlay">
+                <div className="management-overlay-content">
+                    <div classname="management-overlay-top">
+                        <button onClick={() => setShowOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
+                        <h2 className="management-title">New Drink</h2>
+                    </div>
+                    <div className="price-edit-container">                    
+                    <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            className="management-textfield"
+                            value={drinkName}
+                            onChange={(e) => setDrinkName(e.target.value)}
+                            helperText="Drink Name"
+                    />
+                    <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            className="management-textfield"
+                            value={drinkPrice}
+                            onChange={(e) => setDrinkPrice(e.target.value)}
+                            helperText="Drink Price"
+                    />
+                    </div>
+                    <div>
+                        <select value={drinkType} onChange={(e) => setDrinkType(e.target.value)}>
+                            <option value="">Select an option</option>
+                            <option value="Creama">Creama</option>
+                            <option value="Fresh Milk">Fresh Milk</option>
+                            <option value="Fruit Tea">Fruit Tea</option>
+                            <option value="Ice Blend">Ice Blend</option>
+                            <option value="Milk Tea">Milk Tea</option>
+                            <option value="Mojito">Mojito</option>
+                        </select>
+                    </div>
+                    <button onClick={() => { setAddDrinkOverlay(false); createDrink()}} className="management-button management-card-button">Add Drink</button>
+                </div>
+            </div>
             )}
 
         </div>
