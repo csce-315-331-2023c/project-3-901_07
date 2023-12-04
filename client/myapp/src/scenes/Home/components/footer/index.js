@@ -9,10 +9,13 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
+      
         <div className="logo2">
+        
           <img src={logo}  className="logoImg" />
         </div>
         <div className="socialContainer">
+            
             <div className="socialLink">
                 <div className="iconWrapper">
                 <FontAwesomeIcon icon={faPhone} className="socialIcon" />

@@ -3,11 +3,18 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
+import Weather from "../../../components/weather";
 const NavigationBar = ({ currView, setCurrView }) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
+  const [showWeather, setShowWeather] = useState(false);
+
+  
+
 
   useEffect(() => {
+    
+
     async function fetchData() {
       try {
         const response = await fetch(
@@ -110,7 +117,10 @@ const NavigationBar = ({ currView, setCurrView }) => {
 
     fetchData();
   }, []);
-
+  const handleLogoClick = () => {
+    
+    setShowWeather(!showWeather);
+  };
   const handleSignOut = async () => {
     window.location.href = process.env.REACT_APP_WEB_SERVER_ADDRESS + "/logout";
   };
@@ -136,7 +146,7 @@ const NavigationBar = ({ currView, setCurrView }) => {
         navigate("/Menu");
         break;
       case 3:
-        navigate("/Trends");
+        navigate("/Test");
         break;
       case 4:
         navigate("/Management");
@@ -156,7 +166,16 @@ const NavigationBar = ({ currView, setCurrView }) => {
 
   return (
     <div className="nav-wrapper">
-      <img className="landing-logo" src={shareTeaLogo} />
+      {showWeather ? (
+        <Weather onClick={handleLogoClick}/>
+      ) : (
+        <img
+          className="landing-logo"
+          src={shareTeaLogo}
+          onClick={handleLogoClick}
+          alt="Logo"
+        />
+      )}
       <div className="navigation-bar">
         {buttons.map((button, index) => (
           <div
