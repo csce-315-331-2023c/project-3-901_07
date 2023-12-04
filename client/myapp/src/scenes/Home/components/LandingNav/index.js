@@ -88,7 +88,7 @@ const NavigationBar = ({ setCurrView }) => {
         }
       } catch (error) {
         // Handle error
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data");
       }
     }
 
