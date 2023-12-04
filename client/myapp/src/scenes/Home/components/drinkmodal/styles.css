@@ -46,27 +46,6 @@ body.active-modal {
     
 }
 
-.signin-button{
-    margin-left: 10px;
-    padding: 14px 14px 14px 14px;
-    border-radius: 17px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    background-color: #D9D9D9;
-    border: none;
-    font-family: "Plus Jakarta Sans", sans-serif;
-    border:transparent solid 3px;
-    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
-}
-
-.signin-button:hover{
-    border: 2px solid black;
-}
-
-
-
-
 .drink-modal-content {
     position: absolute;
     top: 50%;
@@ -187,7 +166,7 @@ body.active-modal {
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-    background-color: #D9D9D9;
+    background-color: var(--primaryCardButtonColor);
     font-family: "Plus Jakarta Sans", sans-serif;
     border:transparent solid 3px;
     transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border 0.1s ease 0s;
@@ -198,7 +177,7 @@ body.active-modal {
 }
 
 .level-selection-section-ice button.active{
-    background-color: #ED323A;
+    background-color: var(--buttonPrimaryHoverColor);
     color: white;
 }
 
@@ -231,7 +210,7 @@ body.active-modal {
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-    background-color: #D9D9D9;
+    background-color: var(--primaryCardButtonColor);
     border: none;
     font-family: "Plus Jakarta Sans", sans-serif;
     border:transparent solid 3px;
@@ -243,7 +222,7 @@ body.active-modal {
 }
 
 .level-selection-section-sugar button.active{
-    background-color: #ED323A;
+    background-color: var(--buttonPrimaryHoverColor);
     color: white;
 }
 
@@ -266,7 +245,7 @@ body.active-modal {
 }
 
 .drink-order-panel{
-    background-color: #EFEFEF;
+    background-color: var(--detailsPanelColor);
     height: 100%;
     width: 90%;
     border-radius: 17px;
@@ -289,7 +268,7 @@ body.active-modal {
     width: 90%;
     height: 3px;
     border-radius: 25px;
-    background-color: black;
+    background-color: var(--detailsPanelDividerColor);
 }
 
 
@@ -314,7 +293,7 @@ body.active-modal {
     flex-direction: column;
     width: 85%;
     padding: 10px;
-    background-color: #E2E2E2;
+    background-color: var(--detailsPanelDrinkCardColor);
     margin: auto;
     font-weight: 700;
     border-radius: 5px;
@@ -385,7 +364,7 @@ body.active-modal {
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-    background-color: #D9D9D9;
+    background-color: var(--primaryCardButtonColor);
     border: none;
     font-family: "Plus Jakarta Sans", sans-serif;
     border:transparent solid 3px;
