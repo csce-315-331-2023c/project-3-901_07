@@ -33,11 +33,21 @@ process.on('SIGINT', function() {
     process.exit(0);
 });
 
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('index', data);
+// app.get('/', (req, res) => {
+//     const data = {name: 'Mario'};
+//     res.render('index', data);
+// });
+
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'SECRET' 
+}));
+
+app.get('/', function(req, res) {
+  res.render(path.join(__dirname, '../client/myapp/src/index.js'));
 });
 
 // Serve the index.html file (the entry point of your React app) for all GET requests
@@ -466,7 +476,7 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at https://shareteawebapp.onrender.com/}`);
+    console.log(`Example app listening at https://test331project.onrender.com/}`);
 });
 
 /*  PASSPORT SETUP  */
@@ -501,6 +511,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.OAUTH_CLIENT_ID,
     clientSecret: process.env.OAUTH_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
+
     },
     function(accessToken, refreshToken, profile, done) {
         userProfile=profile;
@@ -570,3 +581,4 @@ app.get('/logout', (req, res) => {
     // Respond as needed
     res.redirect(process.env.FRONT_END_WEB_ADDRESS);
 });
+
