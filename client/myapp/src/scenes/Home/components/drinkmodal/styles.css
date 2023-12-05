@@ -18,7 +18,8 @@ body.active-modal {
     right: 0;
     bottom: 0;
     position: absolute;
-    background: rgba(0, 0, 0, 0.394);
+    background: var(--overlayBGColor);
+    opacity: var(--overlayOpacity);
     z-index: 109;
 }
 

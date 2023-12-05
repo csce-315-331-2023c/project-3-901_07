@@ -43,12 +43,12 @@ function DrinkCard({ toggleModal, drinkProperties, currView }) {
         <img
           className="drinkcard-image"
           src={getDrinkImage()}
-          alt="Default Drink"
+          alt={drinkProperties.name}
         />
       )}
       <div className={drinkcardcontent}>
         <div className={drinkcardname}>{drinkProperties.name}</div>
-        <div className={drinkcardprice}>${drinkProperties.price}</div>
+        <div className={drinkcardprice}>${drinkProperties.price.toFixed(2)}</div>
       </div>
     </div>
   );
