@@ -373,7 +373,7 @@ function CheckoutModal({
       for (const drink of cart) {
         const menu_item_id = drink.drink.menu_item_id;
         const sweetness = drink.sugarLevel;
-        const price = drink.totalPrice;
+        const price = drink.totalPrice.toFixed(2);
         const ice_level = drink.iceLevel;
 
         await fetch(webServerAddress + "/make_drink", {
@@ -563,7 +563,7 @@ function CheckoutModal({
                     <div className="checkout-cart-component" key={index}>
                       <div className="drink">
                         <p className="name">{drinkItem.drink.name}</p>
-                        <p className="price">${drinkItem.totalPrice}</p>
+                        <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
                       </div>
                       <div className="drink-cart-component-footer">
                         <div
@@ -594,8 +594,7 @@ function CheckoutModal({
                   {parseFloat(
                     cart
                       .reduce((total, item) => total + item.totalPrice, 0)
-                      .toFixed(2)
-                  )}
+                  ).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -671,7 +670,7 @@ function LeftPanel({
               <div className="drink-cart-component" key={index}>
                 <div className="drink">
                   <p className="name">{drinkItem.drink.name}</p>
-                  <p className="price">${drinkItem.totalPrice}</p>
+                  <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
                 </div>
                 <div className="drink-cart-component-footer">
                   <div
@@ -701,8 +700,8 @@ function LeftPanel({
             {parseFloat(
               cart
                 .reduce((total, item) => total + item.totalPrice, 0)
-                .toFixed(2)
-            )}
+            
+            ).toFixed(2)}
           </p>
         </div>
       </div>

@@ -55,11 +55,11 @@ function ToppingCard({ topping, toppingClick, isActiveEdit, currView }) {
         <img
           className="toppingcard-image"
           src={getToppingImage()}
-          alt="Default Topping"
+          alt={topping.name}
         />
       )}
       <div className="topingcard-text">
-        {topping.name} <br /> ${topping.price}
+        {topping.name} <br /> ${topping.price.toFixed(2)}
       </div>
     </div>
   );
