@@ -2,8 +2,21 @@ import "./styles.css";
 import React, { useState } from "react";
 import defaultDrinkImage from "../../../../assets/images/drinks/defaultdrinkimage.png";
 
+
+/**
+ * Represents a card component for displaying drink details.
+ * @param {Object} props - Properties passed to the component.
+ * @param {Function} props.toggleModal - Function to toggle the modal.
+ * @param {Object} props.drinkProperties - Object containing drink properties like name and price.
+ * @param {string} props.currView - Current view mode ("customer", "cashier", "manager").
+ * @returns {JSX.Element} JSX Element representing the DrinkCard component.
+ */
 function DrinkCard({ toggleModal, drinkProperties, currView }) {
   // console.log(`${drinkProperties.name.toLowerCase()}.png`);
+    /**
+   * Retrieves the drink image path based on the drink's name.
+   * @returns {string} Image path for the drink or default image path if not found.
+   */
   function getDrinkImage() {
     try {
       const imagePath = require(`../../../../assets/images/drinks/${drinkProperties.name.toLowerCase()}.png`);

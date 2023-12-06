@@ -1,6 +1,14 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
+
+/**
+ * BarChart component to display a bar chart using Chart.js and react-chartjs-2.
+ * @param {Object} props - Component props
+ * @param {Object} props.chartData - Data object for the chart
+ * @param {string} props.yaxis - Y-axis label for the chart
+ * @returns {JSX.Element} Bar chart component
+ */
 const BarChart = ({ chartData, yaxis}) => {
     return (
         <Bar

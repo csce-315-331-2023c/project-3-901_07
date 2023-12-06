@@ -5,15 +5,29 @@ import NavBar from './scenes/components/navbar';
 import SignInModal from "./scenes/components/signinmodal";
 import LandingNav from "./scenes/Home/components/LandingNav/index.js";
 
+
+/**
+ * Main App component.
+ * @param {string} currView - Current view state.
+ * @param {function} setCurrView - Function to set the current view state.
+ * @returns {JSX.Element} App component
+ */
 function App({currView, setCurrView}) {
+    /**
+   * State to manage the visibility of the sign-in modal.
+   * @type {[boolean, function]} - [signInModal, setSignInModal]
+   */
   const [signInModal, setSignInModal] = useState(false);
 
-  //modal
+    /**
+   * Toggles the sign-in modal visibility.
+   */
   const toggleSignInModal = () => {
     console.log("toggle modal");
     setSignInModal(!signInModal);
   };
 
+    // Toggle body class based on modal visibility
   if(signInModal) {
     document.body.classList.add('active-modal')
   } else {

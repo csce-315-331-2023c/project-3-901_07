@@ -1,4 +1,32 @@
-import React, { useEffect, useRef, useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenes/Home/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenes/Home/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useRef, useState } from "react";
 import DrinkCard from "./components/drinkcard";
 import DrinkModal from "./components/drinkmodal";
 import waveanimation from "../../assets/images/waving-wave-hello.gif";
@@ -165,13 +193,13 @@ function Home({ webServerAddress, currView, setCurrView }) {
   //   document.body.classList.remove("active-modal");
   // }
   var customerInfo = ["", "", ""];
-  if (userName !== undefined && userName !== null) {
+  if (userName !== undefined &amp;&amp; userName !== null) {
     customerInfo = [userName.split(" ")[0], userName.split(" ")[1], userEmail];
   }
 
   return (
-    <div className="row content">
-      <LeftPanel
+    &lt;div className="row content">
+      &lt;LeftPanel
         currCategory={currCategory}
         data={data}
         setCart={setCart}
@@ -181,16 +209,16 @@ function Home({ webServerAddress, currView, setCurrView }) {
         setDrinkToEdit={setDrinkToEdit}
         webServerAddress={webServerAddress}
       />
-      <span className="panel-divider"></span>
-      <DrinkPanel
+      &lt;span className="panel-divider">&lt;/span>
+      &lt;DrinkPanel
         currCategory={currCategory}
         toggleModal={toggleDrinkModal}
         data={data}
         setCategory={setCategory}
         currView={currView}
       />
-      {drinkModal && (
-        <DrinkModal
+      {drinkModal &amp;&amp; (
+        &lt;DrinkModal
           toggleModal={toggleDrinkModal}
           selectedDrink={selectedDrink}
           toppings={data.toppings}
@@ -201,8 +229,8 @@ function Home({ webServerAddress, currView, setCurrView }) {
           currView={currView}
         />
       )}
-      {checkoutModal && (
-        <CheckoutModal
+      {checkoutModal &amp;&amp; (
+        &lt;CheckoutModal
           toggleCheckoutModal={toggleCheckoutModal}
           cart={cart}
           setDrinkToEdit={setDrinkToEdit}
@@ -213,7 +241,7 @@ function Home({ webServerAddress, currView, setCurrView }) {
           webServerAddress={webServerAddress}
         />
       )}
-    </div>
+    &lt;/div>
   );
 }
 
@@ -483,38 +511,38 @@ function CheckoutModal({
   }
 
   return (
-    <div className="modal">
-      <div
+    &lt;div className="modal">
+      &lt;div
         className="checkout-modal-overlay"
         onClick={toggleCheckoutModal}
-      ></div>
-      <div className="checkout-modal-content">
-        <button className="close-modal" onClick={toggleCheckoutModal}>
+      >&lt;/div>
+      &lt;div className="checkout-modal-content">
+        &lt;button className="close-modal" onClick={toggleCheckoutModal}>
           CLOSE
-        </button>
-        <h2>Checkout</h2>
-        <div className="checkout-modal-row-content">
-          <div className="checkout-modal-left-panel">
-            <div className="checkout-modal-info-card">
-              <h3>{checkView()}</h3>
-              <div className="textfield-section">
-                <TextField
+        &lt;/button>
+        &lt;h2>Checkout&lt;/h2>
+        &lt;div className="checkout-modal-row-content">
+          &lt;div className="checkout-modal-left-panel">
+            &lt;div className="checkout-modal-info-card">
+              &lt;h3>{checkView()}&lt;/h3>
+              &lt;div className="textfield-section">
+                &lt;TextField
                   error={
-                    firstNameRef.current.value === "" && confirmOrderPressed
+                    firstNameRef.current.value === "" &amp;&amp; confirmOrderPressed
                   }
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
                   defaultValue={currView === "customer" ? customerInfo[0] : ""}
                   helperText={
-                    firstNameRef.current.value === "" && confirmOrderPressed
+                    firstNameRef.current.value === "" &amp;&amp; confirmOrderPressed
                       ? "Please enter first name"
                       : ""
                   }
                   inputRef={firstNameRef}
                 />
 
-                {/* <TextField
+                {/* &lt;TextField
                   error
                   id="outlined-error-helper-text"
                   label="Error"
@@ -522,111 +550,111 @@ function CheckoutModal({
                   helperText="Incorrect entry."
                 /> */}
 
-                <TextField
+                &lt;TextField
                   error={
-                    lastNameRef.current.value === "" && confirmOrderPressed
+                    lastNameRef.current.value === "" &amp;&amp; confirmOrderPressed
                   }
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
                   defaultValue={currView === "customer" ? customerInfo[1] : ""}
                   helperText={
-                    lastNameRef.current.value === "" && confirmOrderPressed
+                    lastNameRef.current.value === "" &amp;&amp; confirmOrderPressed
                       ? "Please enter last name"
                       : ""
                   }
                   inputRef={lastNameRef}
                 />
-                <TextField
+                &lt;TextField
                   error={
-                    (!isValidEmail(emailRef.current.value) &&
+                    (!isValidEmail(emailRef.current.value) &amp;&amp;
                       confirmOrderPressed) ||
-                    (emailRef.current.value === "" && confirmOrderPressed)
+                    (emailRef.current.value === "" &amp;&amp; confirmOrderPressed)
                   }
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   defaultValue={currView === "customer" ? customerInfo[2] : ""}
                   helperText={
-                    (!isValidEmail(emailRef.current.value) &&
+                    (!isValidEmail(emailRef.current.value) &amp;&amp;
                       confirmOrderPressed) ||
-                    (emailRef.current.value === "" && confirmOrderPressed)
+                    (emailRef.current.value === "" &amp;&amp; confirmOrderPressed)
                       ? "Please enter a valid email"
                       : ""
                   }
                   inputRef={emailRef}
                 />
-              </div>
-            </div>
+              &lt;/div>
+            &lt;/div>
 
-            <div className="checkout-modal-payment-method-card">
-              <h3>Payment Method</h3>
-              <div className="payment-options-section">
-                <div
+            &lt;div className="checkout-modal-payment-method-card">
+              &lt;h3>Payment Method&lt;/h3>
+              &lt;div className="payment-options-section">
+                &lt;div
                   className={`paycash-button ${isActive ? "active" : ""}`}
                   onClick={togglePayCashButton}
                 >
-                  <div>
-                    <img src={dollaricon} alt="dollaricon" />
-                  </div>
+                  &lt;div>
+                    &lt;img src={dollaricon} alt="dollaricon" />
+                  &lt;/div>
                   Pay with Cash
-                </div>
-              </div>
+                &lt;/div>
+              &lt;/div>
 
-              <div className="tip-options-section"></div>
-            </div>
-          </div>
-          <div className="checkout-modal-right-panel">
-            <div className="checkout-order-panel">
-              <h4>Cart</h4>
-              <div className="middle-section">
+              &lt;div className="tip-options-section">&lt;/div>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="checkout-modal-right-panel">
+            &lt;div className="checkout-order-panel">
+              &lt;h4>Cart&lt;/h4>
+              &lt;div className="middle-section">
                 {Object.keys(cart).length !== 0 ? (
                   cart.map((drinkItem, index) => (
-                    <div className="checkout-cart-component" key={index}>
-                      <div className="drink">
-                        <p className="name">{drinkItem.drink.name}</p>
-                        <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
-                      </div>
-                      <div className="drink-cart-component-footer">
-                        <div
+                    &lt;div className="checkout-cart-component" key={index}>
+                      &lt;div className="drink">
+                        &lt;p className="name">{drinkItem.drink.name}&lt;/p>
+                        &lt;p className="price">${drinkItem.totalPrice.toFixed(2)}&lt;/p>
+                      &lt;/div>
+                      &lt;div className="drink-cart-component-footer">
+                        &lt;div
                           className="edit-drink-button"
                           onClick={() => editDrinkItem(index)}
                         >
                           Edit
-                        </div>
-                        <div style={{ flex: 1 }}></div>
-                        <div
+                        &lt;/div>
+                        &lt;div style={{ flex: 1 }}>&lt;/div>
+                        &lt;div
                           className="delete-drink-button"
                           onClick={() => deleteDrinkItem(index)}
                         >
                           Delete
-                        </div>
-                      </div>
-                    </div>
+                        &lt;/div>
+                      &lt;/div>
+                    &lt;/div>
                   ))
                 ) : (
-                  <div></div>
+                  &lt;div>&lt;/div>
                 )}
-              </div>
-              <span className="divider"></span>
-              <div className="bottom-section">
-                <p>
+              &lt;/div>
+              &lt;span className="divider">&lt;/span>
+              &lt;div className="bottom-section">
+                &lt;p>
                   {" "}
                   Total Cost: $
                   {parseFloat(
                     cart
                       .reduce((total, item) => total + item.totalPrice, 0)
                   ).toFixed(2)}
-                </p>
-              </div>
-            </div>
-            <button className="leftpanel-checkout-button" onClick={placeOrder}>
+                &lt;/p>
+              &lt;/div>
+            &lt;/div>
+            &lt;button className="leftpanel-checkout-button" onClick={placeOrder}>
               Confirm Order
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 }
 
@@ -665,15 +693,15 @@ function LeftPanel({
   }
 
   return (
-    <div className="leftpanel">
-      <div className="leftpanel-category-component">
-        <ul>
-          <div className="leftpanel-category header">Categories</div>
-          {data &&
+    &lt;div className="leftpanel">
+      &lt;div className="leftpanel-category-component">
+        &lt;ul>
+          &lt;div className="leftpanel-category header">Categories&lt;/div>
+          {data &amp;&amp;
             Object.entries(data.menu_items).map(([category, items]) => (
-              <li key={category}>
-                <a href={`#${category}`}>
-                  <div
+              &lt;li key={category}>
+                &lt;a href={`#${category}`}>
+                  &lt;div
                     className={
                       currCategory === category
                         ? "leftpanel-category item active"
@@ -681,72 +709,72 @@ function LeftPanel({
                     }
                   >
                     {category}
-                  </div>
-                </a>
-              </li>
+                  &lt;/div>
+                &lt;/a>
+              &lt;/li>
             ))}
-        </ul>
-      </div>
-      <div className="leftpanel-order-component">
-        <h4>Cart</h4>
-        <div className="middle-section">
+        &lt;/ul>
+      &lt;/div>
+      &lt;div className="leftpanel-order-component">
+        &lt;h4>Cart&lt;/h4>
+        &lt;div className="middle-section">
           {cart.length === 0 ? (
-            <div className="cartempty-div">
-              <div>
-                <img src={carticon} alt="carticon" />
-              </div>
-              <div>Your cart is empty</div>
-            </div>
+            &lt;div className="cartempty-div">
+              &lt;div>
+                &lt;img src={carticon} alt="carticon" />
+              &lt;/div>
+              &lt;div>Your cart is empty&lt;/div>
+            &lt;/div>
           ) : (
-            <div></div>
+            &lt;div>&lt;/div>
           )}
           {Object.keys(cart).length !== 0 ? (
             cart.map((drinkItem, index) => (
-              <div className="drink-cart-component" key={index}>
-                <div className="drink">
-                  <p className="name">{drinkItem.drink.name}</p>
-                  <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
-                </div>
-                <div className="drink-cart-component-footer">
-                  <div
+              &lt;div className="drink-cart-component" key={index}>
+                &lt;div className="drink">
+                  &lt;p className="name">{drinkItem.drink.name}&lt;/p>
+                  &lt;p className="price">${drinkItem.totalPrice.toFixed(2)}&lt;/p>
+                &lt;/div>
+                &lt;div className="drink-cart-component-footer">
+                  &lt;div
                     className="edit-drink-button"
                     onClick={() => editDrinkItem(index)}
                   >
                     Edit
-                  </div>
-                  <div style={{ flex: 1 }}></div>
-                  <div
+                  &lt;/div>
+                  &lt;div style={{ flex: 1 }}>&lt;/div>
+                  &lt;div
                     className="delete-drink-button"
                     onClick={() => deleteDrinkItem(index)}
                   >
                     Delete
-                  </div>
-                </div>
-              </div>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
             ))
           ) : (
-            <div></div>
+            &lt;div>&lt;/div>
           )}
-        </div>
-        <span className="divider"></span>
-        <div className="bottom-section">
-          <p>
+        &lt;/div>
+        &lt;span className="divider">&lt;/span>
+        &lt;div className="bottom-section">
+          &lt;p>
             Total Cost: $
             {parseFloat(
               cart
                 .reduce((total, item) => total + item.totalPrice, 0)
             
             ).toFixed(2)}
-          </p>
-        </div>
-      </div>
-      <button
+          &lt;/p>
+        &lt;/div>
+      &lt;/div>
+      &lt;button
         className="leftpanel-checkout-button"
         onClick={cart.length !== 0 ? toggleCheckoutModal : null}
       >
         Checkout
-      </button>
-    </div>
+      &lt;/button>
+    &lt;/div>
   );
 }
 
@@ -819,32 +847,55 @@ function DrinkPanel({
   drinkcards += viewSuffix;
 
   return (
-    <div className="drinkpanel">
-      {data &&
+    &lt;div className="drinkpanel">
+      {data &amp;&amp;
         Object.entries(data.menu_items).map(([category, items]) => (
-          <div id={category} className="drinkpanel-category" key={category}>
-            <h3>{category}</h3>
-            <div className={drinkcards}>
+          &lt;div id={category} className="drinkpanel-category" key={category}>
+            &lt;h3>{category}&lt;/h3>
+            &lt;div className={drinkcards}>
               {items.map((item) => (
-                <div>
-                  <DrinkCard
+                &lt;div>
+                  &lt;DrinkCard
                     toggleModal={() => toggleModal(item)}
                     drinkProperties={item}
                     key={item.name}
                     currView={currView}
                   />
-                </div>
+                &lt;/div>
               ))}
-            </div>
-          </div>
+            &lt;/div>
+          &lt;/div>
         ))}
-      <div className="fill-gap">
-        <div className="waveanimation-container">
-          <img src={waveanimation} alt="wave animation" />
-        </div>
-      </div>
-    </div>
+      &lt;div className="fill-gap">
+        &lt;div className="waveanimation-container">
+          &lt;img src={waveanimation} alt="wave animation" />
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 }
 
 export default Home;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppWithNavBar">AppWithNavBar</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CheckoutModal">CheckoutModal</a></li><li><a href="global.html#ContentPanel">ContentPanel</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkModal">DrinkModal</a></li><li><a href="global.html#DrinkPanel">DrinkPanel</a></li><li><a href="global.html#DrinkTable">DrinkTable</a></li><li><a href="global.html#Drinks">Drinks</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageCarousel">ImageCarousel</a></li><li><a href="global.html#IngredientsTable">IngredientsTable</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#LeftPanel">LeftPanel</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#NavigationBar">NavigationBar</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#ToppingCard">ToppingCard</a></li><li><a href="global.html#ToppingsAndIngredients">ToppingsAndIngredients</a></li><li><a href="global.html#Trends">Trends</a></li><li><a href="global.html#WhatSalesTogether">WhatSalesTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 23:00:59 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

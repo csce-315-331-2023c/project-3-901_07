@@ -1,4 +1,32 @@
-import React, { useState, useEffect } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenes/Management/components/Drinks/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenes/Management/components/Drinks/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import { lastDayOfQuarter, set } from "date-fns";
 // import DrinkTable from "../DrinkTable";
@@ -82,7 +110,7 @@ function Drinks() {
   const updatePrice = async () => {
     // Validate that newPrice is a positive number
     const priceValue = parseFloat(newPrice);
-    if (!isNaN(priceValue) && priceValue > 0) {
+    if (!isNaN(priceValue) &amp;&amp; priceValue > 0) {
       await fetch(
         process.env.REACT_APP_WEB_SERVER_ADDRESS + "/set_drink_price",
         {
@@ -188,7 +216,7 @@ function Drinks() {
     setAddingNewDrink(false);
     console.log(drinkPrice);
     const priceValue = parseFloat(drinkPrice);
-    if (!isNaN(priceValue) && priceValue > 0) {
+    if (!isNaN(priceValue) &amp;&amp; priceValue > 0) {
       await fetch(
         process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_menu_item",
         {
@@ -260,60 +288,60 @@ function Drinks() {
   };
 
   return (
-    <div className="management-container">
-      <h2>Creama</h2>
-      <DrinkTable
+    &lt;div className="management-container">
+      &lt;h2>Creama&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks.Creama : []}
         handleViewDetails={handleViewDetails}
       />
-      <h2>Fresh Milk</h2>
-      <DrinkTable
+      &lt;h2>Fresh Milk&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks["Fresh Milk"] : []}
         handleViewDetails={handleViewDetails}
       />
-      <h2>Fruit Tea</h2>
-      <DrinkTable
+      &lt;h2>Fruit Tea&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks["Fruit Tea"] : []}
         handleViewDetails={handleViewDetails}
       />
-      <h2>Ice Blend</h2>
-      <DrinkTable
+      &lt;h2>Ice Blend&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks["Ice Blend"] : []}
         handleViewDetails={handleViewDetails}
       />
-      <h2>Milk Tea</h2>
-      <DrinkTable
+      &lt;h2>Milk Tea&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks["Milk Tea"] : []}
         handleViewDetails={handleViewDetails}
       />
-      <h2>Mojito</h2>
-      <DrinkTable
+      &lt;h2>Mojito&lt;/h2>
+      &lt;DrinkTable
         drinks={drinks ? drinks.Mojito : []}
         handleViewDetails={handleViewDetails}
       />
-      <button
+      &lt;button
         onClick={() => setAddDrinkOverlay(true)}
         className="management-button"
       >
         Add New Drink
-      </button>
-      {showOverlay && (
-        <div className="management-overlay">
-          <div className="management-overlay-content">
-            <div classame="management-overlay-top">
-              <button
+      &lt;/button>
+      {showOverlay &amp;&amp; (
+        &lt;div className="management-overlay">
+          &lt;div className="management-overlay-content">
+            &lt;div classame="management-overlay-top">
+              &lt;button
                 onClick={() => setShowOverlay(false)}
                 className="signin-button management-overlay-close-button"
               >
                 Close
-              </button>
-              <h2 className="management-title">{selectedDrinkDetails.name}</h2>
-            </div>
-            <div className="price-edit-container">
-              <h3>Price: {selectedDrinkDetails.price}</h3>
-              <h3>Category: {selectedDrinkDetails.type}</h3>
-            </div>
-            <button
+              &lt;/button>
+              &lt;h2 className="management-title">{selectedDrinkDetails.name}&lt;/h2>
+            &lt;/div>
+            &lt;div className="price-edit-container">
+              &lt;h3>Price: {selectedDrinkDetails.price}&lt;/h3>
+              &lt;h3>Category: {selectedDrinkDetails.type}&lt;/h3>
+            &lt;/div>
+            &lt;button
               onClick={() => {
                 setChangePriceOverlay(true);
                 setShowOverlay(false);
@@ -321,8 +349,8 @@ function Drinks() {
               className="management-button management-card-button"
             >
               Edit Price
-            </button>
-            <button
+            &lt;/button>
+            &lt;button
               onClick={() => {
                 setSelectedIngredients([]);
                 setShowIngredientsOverlay(true);
@@ -332,8 +360,8 @@ function Drinks() {
               className="management-button management-card-button"
             >
               Edit Ingredients
-            </button>
-            <button
+            &lt;/button>
+            &lt;button
               onClick={() => {
                 setConfirmDeleteOverlay(true);
                 setShowOverlay(false);
@@ -341,27 +369,27 @@ function Drinks() {
               className="management-button management-card-button"
             >
               Delete Item
-            </button>
-          </div>
-        </div>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
       )}
-      {changePriceOverlay && (
-        <div className="management-overlay">
-          <div className="management-overlay-content">
-            <div classname="management-overlay-top">
-              <button
+      {changePriceOverlay &amp;&amp; (
+        &lt;div className="management-overlay">
+          &lt;div className="management-overlay-content">
+            &lt;div classname="management-overlay-top">
+              &lt;button
                 onClick={() => setChangePriceOverlay(false)}
                 className="signin-button management-overlay-close-button"
               >
                 Close
-              </button>
-              <h2 className="management-title">{selectedDrinkDetails.name}</h2>
-            </div>
-            <div className="price-edit-container">
-              <h3>Price: {selectedDrinkDetails.price}</h3>
-              <h3>Category: {selectedDrinkDetails.type}</h3>
-            </div>
-            <TextField
+              &lt;/button>
+              &lt;h2 className="management-title">{selectedDrinkDetails.name}&lt;/h2>
+            &lt;/div>
+            &lt;div className="price-edit-container">
+              &lt;h3>Price: {selectedDrinkDetails.price}&lt;/h3>
+              &lt;h3>Category: {selectedDrinkDetails.type}&lt;/h3>
+            &lt;/div>
+            &lt;TextField
               id="outlined-basic"
               variant="outlined"
               className="management-textfield"
@@ -369,60 +397,60 @@ function Drinks() {
               onChange={(e) => setNewPrice(e.target.value)}
               helperText="Please enter a new price"
             />
-            <button
+            &lt;button
               onClick={() => updatePrice()}
               className="management-button management-card-button"
             >
               Apply
-            </button>
-          </div>
-        </div>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
       )}
-      {confirmDeleteOverlay && (
-        <div className="management-overlay">
-          <div className="management-overlay-content">
-            <div classname="management-overlay-top">
-              <button
+      {confirmDeleteOverlay &amp;&amp; (
+        &lt;div className="management-overlay">
+          &lt;div className="management-overlay-content">
+            &lt;div classname="management-overlay-top">
+              &lt;button
                 onClick={() => setConfirmDeleteOverlay(false)}
                 className="signin-button management-overlay-close-button"
               >
                 Close
-              </button>
-              <h2 className="management-title">{selectedDrinkDetails.name}</h2>
-            </div>
-            <div className="price-edit-container">
-              <br></br>
-              <br></br>
-              <h3>
+              &lt;/button>
+              &lt;h2 className="management-title">{selectedDrinkDetails.name}&lt;/h2>
+            &lt;/div>
+            &lt;div className="price-edit-container">
+              &lt;br>&lt;/br>
+              &lt;br>&lt;/br>
+              &lt;h3>
                 Are you sure you want to delete {selectedDrinkDetails.name}?
-              </h3>
-              <br></br>
-            </div>
+              &lt;/h3>
+              &lt;br>&lt;/br>
+            &lt;/div>
 
-            <button
+            &lt;button
               onClick={deleteDrink}
               className="management-button management-card-button"
             >
               Delete
-            </button>
-          </div>
-        </div>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
       )}
 
-      {addDrinkOverlay && (
-        <div className="management-overlay">
-          <div className="management-overlay-content">
-            <div classname="management-overlay-top">
-              <button
+      {addDrinkOverlay &amp;&amp; (
+        &lt;div className="management-overlay">
+          &lt;div className="management-overlay-content">
+            &lt;div classname="management-overlay-top">
+              &lt;button
                 onClick={() => setAddDrinkOverlay(false)}
                 className="signin-button management-overlay-close-button"
               >
                 Close
-              </button>
-              <h2 className="management-title">New Drink</h2>
-            </div>
-            <div className="price-edit-container">
-              <TextField
+              &lt;/button>
+              &lt;h2 className="management-title">New Drink&lt;/h2>
+            &lt;/div>
+            &lt;div className="price-edit-container">
+              &lt;TextField
                 id="outlined-basic"
                 variant="outlined"
                 className="management-textfield"
@@ -430,7 +458,7 @@ function Drinks() {
                 onChange={(e) => setDrinkName(e.target.value)}
                 helperText="Drink Name"
               />
-              <TextField
+              &lt;TextField
                 id="outlined-basic"
                 variant="outlined"
                 className="management-textfield"
@@ -438,22 +466,22 @@ function Drinks() {
                 onChange={(e) => setDrinkPrice(e.target.value)}
                 helperText="Drink Price"
               />
-            </div>
-            <div>
-              <select
+            &lt;/div>
+            &lt;div>
+              &lt;select
                 value={drinkType}
                 onChange={(e) => setDrinkType(e.target.value)}
               >
-                <option value="">Select an option</option>
-                <option value="Creama">Creama</option>
-                <option value="Fresh Milk">Fresh Milk</option>
-                <option value="Fruit Tea">Fruit Tea</option>
-                <option value="Ice Blend">Ice Blend</option>
-                <option value="Milk Tea">Milk Tea</option>
-                <option value="Mojito">Mojito</option>
-              </select>
-            </div>
-            <button
+                &lt;option value="">Select an option&lt;/option>
+                &lt;option value="Creama">Creama&lt;/option>
+                &lt;option value="Fresh Milk">Fresh Milk&lt;/option>
+                &lt;option value="Fruit Tea">Fruit Tea&lt;/option>
+                &lt;option value="Ice Blend">Ice Blend&lt;/option>
+                &lt;option value="Milk Tea">Milk Tea&lt;/option>
+                &lt;option value="Mojito">Mojito&lt;/option>
+              &lt;/select>
+            &lt;/div>
+            &lt;button
               onClick={() => {
                 setAddDrinkOverlay(false);
                 setAddingNewDrink(true);
@@ -462,16 +490,16 @@ function Drinks() {
               className="management-button management-card-button"
             >
               Select Ingredients
-            </button>
-          </div>
-        </div>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
       )}
 
-      {showIngredientsOverlay && (
-        <div className="management-overlay">
-          <div className="management-overlay-content management-ingredient-selection-overlay">
-            <div classname="management-overlay-top">
-              <button
+      {showIngredientsOverlay &amp;&amp; (
+        &lt;div className="management-overlay">
+          &lt;div className="management-overlay-content management-ingredient-selection-overlay">
+            &lt;div classname="management-overlay-top">
+              &lt;button
                 onClick={() => {
                   setShowIngredientsOverlay(false);
                   setAddingNewDrink(false);
@@ -479,16 +507,16 @@ function Drinks() {
                 className="signin-button management-overlay-close-button"
               >
                 Close
-              </button>
-              <h2 className="management-title">Edit Ingredients</h2>
-            </div>
-            <IngredientsTable
+              &lt;/button>
+              &lt;h2 className="management-title">Edit Ingredients&lt;/h2>
+            &lt;/div>
+            &lt;IngredientsTable
               ingredients={ingredients}
               selectedIngredients={selectedIngredients}
               setSelectedIngredients={setSelectedIngredients}
             />
-            <div className="management-footer-buttons">
-              <button
+            &lt;div className="management-footer-buttons">
+              &lt;button
                 onClick={() => {
                   setShowIngredientsOverlay(false);
                   if (addingNewDrink) {
@@ -502,8 +530,8 @@ function Drinks() {
                 className="management-button button-row-button"
               >
                 Go Back
-              </button>
-              <button
+              &lt;/button>
+              &lt;button
                 onClick={() => {
                   setShowIngredientsOverlay(false);
                   if (addingNewDrink) {
@@ -517,12 +545,12 @@ function Drinks() {
                 className="management-button button-row-button"
               >
                 {addingNewDrink ? "Add Drink" : "Update Drink"}
-              </button>
-            </div>
-          </div>
-        </div>
+              &lt;/button>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
       )}
-    </div>
+    &lt;/div>
   );
 }
 
@@ -535,23 +563,23 @@ function Drinks() {
  */
 function DrinkTable({ drinks, handleViewDetails }) {
   return (
-    <table className="drink-table">
-      <tbody>
+    &lt;table className="drink-table">
+      &lt;tbody>
         {drinks.map((drink, index) => (
-          <tr key={index}>
-            <td className="drink-name">{drink.name}</td>
-            <td className="drink-actions">
-              <button
+          &lt;tr key={index}>
+            &lt;td className="drink-name">{drink.name}&lt;/td>
+            &lt;td className="drink-actions">
+              &lt;button
                 onClick={() => handleViewDetails(drink)}
                 className="management-button"
               >
                 View Details
-              </button>
-            </td>
-          </tr>
+              &lt;/button>
+            &lt;/td>
+          &lt;/tr>
         ))}
-      </tbody>
-    </table>
+      &lt;/tbody>
+    &lt;/table>
   );
 }
 
@@ -581,12 +609,12 @@ function IngredientsTable({
   };
 
   return (
-    <table className="drink-table">
-      <h2>Select Ingredients:</h2>
-      <br></br>
-      <tbody>
+    &lt;table className="drink-table">
+      &lt;h2>Select Ingredients:&lt;/h2>
+      &lt;br>&lt;/br>
+      &lt;tbody>
         {ingredients.map((ingredient, index) => (
-          <tr
+          &lt;tr
             key={index}
             className={
               selectedIngredients.includes(ingredient.name)
@@ -595,13 +623,36 @@ function IngredientsTable({
             }
             onClick={() => handleIngredientClick(ingredient.name)}
           >
-            <td className="drink-name">{ingredient.name}</td>
-            <td className="drink-actions"></td>
-          </tr>
+            &lt;td className="drink-name">{ingredient.name}&lt;/td>
+            &lt;td className="drink-actions">&lt;/td>
+          &lt;/tr>
         ))}
-      </tbody>
-    </table>
+      &lt;/tbody>
+    &lt;/table>
   );
 }
 
 export default Drinks;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppWithNavBar">AppWithNavBar</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CheckoutModal">CheckoutModal</a></li><li><a href="global.html#ContentPanel">ContentPanel</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkModal">DrinkModal</a></li><li><a href="global.html#DrinkPanel">DrinkPanel</a></li><li><a href="global.html#DrinkTable">DrinkTable</a></li><li><a href="global.html#Drinks">Drinks</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageCarousel">ImageCarousel</a></li><li><a href="global.html#IngredientsTable">IngredientsTable</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#LeftPanel">LeftPanel</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#NavigationBar">NavigationBar</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#ToppingCard">ToppingCard</a></li><li><a href="global.html#ToppingsAndIngredients">ToppingsAndIngredients</a></li><li><a href="global.html#Trends">Trends</a></li><li><a href="global.html#WhatSalesTogether">WhatSalesTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 23:00:59 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

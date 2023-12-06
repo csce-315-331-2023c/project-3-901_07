@@ -2,6 +2,16 @@ import "./styles.css";
 import React, { useEffect, useRef, useState } from "react";
 import DrinkCard from './components/drinkcard';
 
+
+
+/**
+ * Represents a panel displaying drink categories and their respective cards.
+ * @param {Object} props - Properties passed to the component.
+ * @param {boolean} props.isClicked - Indicates whether a category is clicked.
+ * @param {Function} props.handleLinkClick - Function to handle link click events.
+ * @param {Function} props.toggleModal - Function to toggle the modal.
+ * @returns {JSX.Element} JSX Element representing the DrinkPanel component.
+ */
 function DrinkPanel({ isClicked, handleLinkClick, toggleModal}) {
   const targetElementRef = useRef(null);
   const [data, setData] = useState(null); // Initialize data state as null

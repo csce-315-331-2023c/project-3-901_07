@@ -2,6 +2,16 @@ import "./styles.css";
 import React, { useState, useEffect } from "react";
 import defaultToppingImage from "../../../../assets/images/boba.png";
 
+
+/**
+ * ToppingCard component displaying a topping card with its details.
+ * @param {Object} props - Component props.
+ * @param {Object} props.topping - Topping object containing name and price.
+ * @param {Function} props.toppingClick - Function to handle topping card click.
+ * @param {boolean} props.isActiveEdit - Flag indicating if the topping card is active for edit.
+ * @param {string} props.currView - Current view type ('customer', 'manager', 'cashier').
+ * @returns {JSX.Element} Topping card component JSX.
+ */
 function ToppingCard({ topping, toppingClick, isActiveEdit, currView }) {
   const [isActive, setIsActive] = useState(false);
   const toggleActiveClass = () => {
