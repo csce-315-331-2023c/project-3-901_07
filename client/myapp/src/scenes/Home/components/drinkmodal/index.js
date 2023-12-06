@@ -5,6 +5,20 @@ import lessIceImage from "../../../../assets/images/lessice.png";
 import normalIceImage from "../../../../assets/images/normalice.png";
 import "./styles.css";
 
+
+/**
+ * Represents a modal component for managing drink orders.
+ * @param {Object} props - Properties passed to the component.
+ * @param {Function} props.toggleModal - Function to toggle the modal.
+ * @param {Object} props.selectedDrink - Selected drink object with name and price.
+ * @param {Array} props.toppings - List of available toppings.
+ * @param {Array} props.cart - List of items in the cart.
+ * @param {Function} props.setCart - Function to set the cart items.
+ * @param {Object} props.drinkEdited - Object representing the edited drink item.
+ * @param {Function} props.setDrinkToEdit - Function to set the drink item to edit.
+ * @param {string} props.currView - Current view mode ("customer", "cashier", "manager").
+ * @returns {JSX.Element} JSX Element representing the DrinkModal component.
+ */
 function DrinkModal({
   toggleModal,
   selectedDrink,
@@ -101,7 +115,7 @@ function DrinkModal({
                 <div className="drink-item-card">
                   <div className="drink">
                     <p className="name">{selectedDrink.name}</p>
-                    <p className="price">${selectedDrink.price}</p>
+                    <p className="price">${selectedDrink.price.toFixed(2)}</p>
                   </div>
                   {sugarLevel !== null ? (
                     <div className="drink-attribute">
@@ -118,7 +132,7 @@ function DrinkModal({
                   {selectedToppings.map((topping, index) => (
                     <div className="drink-attribute">
                       <p className="name">{topping.name}</p>
-                      <p className="price">${topping.price}</p>
+                      <p className="price">${topping.price.toFixed(2)}</p>
                     </div>
                   ))}
                 </div>
@@ -166,7 +180,7 @@ function ToppingsSection({
     setSelectedToppings((prevSelected) => {
       console.log(prevSelected);
       if (prevSelected.includes(topping)) {
-        setTotalPrice(totalPrice - topping.price);
+        setTotalPrice(totalPrice - topping.price.toFixed(2));
         return prevSelected.filter((t) => t !== topping); // Deselect it
       } else {
         setTotalPrice(totalPrice + topping.price);
@@ -271,7 +285,7 @@ function ModalLevelSectionIce({ title, activeValue, setActiveValue }) {
             <img
               className="ice-level-image"
               src={value[1]}
-              alt="Default Drink"
+              alt={value[0]}
             />
           </button>
         ))}

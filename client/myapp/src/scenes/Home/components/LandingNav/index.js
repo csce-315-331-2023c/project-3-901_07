@@ -4,17 +4,19 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shareTeaLogo from "../../../../assets/images/logo.png";
 import Weather from "../../../components/weather";
+/**
+ * Navigation bar component displaying the application's navigation links and user authentication status.
+ * @param {Object} props - Component props.
+ * @param {string} props.currView - Current view type ('customer', 'manager', 'cashier').
+ * @param {Function} props.setCurrView - Function to set the current view.
+ * @returns {JSX.Element} Navigation bar component JSX.
+ */
 const NavigationBar = ({ currView, setCurrView }) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
   const [showWeather, setShowWeather] = useState(false);
 
-  
-
-
   useEffect(() => {
-    
-
     async function fetchData() {
       try {
         const response = await fetch(
@@ -118,7 +120,6 @@ const NavigationBar = ({ currView, setCurrView }) => {
     fetchData();
   }, []);
   const handleLogoClick = () => {
-    
     setShowWeather(!showWeather);
   };
   const handleSignOut = async () => {
@@ -167,7 +168,7 @@ const NavigationBar = ({ currView, setCurrView }) => {
   return (
     <div className="nav-wrapper">
       {showWeather ? (
-        <Weather onClick={handleLogoClick}/>
+        <Weather onClick={handleLogoClick} />
       ) : (
         <img
           className="landing-logo"

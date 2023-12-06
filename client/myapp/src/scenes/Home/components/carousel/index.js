@@ -15,6 +15,10 @@ const images = [
   // Add more images as needed
 ];
 
+/**
+ * ImageCarousel component for displaying a carousel of images.
+ * @returns {JSX.Element} JSX Element representing the image carousel.
+ */
 const ImageCarousel = () => {
   const settings = {
     dots: true,

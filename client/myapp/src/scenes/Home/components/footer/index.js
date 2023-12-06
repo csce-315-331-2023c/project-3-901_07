@@ -5,6 +5,12 @@ import React from 'react';
 import logo from "../../../../assets/images/logo.png";
 import './styles.css';
 
+
+
+/**
+ * Footer component displaying contact information and social links.
+ * @returns {JSX.Element} Footer component JSX.
+ */
 const Footer = () => {
     return (
       <footer className="footer">

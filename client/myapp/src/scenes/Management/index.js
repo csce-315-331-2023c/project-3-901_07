@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import "./styles.css"; // Import the separate CSS for this page
 import Drinks from "./components/Drinks/index.js";
 import ToppingsAndIngredients from "./components/ToppingsAndIngredients/index.js";
+
+/**
+ * Trends component displaying trends related to drinks and ingredients.
+ * @returns {JSX.Element} Trends component JSX.
+ */
 const Trends = () => {
   const [currReport, setReport] = useState("Drinks");
+    /**
+   * Handles setting the content panel based on the selected category.
+   * @param {string} category - Selected category.
+   */
   const handleSetContentPanel = (category) => {
     setReport(category);
   };
@@ -24,6 +33,14 @@ const Trends = () => {
   );
 };
 
+
+/**
+ * LeftPanel component displaying the category list for managing items.
+ * @param {Object} props - Component props.
+ * @param {string} props.currReport - Current report category.
+ * @param {Function} props.setContentPanel - Function to set the content panel based on category.
+ * @returns {JSX.Element} LeftPanel component JSX.
+ */
 function LeftPanel({ currReport, setContentPanel }) {
   const categories = ["Drinks","Ingredients"];
 
@@ -52,6 +69,12 @@ function LeftPanel({ currReport, setContentPanel }) {
   );
 }
 
+/**
+ * ContentPanel component displaying content based on the current report category.
+ * @param {Object} props - Component props.
+ * @param {string} props.currReport - Current report category.
+ * @returns {JSX.Element} ContentPanel component JSX.
+ */
 function ContentPanel({ currReport }) {
   // Render content based on the current report
   // For now, we'll just show the current report name as a placeholder

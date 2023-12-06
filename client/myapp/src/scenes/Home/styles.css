@@ -315,7 +315,8 @@ button.leftpanel-checkout-button:active {
   right: 0;
   bottom: 0;
   position: absolute;
-  background: rgba(0, 0, 0, 0.394);
+  background: var(--overlayBGColor);
+  opacity: var(--overlayOpacity);
   z-index: 107;
 }
 
@@ -416,7 +417,7 @@ button.leftpanel-checkout-button:active {
 .paycash-button.active {
     transition-property: color, border;
   transition-duration: 0.3s;
-  background-color: var(payCashButtonActive);
+  background-color: var(--payCashButtonActive);
   color:white;
 }
 

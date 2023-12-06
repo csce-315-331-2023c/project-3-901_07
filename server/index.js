@@ -310,6 +310,20 @@ app.get("/last_drink", (req, res) => {
     });
 });
 
+app.get("/last_menu_item", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  pool
+    .query("SELECT * FROM menu_item ORDER BY menu_item DESC LIMIT 1;")
+    .then((query_res) => {
+      const response = query_res.rows;
+      res.json(response);
+    })
+    .catch((error) => {
+      console.error("Database query failed:", error);
+      res.status(500).send("Failed to retrieve menu_item data");
+    });
+});
+
 app.get("/get_topping_by_id/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -865,6 +879,23 @@ app.get('/restock_report_ingredients', (req, res) => {
         });
 });
 
+app.get('/get_menu_item_by_name', (req, res) => {
+  const menuItemName = req.query.name; // Get the menu item name from the query parameters
+
+  pool
+    .query(`
+      SELECT * FROM menu_item WHERE name = $1;
+    `, [menuItemName])
+    .then(query_res => {
+      const menuItem = query_res.rows[0];
+      res.json(menuItem);
+    })
+    .catch(error => {
+      console.error('Database query failed:', error);
+      res.status(500).send('Failed to retrieve menu item');
+    });
+});
+
 
 app.get('/sales_together_report', (req, res) => {
     const startDate = req.query.start_date; // Get the start date from the query parameters
@@ -907,4 +938,40 @@ app.get('/sales_together_report', (req, res) => {
             res.status(500).send('Failed to retrieve sales report');
         });
 
+});
+
+
+app.delete("/delete_menu_item_ingredients", (req, res) => {
+  const menuItemId = req.query.menu_item_id; 
+
+  pool
+    .query(
+      `
+      DELETE FROM menu_ingredients_mapper
+      WHERE menu_item_id = $1;
+    `,
+      [menuItemId]
+    )
+    .then(() => {
+      res.send("Menu ingredient mapping removed successfully");
+    })
+    .catch((error) => {
+      console.error("Database query failed:", error);
+      res.status(500).send("Failed to remove menu ingredient mapping");
+    });
+});
+
+app.post("/add_menu_item_ingredients", async (req, res) => {
+  const { menu_item_id, ingredients_id } = req.body;
+  console.log(menu_item_id);
+  try {
+    await pool.query(
+      "INSERT INTO menu_ingredients_mapper (menu_item_id, ingredients_id) VALUES ($1, $2)",
+      [menu_item_id, ingredients_id]
+    );
+    res.status(200).json({ message: "Menu ingredient mapping added successfully" });
+  } catch (error) {
+    console.error("Error inserting menu ingredient mapping:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });

@@ -8,6 +8,14 @@ import carticon from "../../assets/images/cart.png";
 import "./styles.css";
 import { TextField } from "@mui/material";
 
+/**
+ * Home component for the main interface.
+ * @param {Object} props - Props for Home component.
+ * @param {string} props.webServerAddress - Web server address.
+ * @param {string} props.currView - Current view.
+ * @param {Function} props.setCurrView - Function to set current view.
+ * @returns {JSX.Element} Home component JSX.
+ */
 function Home({ webServerAddress, currView, setCurrView }) {
   const [currCategory, setCategory] = useState(null);
   const [drinkModal, setDrinkModal] = useState(false);
@@ -209,6 +217,20 @@ function Home({ webServerAddress, currView, setCurrView }) {
   );
 }
 
+
+/**
+ * CheckoutModal component for handling checkout process.
+ * @param {Object} props - Props for CheckoutModal component.
+ * @param {Function} props.toggleCheckoutModal - Function to toggle checkout modal.
+ * @param {Function} props.setCart - Function to set cart items.
+ * @param {Function} props.setDrinkToEdit - Function to set drink to edit.
+ * @param {Function} props.toggleDrinkModal - Function to toggle drink modal.
+ * @param {Array} props.cart - Cart items array.
+ * @param {string} props.currView - Current view.
+ * @param {Array} props.customerInfo - Customer information array.
+ * @param {string} props.webServerAddress - Web server address.
+ * @returns {JSX.Element} CheckoutModal component JSX.
+ */
 function CheckoutModal({
   toggleCheckoutModal,
   setCart,
@@ -373,7 +395,7 @@ function CheckoutModal({
       for (const drink of cart) {
         const menu_item_id = drink.drink.menu_item_id;
         const sweetness = drink.sugarLevel;
-        const price = drink.totalPrice;
+        const price = drink.totalPrice.toFixed(2);
         const ice_level = drink.iceLevel;
 
         await fetch(webServerAddress + "/make_drink", {
@@ -563,7 +585,7 @@ function CheckoutModal({
                     <div className="checkout-cart-component" key={index}>
                       <div className="drink">
                         <p className="name">{drinkItem.drink.name}</p>
-                        <p className="price">${drinkItem.totalPrice}</p>
+                        <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
                       </div>
                       <div className="drink-cart-component-footer">
                         <div
@@ -594,8 +616,7 @@ function CheckoutModal({
                   {parseFloat(
                     cart
                       .reduce((total, item) => total + item.totalPrice, 0)
-                      .toFixed(2)
-                  )}
+                  ).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -609,6 +630,19 @@ function CheckoutModal({
   );
 }
 
+/**
+ * LeftPanel component to display categories and cart.
+ * @param {Object} props - Props for LeftPanel component.
+ * @param {string} props.currCategory - Current category.
+ * @param {Object} props.data - Data object.
+ * @param {Function} props.setCart - Function to set cart items.
+ * @param {Array} props.cart - Cart items array.
+ * @param {Function} props.toggleDrinkModal - Function to toggle drink modal.
+ * @param {Function} props.toggleCheckoutModal - Function to toggle checkout modal.
+ * @param {Function} props.setDrinkToEdit - Function to set drink to edit.
+ * @param {string} props.webServerAddress - Web server address.
+ * @returns {JSX.Element} LeftPanel component JSX.
+ */
 function LeftPanel({
   currCategory,
   data,
@@ -671,7 +705,7 @@ function LeftPanel({
               <div className="drink-cart-component" key={index}>
                 <div className="drink">
                   <p className="name">{drinkItem.drink.name}</p>
-                  <p className="price">${drinkItem.totalPrice}</p>
+                  <p className="price">${drinkItem.totalPrice.toFixed(2)}</p>
                 </div>
                 <div className="drink-cart-component-footer">
                   <div
@@ -701,8 +735,8 @@ function LeftPanel({
             {parseFloat(
               cart
                 .reduce((total, item) => total + item.totalPrice, 0)
-                .toFixed(2)
-            )}
+            
+            ).toFixed(2)}
           </p>
         </div>
       </div>
@@ -716,6 +750,17 @@ function LeftPanel({
   );
 }
 
+
+/**
+ * DrinkPanel component to display drinks based on categories.
+ * @param {Object} props - Props for DrinkPanel component.
+ * @param {string} props.currCategory - Current category.
+ * @param {Function} props.toggleModal - Function to toggle drink modal.
+ * @param {Object} props.data - Data object.
+ * @param {Function} props.setCategory - Function to set category.
+ * @param {string} props.currView - Current view.
+ * @returns {JSX.Element} DrinkPanel component JSX.
+ */
 function DrinkPanel({
   currCategory,
   toggleModal,

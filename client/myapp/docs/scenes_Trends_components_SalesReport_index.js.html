@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenes/Trends/components/SalesReport/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenes/Trends/components/SalesReport/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import MaterialUIPicker from "../MaterialUIPIcker";
+import BarChart from "../BarChart";
+import "./styles.css";
+
+/**
+ * SalesReport component displays a report of sales by menu item within a specified date range.
+ * @returns {JSX.Element} SalesReport component JSX.
+ */
+function SalesReport() {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "",
+        data: [],
+        backgroundColor: "rgba(166, 36, 42, 0)",
+      },
+    ],
+  });
+
+  const categories = {
+    "Milk Tea": "rgba(234, 172, 139, 1)",
+    "Fresh Milk": "rgba(53, 80, 112, 1)",
+    "Ice Blend": "rgba(109, 89, 122, 1)",
+    Mojito: "rgba(116, 198, 157, 1)",
+    Creama: "rgba(162, 210, 255)",
+    "Fruit Tea": "rgba(229, 107, 111, 1)",
+  };
+
+  /**
+   * Legend component to display the categories.
+   * @param {Object} categories - Object containing category names and corresponding colors.
+   * @returns {JSX.Element} Legend component JSX.
+   */
+  const Legend = ({ categories }) => (
+    &lt;div className="chart-legend">
+      {Object.keys(categories).map((category) => (
+        &lt;div key={category} className="legend-item">
+          &lt;span
+            className="legend-color"
+            style={{
+              backgroundColor: categories[category],
+              width: "20px",
+              height: "20px",
+              display: "inline-block",
+              marginRight: "10px",
+              borderRadius: "4px",
+            }}
+          >&lt;/span>
+          &lt;span className="legend-label">{category}&lt;/span>
+        &lt;/div>
+      ))}
+    &lt;/div>
+  );
+
+  function generateReport() {
+    const startDateFormatted = startDate.toISOString().split("T")[0];
+    const endDateFormatted = endDate.toISOString().split("T")[0];
+
+    console.log(startDateFormatted);
+    console.log(endDateFormatted);
+
+    const url = `${process.env.REACT_APP_WEB_SERVER_ADDRESS}/sales_report?start_date=${startDateFormatted}&amp;end_date=${endDateFormatted}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        const labels = data.map((item) => item.name);
+        const counts = data.map((item) => parseInt(item.order_count));
+        const dataCategories = data.map((item) => item.type);
+
+        const backgroundColors = dataCategories.map(
+          (category) => categories[category] || "rgba(0, 0, 0, 1)"
+        );
+        console.log(backgroundColors);
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: "",
+              data: counts,
+              backgroundColor: backgroundColors,
+            },
+          ],
+        });
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.error("Failed to retrieve sales report:", error);
+      });
+  }
+
+  return (
+    &lt;div className="sales-report">
+      &lt;p className="report-caption">
+        Enter a date to display the sales by menu item.
+      &lt;/p>
+      &lt;div className="controls-row">
+        &lt;div className="date-pickers">
+          &lt;MaterialUIPicker
+            picker_label={"Start date"}
+            value={startDate}
+            onChange={(newDate) => setStartDate(newDate)}
+            className="date-picker"
+          />
+          &lt;MaterialUIPicker
+            picker_label={"End date"}
+            value={endDate}
+            onChange={(newDate) => setEndDate(newDate)}
+            className="date-picker"
+          />
+        &lt;/div>
+
+        &lt;button
+          onClick={generateReport}
+          className="signin-button generate-report-button"
+        >
+          Generate Report
+        &lt;/button>
+      &lt;/div>
+      &lt;div className="sales-chart">
+        &lt;Legend categories={categories} /> {}
+        &lt;BarChart chartData={chartData} yaxis={"Drinks Sold"} />
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default SalesReport;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppWithNavBar">AppWithNavBar</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CheckoutModal">CheckoutModal</a></li><li><a href="global.html#ContentPanel">ContentPanel</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkModal">DrinkModal</a></li><li><a href="global.html#DrinkPanel">DrinkPanel</a></li><li><a href="global.html#DrinkTable">DrinkTable</a></li><li><a href="global.html#Drinks">Drinks</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageCarousel">ImageCarousel</a></li><li><a href="global.html#IngredientsTable">IngredientsTable</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#LeftPanel">LeftPanel</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#NavigationBar">NavigationBar</a></li><li><a href="global.html#RestockReport">RestockReport</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#ToppingCard">ToppingCard</a></li><li><a href="global.html#ToppingsAndIngredients">ToppingsAndIngredients</a></li><li><a href="global.html#Trends">Trends</a></li><li><a href="global.html#WhatSalesTogether">WhatSalesTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 23:30:02 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

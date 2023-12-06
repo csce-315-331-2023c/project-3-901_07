@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenes/Home/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenes/Home/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useRef, useState } from "react";
+import DrinkCard from "./components/drinkcard";
+import DrinkModal from "./components/drinkmodal";
+import waveanimation from "../../assets/images/waving-wave-hello.gif";
+
+import dollaricon from "../../assets/images/dollaricon.png";
+import carticon from "../../assets/images/cart.png";
+import "./styles.css";
+import { TextField } from "@mui/material";
+
+/**
+ * Home component for the main interface.
+ * @param {Object} props - Props for Home component.
+ * @param {string} props.webServerAddress - Web server address.
+ * @param {string} props.currView - Current view.
+ * @param {Function} props.setCurrView - Function to set current view.
+ * @returns {JSX.Element} Home component JSX.
+ */
+function Home({ webServerAddress, currView, setCurrView }) {
+  const [currCategory, setCategory] = useState(null);
+  const [drinkModal, setDrinkModal] = useState(false);
+  const [checkoutModal, setCheckoutModal] = useState(false);
+  const [data, setData] = useState(null); // Initialize data state as null
+  const [selectedDrink, setSelectedDrink] = useState(null);
+  const [drinkEdited, setDrinkToEdit] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [userName, setUserName] = useState(null);
+  const [userID, setUserID] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [employeeData, setEmployeeData] = useState(null);
+  const [customerData, setCustomerData] = useState(null);
+
+  //console.log("HOME COMPONENT : isScrollActive = " + isScrollActive);
+  //Retrieve Data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response_drink = await fetch(webServerAddress + "/menu_item", {
+          mode: "cors",
+        });
+        console.log(response_drink);
+        const drink_data = await response_drink.json();
+
+        const response_topping = await fetch(webServerAddress + "/topping", {
+          mode: "cors",
+        });
+        const topping_data = await response_topping.json();
+
+        const formattedData = {
+          menu_items: drink_data,
+          toppings: topping_data,
+        };
+        setData(formattedData);
+
+        const response = await fetch(webServerAddress + "/success", {
+          mode: "cors",
+        });
+        const data = await response.json();
+        console.log("DATA");
+        console.log(data);
+        setUserName(data["displayName"]);
+        setUserID(data["id"]);
+        setUserEmail(data["emails"][0]["value"]);
+
+        const responseEmployee = await fetch(webServerAddress + "/employee", {
+          mode: "cors",
+        });
+        const employeeJson = await responseEmployee.json();
+        setEmployeeData(employeeJson);
+
+        const responseCustomer = await fetch(webServerAddress + "/customer", {
+          mode: "cors",
+        });
+        const customerJson = await responseCustomer.json();
+        setCustomerData(customerJson);
+      } catch {
+        //console.log("error");
+      }
+    }
+    fetchData();
+  }, [webServerAddress]);
+
+  // useEffect(() => {
+  //   function setView() {
+  //     if (employeeData) {
+  //       const employeeArray = Object.values(employeeData);
+  //       for (const employee of employeeArray) {
+  //         if (employee.auth_token === userID) {
+  //           const isManager = employee.manager;
+  //           if (isManager === true) {
+  //             setCurrView("manager");
+  //           } else {
+  //             console.log("view is cashier")
+  //             setCurrView("cashier");
+  //           }
+  //           break;
+  //         } else {
+  //           console.log("view is customer")
+  //           setCurrView("customer");
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setView();
+  // }, [employeeData]);
+  console.log("currView: " + currView);
+
+  // FIXME: Adjust make_customer from server -> make sure this function work
+  // useEffect(() => {
+  //   async function setView() {
+  //     const isUserExist = false;
+  //     if (customerData){
+  //       const customerArray = Object.values(customerData);
+  //       for (const customer of customerArray) {
+  //         if (customer.email === userEmail) {
+  //           isUserExist = true;
+  //           break;
+  //         }
+  //       }
+  //       if (isUserExist == false){
+  //         try {
+  //           await fetch(webServerAddress + "/make_customer", {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({
+  //               name: userName, // Replace with actual customer name if available
+  //               auth_token: userID,
+  //               email: userEmail,
+  //             }),
+  //           });
+
+  //         } catch (error) {
+  //           console.error("Checkout Error:", error);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setView();
+  // }, [customerData]);
+
+  useEffect(() => {
+    function setDrinkEditedDefault() {
+      if (drinkModal === false) {
+        setDrinkToEdit(null);
+      }
+    }
+    setDrinkEditedDefault();
+  }, [drinkModal]);
+
+  //drinkModal
+  const toggleDrinkModal = (drink) => {
+    setSelectedDrink(drink); // Set the selected drink here
+    setDrinkModal(!drinkModal);
+  };
+
+  //checkoutModal
+  const toggleCheckoutModal = () => {
+    setCheckoutModal(!checkoutModal);
+  };
+  // if (modal) {
+  //   document.body.classList.add("active-modal");
+  // } else {
+  //   document.body.classList.remove("active-modal");
+  // }
+  var customerInfo = ["", "", ""];
+  if (userName !== undefined &amp;&amp; userName !== null) {
+    customerInfo = [userName.split(" ")[0], userName.split(" ")[1], userEmail];
+  }
+
+  return (
+    &lt;div className="row content">
+      &lt;LeftPanel
+        currCategory={currCategory}
+        data={data}
+        setCart={setCart}
+        cart={cart}
+        toggleDrinkModal={toggleDrinkModal}
+        toggleCheckoutModal={toggleCheckoutModal}
+        setDrinkToEdit={setDrinkToEdit}
+        webServerAddress={webServerAddress}
+      />
+      &lt;span className="panel-divider">&lt;/span>
+      &lt;DrinkPanel
+        currCategory={currCategory}
+        toggleModal={toggleDrinkModal}
+        data={data}
+        setCategory={setCategory}
+        currView={currView}
+      />
+      {drinkModal &amp;&amp; (
+        &lt;DrinkModal
+          toggleModal={toggleDrinkModal}
+          selectedDrink={selectedDrink}
+          toppings={data.toppings}
+          cart={cart}
+          setCart={setCart}
+          drinkEdited={drinkEdited}
+          setDrinkToEdit={setDrinkToEdit}
+          currView={currView}
+        />
+      )}
+      {checkoutModal &amp;&amp; (
+        &lt;CheckoutModal
+          toggleCheckoutModal={toggleCheckoutModal}
+          cart={cart}
+          setDrinkToEdit={setDrinkToEdit}
+          toggleDrinkModal={toggleDrinkModal}
+          setCart={setCart}
+          currView={currView}
+          customerInfo={customerInfo}
+          webServerAddress={webServerAddress}
+        />
+      )}
+    &lt;/div>
+  );
+}
+
+
+/**
+ * CheckoutModal component for handling checkout process.
+ * @param {Object} props - Props for CheckoutModal component.
+ * @param {Function} props.toggleCheckoutModal - Function to toggle checkout modal.
+ * @param {Function} props.setCart - Function to set cart items.
+ * @param {Function} props.setDrinkToEdit - Function to set drink to edit.
+ * @param {Function} props.toggleDrinkModal - Function to toggle drink modal.
+ * @param {Array} props.cart - Cart items array.
+ * @param {string} props.currView - Current view.
+ * @param {Array} props.customerInfo - Customer information array.
+ * @param {string} props.webServerAddress - Web server address.
+ * @returns {JSX.Element} CheckoutModal component JSX.
+ */
+function CheckoutModal({
+  toggleCheckoutModal,
+  setCart,
+  setDrinkToEdit,
+  toggleDrinkModal,
+  cart,
+  currView,
+  customerInfo,
+  webServerAddress
+}) {
+  const [isActive, setIsActive] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(null); // ["cash", "card"
+  const firstNameRef = useRef("");
+  const lastNameRef = useRef("");
+  const emailRef = useRef("");
+  const [confirmOrderPressed, setConfirmOrderPressed] = useState(0);
+
+  function deleteDrinkItem(indexToDelete) {
+    setCart(cart.filter((_, index) => index !== indexToDelete));
+  }
+
+  function editDrinkItem(indexToEdit) {
+    const drink = cart.find((_, index) => index === indexToEdit);
+    drink["index"] = indexToEdit;
+    setDrinkToEdit(drink);
+    toggleDrinkModal(drink.drink);
+  }
+
+  // const printUsername = () => {
+  //   console.log(firstNameRef.current.value);
+  //   console.log(lastNameRef.current.value);
+  // };
+
+  // printUsername();
+  console.log("Customer : ");
+  console.log(customerInfo);
+  const togglePayCashButton = () => {
+    if (paymentMethod === "cash") {
+      setPaymentMethod(null);
+    } else {
+      setPaymentMethod("cash");
+    }
+    setIsActive(!isActive);
+  };
+
+  function placeOrder() {
+    setConfirmOrderPressed(confirmOrderPressed + 1);
+    if (cart.length === 0) {
+      toggleCheckoutModal();
+      return;
+    }
+    if (paymentMethod === null) {
+      alert("Please select a payment method");
+      return;
+    } else if (
+      firstNameRef.current.value === "" ||
+      lastNameRef.current.value === "" ||
+      emailRef.current.value === "" ||
+      !isValidEmail(emailRef.current.value)
+    ) {
+      return;
+    }
+    checkout();
+    alert("Order placed successfully");
+    setCart([]);
+    setConfirmOrderPressed(0);
+    toggleCheckoutModal();
+  }
+
+  function isValidEmail(email) {
+    const emailRegex =
+      /^[\w-.]+@(gmail\.com|yahoo\.com|hotmail\.com|example\.com|tamu\.edu|outlook\.com)$/i;
+    return emailRegex.test(email);
+  }
+
+  function checkView() {
+    if (currView === "cashier" || currView === "manager") {
+      return "Customer Info";
+    } else {
+      return "Your Info";
+    }
+  }
+
+  async function checkout() {
+    // Make customer
+    try {
+
+      if(customerInfo[2] === ""){
+        customerInfo = [firstNameRef.current.value, lastNameRef.current.value, emailRef.current.value];
+      }
+      const fullName = customerInfo[0] + " " + customerInfo[1];
+      // Check if user account is registered in table
+      const customerExistResponse = await fetch(
+        process.env.REACT_APP_WEB_SERVER_ADDRESS +
+          "/check-customer-exist/" +
+          customerInfo[2],
+        {
+          mode: "cors",
+        }
+      );
+      const customerExistData = await customerExistResponse.json();
+      console.log(customerExistData);
+
+      if (customerExistData["exists"] === false) {
+        // Create new customer account
+        const postResponse = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_customer",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: fullName,
+              auth_token: null,
+              email: customerInfo[2],
+            }),
+          }
+        );
+        const postMessage = await postResponse.json();
+      }
+      //get the customer id from the database
+      const customerJSONResponse = await fetch(webServerAddress + "/get-customer-by-email/" + customerInfo[2])
+      const customerData = await customerJSONResponse.json();
+      const last_customer_id = customerData[0].customer_id;
+
+      // make order
+
+      const totalCost = cart.reduce(
+        (total, item) => total + item.totalPrice,
+        0
+      );
+      const employee_id = 5; // FIXME
+      const now = new Date();
+      const formattedDate = now.toISOString().slice(0, 10);
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+      await fetch(webServerAddress + "/make_order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: last_customer_id,
+          employee_id: 5, // FIXME get real employee id
+          date: formattedDate,
+          price: totalCost,
+          time: formattedTime,
+        }),
+      });
+
+      const orderResponse = await fetch(webServerAddress + "/last_order");
+      const orderData = await orderResponse.json();
+      const last_order_id = orderData[0].order_id;
+
+      // make drinks
+      for (const drink of cart) {
+        const menu_item_id = drink.drink.menu_item_id;
+        const sweetness = drink.sugarLevel;
+        const price = drink.totalPrice.toFixed(2);
+        const ice_level = drink.iceLevel;
+
+        await fetch(webServerAddress + "/make_drink", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            menu_item_id: menu_item_id,
+            order_id: last_order_id,
+            sweetness: sweetness,
+            price: price,
+            ice_level: ice_level,
+          }),
+        });
+
+        const drinkResponse = await fetch(webServerAddress + "/last_drink");
+        const drinkData = await drinkResponse.json();
+        const last_drink_id = drinkData[0].drink_id;
+
+        // make_drink_topping mapper
+        for (const topping of drink.toppings) {
+          const topping_id = topping.topping_id;
+
+          await fetch(webServerAddress + "/make_drink_topping", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              drink_id: last_drink_id,
+              topping_id: topping_id,
+            }),
+          });
+
+          // update topping availability
+
+          const toppingResponse = await fetch(
+            webServerAddress + `/get_topping_by_id/${topping_id}`
+          );
+          const new_topping_data = await toppingResponse.json();
+          const current_topping_availability = new_topping_data.availability;
+
+          await fetch(webServerAddress + "/set_topping_availability", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              topping_id: topping_id,
+              new_availability: current_topping_availability - 1,
+            }),
+          });
+        }
+
+        // update ingredients that are in the drink
+
+        // get ingredients
+        const pairResponse = await fetch(
+          webServerAddress + `/get_menu_item_ingredients_by_id/${menu_item_id}`
+        );
+        const ingredients = await pairResponse.json();
+
+        for (const row of ingredients) {
+          const ingredientsResponse = await fetch(
+            webServerAddress + `/get_ingredient_by_id/${row.ingredients_id}`
+          );
+          const ingredient = await ingredientsResponse.json();
+
+          await fetch(webServerAddress + "/set_ingredient_availability", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ingredient_id: row.ingredients_id,
+              new_availability: ingredient.availability - 1,
+            }),
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Checkout Error:", error);
+    }
+  }
+
+  return (
+    &lt;div className="modal">
+      &lt;div
+        className="checkout-modal-overlay"
+        onClick={toggleCheckoutModal}
+      >&lt;/div>
+      &lt;div className="checkout-modal-content">
+        &lt;button className="close-modal" onClick={toggleCheckoutModal}>
+          CLOSE
+        &lt;/button>
+        &lt;h2>Checkout&lt;/h2>
+        &lt;div className="checkout-modal-row-content">
+          &lt;div className="checkout-modal-left-panel">
+            &lt;div className="checkout-modal-info-card">
+              &lt;h3>{checkView()}&lt;/h3>
+              &lt;div className="textfield-section">
+                &lt;TextField
+                  error={
+                    firstNameRef.current.value === "" &amp;&amp; confirmOrderPressed
+                  }
+                  id="outlined-basic"
+                  label="First Name"
+                  variant="outlined"
+                  defaultValue={currView === "customer" ? customerInfo[0] : ""}
+                  helperText={
+                    firstNameRef.current.value === "" &amp;&amp; confirmOrderPressed
+                      ? "Please enter first name"
+                      : ""
+                  }
+                  inputRef={firstNameRef}
+                />
+
+                {/* &lt;TextField
+                  error
+                  id="outlined-error-helper-text"
+                  label="Error"
+                  defaultValue="Hello World"
+                  helperText="Incorrect entry."
+                /> */}
+
+                &lt;TextField
+                  error={
+                    lastNameRef.current.value === "" &amp;&amp; confirmOrderPressed
+                  }
+                  id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
+                  defaultValue={currView === "customer" ? customerInfo[1] : ""}
+                  helperText={
+                    lastNameRef.current.value === "" &amp;&amp; confirmOrderPressed
+                      ? "Please enter last name"
+                      : ""
+                  }
+                  inputRef={lastNameRef}
+                />
+                &lt;TextField
+                  error={
+                    (!isValidEmail(emailRef.current.value) &amp;&amp;
+                      confirmOrderPressed) ||
+                    (emailRef.current.value === "" &amp;&amp; confirmOrderPressed)
+                  }
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
+                  defaultValue={currView === "customer" ? customerInfo[2] : ""}
+                  helperText={
+                    (!isValidEmail(emailRef.current.value) &amp;&amp;
+                      confirmOrderPressed) ||
+                    (emailRef.current.value === "" &amp;&amp; confirmOrderPressed)
+                      ? "Please enter a valid email"
+                      : ""
+                  }
+                  inputRef={emailRef}
+                />
+              &lt;/div>
+            &lt;/div>
+
+            &lt;div className="checkout-modal-payment-method-card">
+              &lt;h3>Payment Method&lt;/h3>
+              &lt;div className="payment-options-section">
+                &lt;div
+                  className={`paycash-button ${isActive ? "active" : ""}`}
+                  onClick={togglePayCashButton}
+                >
+                  &lt;div>
+                    &lt;img src={dollaricon} alt="dollaricon" />
+                  &lt;/div>
+                  Pay with Cash
+                &lt;/div>
+              &lt;/div>
+
+              &lt;div className="tip-options-section">&lt;/div>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="checkout-modal-right-panel">
+            &lt;div className="checkout-order-panel">
+              &lt;h4>Cart&lt;/h4>
+              &lt;div className="middle-section">
+                {Object.keys(cart).length !== 0 ? (
+                  cart.map((drinkItem, index) => (
+                    &lt;div className="checkout-cart-component" key={index}>
+                      &lt;div className="drink">
+                        &lt;p className="name">{drinkItem.drink.name}&lt;/p>
+                        &lt;p className="price">${drinkItem.totalPrice.toFixed(2)}&lt;/p>
+                      &lt;/div>
+                      &lt;div className="drink-cart-component-footer">
+                        &lt;div
+                          className="edit-drink-button"
+                          onClick={() => editDrinkItem(index)}
+                        >
+                          Edit
+                        &lt;/div>
+                        &lt;div style={{ flex: 1 }}>&lt;/div>
+                        &lt;div
+                          className="delete-drink-button"
+                          onClick={() => deleteDrinkItem(index)}
+                        >
+                          Delete
+                        &lt;/div>
+                      &lt;/div>
+                    &lt;/div>
+                  ))
+                ) : (
+                  &lt;div>&lt;/div>
+                )}
+              &lt;/div>
+              &lt;span className="divider">&lt;/span>
+              &lt;div className="bottom-section">
+                &lt;p>
+                  {" "}
+                  Total Cost: $
+                  {parseFloat(
+                    cart
+                      .reduce((total, item) => total + item.totalPrice, 0)
+                  ).toFixed(2)}
+                &lt;/p>
+              &lt;/div>
+            &lt;/div>
+            &lt;button className="leftpanel-checkout-button" onClick={placeOrder}>
+              Confirm Order
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+/**
+ * LeftPanel component to display categories and cart.
+ * @param {Object} props - Props for LeftPanel component.
+ * @param {string} props.currCategory - Current category.
+ * @param {Object} props.data - Data object.
+ * @param {Function} props.setCart - Function to set cart items.
+ * @param {Array} props.cart - Cart items array.
+ * @param {Function} props.toggleDrinkModal - Function to toggle drink modal.
+ * @param {Function} props.toggleCheckoutModal - Function to toggle checkout modal.
+ * @param {Function} props.setDrinkToEdit - Function to set drink to edit.
+ * @param {string} props.webServerAddress - Web server address.
+ * @returns {JSX.Element} LeftPanel component JSX.
+ */
+function LeftPanel({
+  currCategory,
+  data,
+  setCart,
+  cart,
+  toggleDrinkModal,
+  toggleCheckoutModal,
+  setDrinkToEdit,
+  webServerAddress,
+}) {
+  function deleteDrinkItem(indexToDelete) {
+    setCart(cart.filter((_, index) => index !== indexToDelete));
+  }
+
+  function editDrinkItem(indexToEdit) {
+    const drink = cart.find((_, index) => index === indexToEdit);
+    drink["index"] = indexToEdit;
+    setDrinkToEdit(drink);
+    toggleDrinkModal(drink.drink);
+  }
+
+  return (
+    &lt;div className="leftpanel">
+      &lt;div className="leftpanel-category-component">
+        &lt;ul>
+          &lt;div className="leftpanel-category header">Categories&lt;/div>
+          {data &amp;&amp;
+            Object.entries(data.menu_items).map(([category, items]) => (
+              &lt;li key={category}>
+                &lt;a href={`#${category}`}>
+                  &lt;div
+                    className={
+                      currCategory === category
+                        ? "leftpanel-category item active"
+                        : "leftpanel-category item"
+                    }
+                  >
+                    {category}
+                  &lt;/div>
+                &lt;/a>
+              &lt;/li>
+            ))}
+        &lt;/ul>
+      &lt;/div>
+      &lt;div className="leftpanel-order-component">
+        &lt;h4>Cart&lt;/h4>
+        &lt;div className="middle-section">
+          {cart.length === 0 ? (
+            &lt;div className="cartempty-div">
+              &lt;div>
+                &lt;img src={carticon} alt="carticon" />
+              &lt;/div>
+              &lt;div>Your cart is empty&lt;/div>
+            &lt;/div>
+          ) : (
+            &lt;div>&lt;/div>
+          )}
+          {Object.keys(cart).length !== 0 ? (
+            cart.map((drinkItem, index) => (
+              &lt;div className="drink-cart-component" key={index}>
+                &lt;div className="drink">
+                  &lt;p className="name">{drinkItem.drink.name}&lt;/p>
+                  &lt;p className="price">${drinkItem.totalPrice.toFixed(2)}&lt;/p>
+                &lt;/div>
+                &lt;div className="drink-cart-component-footer">
+                  &lt;div
+                    className="edit-drink-button"
+                    onClick={() => editDrinkItem(index)}
+                  >
+                    Edit
+                  &lt;/div>
+                  &lt;div style={{ flex: 1 }}>&lt;/div>
+                  &lt;div
+                    className="delete-drink-button"
+                    onClick={() => deleteDrinkItem(index)}
+                  >
+                    Delete
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+            ))
+          ) : (
+            &lt;div>&lt;/div>
+          )}
+        &lt;/div>
+        &lt;span className="divider">&lt;/span>
+        &lt;div className="bottom-section">
+          &lt;p>
+            Total Cost: $
+            {parseFloat(
+              cart
+                .reduce((total, item) => total + item.totalPrice, 0)
+            
+            ).toFixed(2)}
+          &lt;/p>
+        &lt;/div>
+      &lt;/div>
+      &lt;button
+        className="leftpanel-checkout-button"
+        onClick={cart.length !== 0 ? toggleCheckoutModal : null}
+      >
+        Checkout
+      &lt;/button>
+    &lt;/div>
+  );
+}
+
+
+/**
+ * DrinkPanel component to display drinks based on categories.
+ * @param {Object} props - Props for DrinkPanel component.
+ * @param {string} props.currCategory - Current category.
+ * @param {Function} props.toggleModal - Function to toggle drink modal.
+ * @param {Object} props.data - Data object.
+ * @param {Function} props.setCategory - Function to set category.
+ * @param {string} props.currView - Current view.
+ * @returns {JSX.Element} DrinkPanel component JSX.
+ */
+function DrinkPanel({
+  currCategory,
+  toggleModal,
+  data,
+  setCategory,
+  currView,
+}) {
+  const drinkPanelRef = useRef(null);
+  useEffect(() => {
+    const options = {
+      root: drinkPanelRef.current, // Use the viewport as the root
+      rootMargin: "0px 0px -75% 0px",
+      threshold: 1,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("Current Category: ", entry.target.textContent);
+          setCategory(entry.target.textContent);
+        }
+      });
+    };
+
+    if (data) {
+      Object.entries(data.menu_items).forEach(([category]) => {
+        const targetElement = document.getElementById(category);
+        const h3Element = targetElement?.querySelector("h3"); // Select h3 element inside div
+        if (h3Element) {
+          const observer = new IntersectionObserver(observerCallback, options);
+          observer.observe(h3Element);
+          // Clean up by disconnecting the observer when component unmounts
+          return () => {
+            observer.unobserve(h3Element);
+            observer.disconnect();
+          };
+        }
+      });
+    }
+  }, [data, setCategory]);
+  // console.log("DATA: ");
+  // console.log(data);
+
+  let drinkcards = "drink-cards-";
+  let viewSuffix = "";
+  switch (currView) {
+    case "customer":
+      viewSuffix = "customer";
+      break;
+    case "cashier":
+    case "manager":
+      viewSuffix = "employee";
+      break;
+  }
+
+  drinkcards += viewSuffix;
+
+  return (
+    &lt;div className="drinkpanel">
+      {data &amp;&amp;
+        Object.entries(data.menu_items).map(([category, items]) => (
+          &lt;div id={category} className="drinkpanel-category" key={category}>
+            &lt;h3>{category}&lt;/h3>
+            &lt;div className={drinkcards}>
+              {items.map((item) => (
+                &lt;div>
+                  &lt;DrinkCard
+                    toggleModal={() => toggleModal(item)}
+                    drinkProperties={item}
+                    key={item.name}
+                    currView={currView}
+                  />
+                &lt;/div>
+              ))}
+            &lt;/div>
+          &lt;/div>
+        ))}
+      &lt;div className="fill-gap">
+        &lt;div className="waveanimation-container">
+          &lt;img src={waveanimation} alt="wave animation" />
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default Home;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppWithNavBar">AppWithNavBar</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CheckoutModal">CheckoutModal</a></li><li><a href="global.html#ContentPanel">ContentPanel</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkModal">DrinkModal</a></li><li><a href="global.html#DrinkPanel">DrinkPanel</a></li><li><a href="global.html#DrinkTable">DrinkTable</a></li><li><a href="global.html#Drinks">Drinks</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageCarousel">ImageCarousel</a></li><li><a href="global.html#IngredientsTable">IngredientsTable</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#LeftPanel">LeftPanel</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#NavigationBar">NavigationBar</a></li><li><a href="global.html#RestockReport">RestockReport</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#ToppingCard">ToppingCard</a></li><li><a href="global.html#ToppingsAndIngredients">ToppingsAndIngredients</a></li><li><a href="global.html#Trends">Trends</a></li><li><a href="global.html#WhatSalesTogether">WhatSalesTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 23:30:02 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

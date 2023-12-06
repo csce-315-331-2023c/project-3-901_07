@@ -6,7 +6,7 @@
 
 /* Card Colors */
     --primaryCardButtonColor: #D9D9D9;
-    --secondaryCardButtonColor: #E2E2E2;
+    --secondaryCardButtonColor: #D9D9D9;
 
 
 /*Left panel category button colors*/
@@ -28,5 +28,10 @@
 /*Landing Page Colors*/
  --footerBGColor: "";
  --pageBGColor: white;
+
+
+ /*Modal Overlay*/
+ --overlayBGColor : black;
+ --overlayOpacity : 75%;
 
 }

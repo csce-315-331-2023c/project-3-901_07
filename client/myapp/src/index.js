@@ -11,7 +11,16 @@ import AB from "./scenes/Home/Landing/a";
 import Management from "./scenes/Management";
 import Trends from "./scenes/Trends";
 
+
+/**
+ * Main component including a common NavBar and routing setup.
+ * @component
+ */
 const AppWithNavBar = () => {
+    /**
+   * State for managing the current view.
+   * @type {Array} - [currView, setCurrView]
+   */
   const[currView, setCurrView] = useState("customer");
 
   return (
@@ -29,6 +38,10 @@ const AppWithNavBar = () => {
   );
 };
 
+
+/**
+ * Renders the AppWithNavBar component wrapped in a Router.
+ */
 ReactDOM.render(
   <Router>
     <AppWithNavBar />

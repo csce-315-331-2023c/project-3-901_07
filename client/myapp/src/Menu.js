@@ -46,8 +46,15 @@ import strawberryMojito from "./assets/images/drinks/strawberry mojito.png";
 
 
 
-
+/**
+ * Component displaying the menu items.
+ * @component
+ */
 function Menu() {
+    /**
+   * State to manage drink and topping data.
+   * @type {Object|boolean}
+   */
   const [drinkAndToppingData, setdrinkAndToppingData] = useState(false);
   const webServerAddress = process.env.REACT_APP_WEB_SERVER_ADDRESS;
   useEffect(() => {
