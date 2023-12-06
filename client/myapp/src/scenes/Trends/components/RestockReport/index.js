@@ -3,6 +3,11 @@ import React, { useState, useEffect } from "react";
 import BarChart from "../BarChart";
 import "./styles.css"; 
 
+
+/**
+ * RestockReport component displays a report of inventory items that may need restocking.
+ * @returns {JSX.Element} RestockReport component JSX.
+ */
 function RestockReport() {
     const [chartData, setChartData] = useState({
         labels: [],
