@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenes/Home/components/LandingNav/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenes/Home/components/LandingNav/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "./styles.css";
+
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import shareTeaLogo from "../../../../assets/images/logo.png";
+import Weather from "../../../components/weather";
+/**
+ * Navigation bar component displaying the application's navigation links and user authentication status.
+ * @param {Object} props - Component props.
+ * @param {string} props.currView - Current view type ('customer', 'manager', 'cashier').
+ * @param {Function} props.setCurrView - Function to set the current view.
+ * @returns {JSX.Element} Navigation bar component JSX.
+ */
+const NavigationBar = ({ currView, setCurrView }) => {
+  const [userName, setUserName] = useState(null);
+  const [userID, setuserID] = useState(null);
+  const [showWeather, setShowWeather] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/success",
+          {
+            mode: "cors",
+          }
+        );
+        const data = await response.json();
+        const fetchedUserName = data["displayName"];
+        setUserName(fetchedUserName);
+        setuserID(data["id"]);
+
+        // Check if user account is registered in table
+        const customerExistResponse = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS +
+            "/check-customer-exist/" +
+            data["emails"][0]["value"],
+          {
+            mode: "cors",
+          }
+        );
+        const customerExistData = await customerExistResponse.json();
+        console.log(customerExistData);
+
+        if (customerExistData["exists"] === false) {
+          console.log("customer account does not exist");
+          // Create new customer account
+          const postResponse = await fetch(
+            process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_new_customer",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: data["displayName"],
+                auth_token: data["id"],
+                email: data["emails"][0]["value"],
+              }),
+            }
+          );
+          const postMessage = await postResponse.json();
+        } else if (customerExistData["exists"] === true) {
+          const customerJSONResponse = await fetch(
+            process.env.REACT_APP_WEB_SERVER_ADDRESS +
+              "/get-customer-by-email/" +
+              data["emails"][0]["value"]
+          );
+          const customerData = await customerJSONResponse.json();
+          //if the custoemr email exist, howeever they haven't created an account with oauth, update customer data.
+          if (customerData["auth_token"] === null) {
+            const updateResponse = await fetch(
+              process.env.REACT_APP_WEB_SERVER_ADDRESS +
+                "/update_customer/" +
+                data["emails"][0]["value"],
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: data["displayName"],
+                  auth_token: data["id"],
+                }),
+              }
+            );
+            const updateMessage = await updateResponse.json();
+          }
+        }
+
+        //check if user is an employee or not
+        const checkEmployeeResponse = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS +
+            "/employee/" +
+            data["emails"][0]["value"],
+          {
+            mode: "cors",
+          }
+        );
+        const isEmployee = await checkEmployeeResponse.json();
+        if (isEmployee === null) {
+          //not an employee
+          console.log("not an employee");
+          setCurrView("customer");
+        } else {
+          if (isEmployee[0]["manager"]) {
+            console.log("is a manager");
+            setCurrView("manager");
+          } else {
+            console.log("is a cashier");
+            setCurrView("cashier");
+          }
+        }
+      } catch (error) {
+        // Handle error
+        console.error("Error fetching user data");
+      }
+    }
+
+    fetchData();
+  }, []);
+  const handleLogoClick = () => {
+    setShowWeather(!showWeather);
+  };
+  const handleSignOut = async () => {
+    window.location.href = process.env.REACT_APP_WEB_SERVER_ADDRESS + "/logout";
+  };
+
+  const redirectToGoogleOAuth = () => {
+    // Redirect to Google OAuth page
+    window.location.href =
+      process.env.REACT_APP_WEB_SERVER_ADDRESS + "/auth/google";
+  };
+
+  const navigate = useNavigate();
+
+  const handleButtonClick = (index) => {
+    console.log(index);
+    switch (index) {
+      case 0:
+        navigate("/");
+        break;
+      case 1:
+        navigate("/App");
+        break;
+      case 2:
+        navigate("/Menu");
+        break;
+      case 3:
+        navigate("/Trends");
+        break;
+      case 4:
+        navigate("/Management");
+        break;
+      default:
+        navigate("/");
+        break;
+    }
+  };
+  var buttons = ["Home", "Order"];
+
+  if (currView === "manager") {
+    buttons = ["Home", "Order", "MenuBoard", "Trends", "Management"];
+  } else if (currView === "cashier") {
+    buttons = ["Home", "Order", "MenuBoard"];
+  }
+
+  return (
+    &lt;div className="nav-wrapper">
+      {showWeather ? (
+        &lt;Weather onClick={handleLogoClick} />
+      ) : (
+        &lt;img
+          className="landing-logo"
+          src={shareTeaLogo}
+          onClick={handleLogoClick}
+          alt="Logo"
+        />
+      )}
+      &lt;div className="navigation-bar">
+        {buttons.map((button, index) => (
+          &lt;div
+            key={index}
+            className="nav-button"
+            onClick={() => handleButtonClick(index)}
+          >
+            {button}
+          &lt;/div>
+        ))}
+      &lt;/div>
+      &lt;div className="nav-wrapper-right-section">
+        &lt;ul>
+          {userName ? (
+            &lt;li>
+              &lt;button onClick={handleSignOut} className="signin-button">
+                Sign Out ({userName})
+              &lt;/button>
+            &lt;/li>
+          ) : (
+            &lt;li>
+              &lt;button onClick={redirectToGoogleOAuth} className="signin-button">
+                Sign In
+              &lt;/button>
+            &lt;/li>
+          )}
+        &lt;/ul>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+export default NavigationBar;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppWithNavBar">AppWithNavBar</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CheckoutModal">CheckoutModal</a></li><li><a href="global.html#ContentPanel">ContentPanel</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkModal">DrinkModal</a></li><li><a href="global.html#DrinkPanel">DrinkPanel</a></li><li><a href="global.html#DrinkTable">DrinkTable</a></li><li><a href="global.html#Drinks">Drinks</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageCarousel">ImageCarousel</a></li><li><a href="global.html#IngredientsTable">IngredientsTable</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#LeftPanel">LeftPanel</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#NavigationBar">NavigationBar</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#ToppingCard">ToppingCard</a></li><li><a href="global.html#ToppingsAndIngredients">ToppingsAndIngredients</a></li><li><a href="global.html#Trends">Trends</a></li><li><a href="global.html#WhatSalesTogether">WhatSalesTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 23:00:59 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
