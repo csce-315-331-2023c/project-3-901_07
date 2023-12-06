@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
+import { lastDayOfQuarter, set } from "date-fns";
 // import DrinkTable from "../DrinkTable";
 
 function Drinks() {
@@ -17,9 +18,16 @@ function Drinks() {
     const [drinkPrice, setDrinkPrice] = useState('');
     const [drinkType, setDrinkType] = useState('');
 
+    const [ingredients, setIngredients] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [showIngredientsOverlay, setShowIngredientsOverlay] = useState(false);
+
+    const [addingNewDrink, setAddingNewDrink] = useState(false);
+
 
     useEffect(() => {
         fetchDrinksData();
+        fetchToppingData();
     }, [process.env.REACT_APP_WEB_SERVER_ADDRESS]); 
 
 
@@ -39,6 +47,19 @@ function Drinks() {
             console.log("error fetching drink data");
         }
     };
+
+
+    const fetchToppingData = async () => {
+        const response_ingredients = await fetch(
+          process.env.REACT_APP_WEB_SERVER_ADDRESS + "/ingredients",
+          {
+            mode: "cors",
+          }
+        );
+        const ingredientsData = await response_ingredients.json();
+        setIngredients(ingredientsData);
+      }
+    
 
     const updatePrice = async () => {
         // Validate that newPrice is a positive number
@@ -64,6 +85,43 @@ function Drinks() {
            
     };
 
+    const updateIngredients = async (drink, callback) => {
+        // call /delete_menu_item_ingredients with drink_id
+        console.log("updating ingredients of" + drink.name)
+        console.log(selectedIngredients); 
+        console.log(selectedDrinkDetails);
+        await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/delete_menu_item_ingredients", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              drink_id: drink.menu_item_id,
+            }),
+        });
+        console.log(selectedIngredients)
+
+        // call /add_menu_item_ingredients with drink_id and ingredients_id for every ingredient in selectedIngredients
+        selectedIngredients.forEach(async (ingredientName) => {
+            const ingredient = ingredients.find(item => item.name === ingredientName);
+            console.log(ingredient);
+            await fetch(process.env.REACT_APP_WEB_SERVER_ADDRESS + "/add_menu_item_ingredients", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  menu_item_id: drink.menu_item_id,
+                  ingredients_id: ingredient.ingredients_id,
+                }),
+            });
+        });
+
+        setSelectedIngredients([]);
+        callback();
+        
+    }
+
     const deleteDrink = async () => {
         fetch(`${process.env.REACT_APP_WEB_SERVER_ADDRESS}/delete_menu_item/${selectedDrinkDetails.menu_item_id}`, {
             method: 'DELETE'
@@ -80,8 +138,10 @@ function Drinks() {
 
     };
 
-    const createDrink = async () => {
+
+    const createDrink = async (callback) => {
         // Validate that newPrice is a positive number
+        setAddingNewDrink(false);
         console.log(drinkPrice)
         const priceValue = parseFloat(drinkPrice);
         if (!isNaN(priceValue) && priceValue > 0) {
@@ -95,17 +155,56 @@ function Drinks() {
                   price: priceValue,
                   type: drinkType || "Milk Tea"
                 }),
-            }).then(data =>{
-                setAddDrinkOverlay(false);   
-                setDrinkName("");
-                setDrinkPrice("");
-                setDrinkType(""); 
-                fetchDrinksData(); 
-            }); 
+            }).then(async () => {
+                console.log("1");
+                const encodedDrinkName = encodeURIComponent(drinkName);
+                const lastDrinkResponse = await fetch(`${process.env.REACT_APP_WEB_SERVER_ADDRESS}/get_menu_item_by_name?name=${encodedDrinkName}`, {
+                    method: "GET",
+                    mode: "cors",
+                });
+                console.log("2");
+                const lastDrinkData = await lastDrinkResponse.json();
+                console.log(lastDrinkData);
+                    // Set the selected drink details to the last added drink
+                    console.log("updating drink" + selectedDrinkDetails);
+                    // Now update the ingredients for the new drink
+                    await updateIngredients(lastDrinkData, () => {
+                        // Close the overlay and perform any additional actions
+                        setShowIngredientsOverlay(false);
+                        setDrinkName("");
+                        setDrinkPrice("");
+                        setDrinkType(""); 
+                        fetchDrinksData(); 
+                        callback();
+                        if (callback) callback();
+                    });
+            });
+                
         } else {
             console.error('Invalid price entered' + priceValue);
         }
     }
+    const loadSelectedIngredients = async () => {
+
+        const mapping_response = await fetch(
+            process.env.REACT_APP_WEB_SERVER_ADDRESS + "/menu-ingredients-mapper",
+            {
+              mode: "cors",
+            }
+        );
+        const mapping = await mapping_response.json();
+        const id = selectedDrinkDetails.menu_item_id;
+        let filteredList = mapping.filter(item => item.menu_item_id === id)
+                          .map(item => item.ingredients_id);
+        let selectedIngredientsNames = ingredients.filter(item => filteredList.includes(item.ingredients_id))
+        setSelectedIngredients(selectedIngredientsNames.map(item => item.name));
+        console.log(filteredList);
+
+        // get all ingredients for drink, where mapping.menu_item_id = id
+
+
+    }
+
 
     return (
         <div className = "management-container">
@@ -134,7 +233,7 @@ function Drinks() {
                         <h3>Category: {selectedDrinkDetails.type}</h3>
                     </div>
                     <button onClick={() => { setChangePriceOverlay(true); setShowOverlay(false); }} className="management-button management-card-button">Edit Price</button>
-                    <br></br>
+                    <button onClick={() => { setSelectedIngredients([]); setShowIngredientsOverlay(true); setShowOverlay(false); loadSelectedIngredients();}} className="management-button management-card-button">Edit Ingredients</button>
                     <button onClick={() => { setConfirmDeleteOverlay(true); setShowOverlay(false); }}className="management-button management-card-button">Delete Item</button>
                 </div>
             </div>
@@ -185,7 +284,7 @@ function Drinks() {
             <div className="management-overlay">
                 <div className="management-overlay-content">
                     <div classname="management-overlay-top">
-                        <button onClick={() => setShowOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
+                        <button onClick={() => setAddDrinkOverlay(false)} className="signin-button management-overlay-close-button">Close</button>
                         <h2 className="management-title">New Drink</h2>
                     </div>
                     <div className="price-edit-container">                    
@@ -217,12 +316,45 @@ function Drinks() {
                             <option value="Mojito">Mojito</option>
                         </select>
                     </div>
-                    <button onClick={() => { setAddDrinkOverlay(false); createDrink()}} className="management-button management-card-button">Add Drink</button>
+                    <button onClick={() => { setAddDrinkOverlay(false); setAddingNewDrink(true); setShowIngredientsOverlay(true)}} className="management-button management-card-button">Select Ingredients</button>
                 </div>
             </div>
             )}
 
+            {showIngredientsOverlay && (
+                <div className="management-overlay">
+                    <div className="management-overlay-content management-ingredient-selection-overlay">
+                        <div classname="management-overlay-top">
+                            <button onClick={() => {setShowIngredientsOverlay(false); setAddingNewDrink(false);}} className="signin-button management-overlay-close-button">Close</button>
+                            <h2 className="management-title">Edit Ingredients</h2>
+                        </div>
+                        <IngredientsTable ingredients={ingredients} selectedIngredients={selectedIngredients} setSelectedIngredients={setSelectedIngredients}/>
+                        <div className = "management-footer-buttons">
+                            <button onClick={() => { 
+                                setShowIngredientsOverlay(false); 
+                                if (addingNewDrink) {
+                                    setShowIngredientsOverlay(false);
+                                    setAddDrinkOverlay(true);
+                                } else {
+                                    setShowIngredientsOverlay(false)
+                                    setShowOverlay(true);
+                                }}} className="management-button button-row-button">Go Back</button>
+                            <button onClick={() => { 
+                                 setShowIngredientsOverlay(false); 
+                                 if (addingNewDrink) {
+                                     createDrink(() => setShowIngredientsOverlay(false));
+                                 } else {
+                                     updateIngredients(selectedDrinkDetails, () => setShowOverlay(false));
+                                 }  
+                            }} className="management-button button-row-button">{addingNewDrink ? "Add Drink" : "Update Drink"}</button>
+                        </div>
+                        
+                    </div>
+                </div>  
+            )}
+
         </div>
+
     );
 }
 
@@ -237,6 +369,38 @@ function DrinkTable({ drinks, handleViewDetails }) {
                         <td className="drink-name">{drink.name}</td>
                         <td className="drink-actions">
                             <button onClick={() => handleViewDetails(drink)} className="management-button">View Details</button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+}
+
+
+
+
+function IngredientsTable({ ingredients, selectedIngredients, setSelectedIngredients }) {
+
+    const handleIngredientClick = (ingredientName) => {
+        if (selectedIngredients.includes(ingredientName)) {
+            setSelectedIngredients(selectedIngredients.filter(name => name !== ingredientName));
+            console.log("removed " + ingredientName);
+        } else {
+            setSelectedIngredients([...selectedIngredients, ingredientName]);
+            console.log("added " + ingredientName);
+        }
+    };
+
+    return (
+        <table className="drink-table">
+            <h2>Select Ingredients:</h2>
+            <br></br>
+            <tbody>
+                {ingredients.map((ingredient, index) => (
+                    <tr key={index} className={selectedIngredients.includes(ingredient.name) ? "selectedIngredient" : ""} onClick={() => handleIngredientClick(ingredient.name)}>
+                        <td className="drink-name">{ingredient.name}</td>
+                        <td className="drink-actions">
                         </td>
                     </tr>
                 ))}

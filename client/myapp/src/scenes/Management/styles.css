@@ -131,7 +131,7 @@ button.management-button {
     padding: 20px;
     border-radius: 5px;
     width: 500px;
-    height: 400px;
+    height: 450px;
     overflow-y: auto;
     position: relative; 
 }
@@ -139,6 +139,11 @@ button.management-button {
 .management-overlay-content > * {
 
     margin-bottom: 30px;
+}
+
+.management-ingredient-selection-overlay{
+    width: 1000px;
+    height: 700px;;
 }
 
 
@@ -167,6 +172,7 @@ button.management-button {
 .management-card-button{
     width: 100%!important;
     margin-left: 0px!important;
+    margin-bottom: 5px!important;
 }
 
 .management-textfield >* {
@@ -175,4 +181,25 @@ button.management-button {
 .management-textfield {
     margin-bottom: 0px;
 }
+
+.selectedIngredient{
+    background-color: #ed323a!important;
+}
+
+.selectedIngredient td{
+    color: white!important;
+}
+
+.button-row {
+    width: 100%;
+    display: flex; /* This will align the buttons in a row */
+    align-items: center; /* This will vertically center the buttons */
+}
+
+.button-row-button {
+    width: 30%!important;
+}
+
+
+
 
