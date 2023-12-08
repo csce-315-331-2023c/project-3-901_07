@@ -52,19 +52,15 @@ function Home({ webServerAddress, currView, setCurrView }) {
         };
         setData(formattedData);
 
-        // const response = await fetch(webServerAddress + "/success", {
-        //   mode: "cors",
-        // });
-        // const data = await response.json();
-        // console.log("DATA");
-        // console.log(data);
-        // setUserName(data["displayName"]);
-        // setUserID(data["id"]);
-        // setUserEmail(data["emails"][0]["value"]);
-        const userData = JSON.parse(localStorage.getItem("userData"));
-        setUserName(userData["displayName"]);
-        setUserID(userData["id"]);
-        setUserEmail(userData["emails"][0]["value"]);
+        const response = await fetch(webServerAddress + "/success", {
+          mode: "cors",
+        });
+        const data = await response.json();
+        console.log("DATA");
+        console.log(data);
+        setUserName(data["displayName"]);
+        setUserID(data["id"]);
+        setUserEmail(data["emails"][0]["value"]);
 
         const responseEmployee = await fetch(webServerAddress + "/employee", {
           mode: "cors",

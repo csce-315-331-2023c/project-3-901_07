@@ -15,21 +15,6 @@ const NavigationBar = ({ currView, setCurrView }) => {
   const [userName, setUserName] = useState(null);
   const [userID, setuserID] = useState(null);
   const [showWeather, setShowWeather] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-
-  console.log("LOCAL STORAGE ISLOGGEDIN: " + localStorage.getItem("isLoggedIn"));
-  console.log("LOCAL STORAGE userData: " + localStorage.getItem("userData"));
-  // localStorage.setItem("isLoggedIn", false);
-  // localStorage.setItem("userData", null);
-
-  useEffect(() => {
-    // Retrieve isLoggedIn state from local storage on component mount
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    setIsLoggedIn(JSON.parse(storedIsLoggedIn));
-
-    // ... (rest of your useEffect logic)
-  }, []); // Empty dependency array to run only on mount
 
   useEffect(() => {
     async function fetchData() {
@@ -44,9 +29,6 @@ const NavigationBar = ({ currView, setCurrView }) => {
         const fetchedUserName = data["displayName"];
         setUserName(fetchedUserName);
         setuserID(data["id"]);
-        console.log("DASDASDPASDJOASJDASP: ");
-        console.log(data);
-        localStorage.setItem("userData", JSON.stringify(data));
 
         // Check if user account is registered in table
         const customerExistResponse = await fetch(
@@ -134,32 +116,18 @@ const NavigationBar = ({ currView, setCurrView }) => {
         console.error("Error fetching user data");
       }
     }
-    if (localStorage.getItem("isLoggedIn") && (localStorage.getItem("userData") === "null" || JSON.parse(localStorage.getItem("userData")).typeof === undefined)) {
-      console.log("are you running");
-      fetchData();
-    }else{
-      setUserName(JSON.parse(localStorage.getItem("userData"))["displayName"]);
-    }
-  }, [isLoggedIn]);
 
-  const updateIsLoggedIn = (value) => {
-    setIsLoggedIn(value);
-    localStorage.setItem("isLoggedIn", value);
-  };
-
-
+    fetchData();
+  }, []);
   const handleLogoClick = () => {
     setShowWeather(!showWeather);
   };
   const handleSignOut = async () => {
-    updateIsLoggedIn(false);
-    localStorage.setItem("userData", "null");
     window.location.href = process.env.REACT_APP_WEB_SERVER_ADDRESS + "/logout";
   };
 
   const redirectToGoogleOAuth = () => {
     // Redirect to Google OAuth page
-    updateIsLoggedIn(true);
     window.location.href =
       process.env.REACT_APP_WEB_SERVER_ADDRESS + "/auth/google";
   };
