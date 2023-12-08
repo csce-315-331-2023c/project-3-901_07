@@ -26,12 +26,8 @@ const NavigationBar = ({ currView, setCurrView }) => {
   useEffect(() => {
     // Retrieve isLoggedIn state from local storage on component mount
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedIsLoggedIn) {
-      setIsLoggedIn(JSON.parse(storedIsLoggedIn));
-      if(localStorage.getItem("userData") != "null"){
-        setUserName(JSON.parse(localStorage.getItem("userData"))["displayName"]);
-      }
-    }
+    setIsLoggedIn(JSON.parse(storedIsLoggedIn));
+
     // ... (rest of your useEffect logic)
   }, []); // Empty dependency array to run only on mount
 
@@ -141,6 +137,8 @@ const NavigationBar = ({ currView, setCurrView }) => {
     if (localStorage.getItem("isLoggedIn") && (localStorage.getItem("userData") === "null" || JSON.parse(localStorage.getItem("userData")).typeof === undefined)) {
       console.log("are you running");
       fetchData();
+    }else{
+      setUserName(JSON.parse(localStorage.getItem("userData"))["displayName"]);
     }
   }, [isLoggedIn]);
 
